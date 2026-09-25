@@ -85,13 +85,13 @@ function sitePages(): string[] {
 /**
  * The documents this gate covers.
  *
- * `README.md` and the site are what a user reads, `CLAUDE.md` and `AGENTS.MD` are what an
+ * `README.md`, `CONTRIBUTING.md` and the site are what a user reads, `CLAUDE.md` and `AGENTS.MD` are what an
  * agent reads, and the same commits rewrite all of them. Leaving `CLAUDE.md` out is how it
  * came to state a cap that `README.md` contradicted; leaving `AGENTS.MD` out is how eight
  * TypeScript fences went uncompiled. The site took over most of the README's samples, so
  * leaving it out would have unchecked them all at once.
  */
-const DOCUMENTS: readonly string[] = ["README.md", "CLAUDE.md", "AGENTS.MD", ...sitePages()];
+const DOCUMENTS: readonly string[] = ["README.md", "CONTRIBUTING.md", "CLAUDE.md", "AGENTS.MD", ...sitePages()];
 
 /** The page that documents both batch caps, in each language. */
 const CAPS_PAGE = "sdk/v2/memberships-and-bulk.md";
