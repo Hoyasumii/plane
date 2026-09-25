@@ -1,0 +1,26 @@
+{
+  "version.label": {
+    "message": "Próxima",
+    "description": "The label for version current"
+  },
+  "sidebar.guides.category.SDK": {
+    "message": "SDK",
+    "description": "The label for category 'SDK' in sidebar 'guides'"
+  },
+  "sidebar.guides.category.API v2": {
+    "message": "API v2",
+    "description": "The label for category 'API v2' in sidebar 'guides'"
+  },
+  "sidebar.guides.category.MCP server": {
+    "message": "Servidor MCP",
+    "description": "The label for category 'MCP server' in sidebar 'guides'"
+  },
+  "sidebar.guides.category.CLI": {
+    "message": "CLI",
+    "description": "The label for category 'CLI' in sidebar 'guides'"
+  },
+  "sidebar.api.doc.Overview": {
+    "message": "Visão geral",
+    "description": "The label for the doc item 'Overview' in sidebar 'api', linking to the doc api/index"
+  }
+}

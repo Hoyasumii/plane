@@ -178,7 +178,11 @@ export abstract class BaseResource {
     if (axios.isAxiosError(error)) {
       const statusCode = error.response?.status || 500;
       const message = error.response?.data?.message || error.message || "Request failed";
-      throw new HttpError(message, statusCode, error.response?.data);
+      const headers: Record<string, string> = {};
+      for (const [name, value] of Object.entries(error.response?.headers ?? {})) {
+        if (value !== undefined && value !== null) headers[name.toLowerCase()] = String(value);
+      }
+      throw new HttpError(message, statusCode, error.response?.data, headers);
     }
 
     throw new Error(`Unexpected error: ${error.message}`);

@@ -459,7 +459,7 @@ describe("grandchildren, in aggregate", () => {
  *
  * `Owned` is a mapped type, so every navigated method is a *synthesized* symbol with no
  * declaration for a doc comment to attach to: hovering `project.states.list` shows a bare
- * signature, and the limitation documented on `Owned` itself and in the README is invisible
+ * signature, and the limitation documented on `Owned` itself and on the docs site is invisible
  * there. TypeScript offers no way to change that short of restating all 520 signatures by
  * hand. The nearest declaration it *does* carry documentation for is the navigation
  * property — `readonly states: Owned<States, ProjectIds>` — which a reader passes through

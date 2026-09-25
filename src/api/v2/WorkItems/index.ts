@@ -341,7 +341,6 @@ export type {
   WorkItemCommentExpand,
   WorkItemCommentField,
   WorkItemCommentOrderBy,
-  WorkItemCommentShapeParams,
 } from "./Comments";
 export type { ListWorkItemLinksParams, WorkItemLinkField, WorkItemLinkOrderBy } from "./Links";
 export type {

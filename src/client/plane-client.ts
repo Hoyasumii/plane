@@ -35,6 +35,7 @@ import { ProjectTemplates } from "../api/ProjectTemplates";
 import { WorkspaceStates } from "../api/WorkspaceStates";
 import { WorkspaceWorkflows } from "../api/WorkspaceWorkflows";
 import { WorkItemTypeGovernance } from "../api/WorkItemTypeGovernance";
+import { Instance } from "../api/Instance";
 
 /**
  * Main Plane Client class
@@ -79,6 +80,7 @@ export class PlaneClient {
   public workspaceStates: WorkspaceStates;
   public workspaceWorkflows: WorkspaceWorkflows;
   public workItemTypeGovernance: WorkItemTypeGovernance;
+  public instance: Instance;
 
   constructor(config: { baseUrl?: string; apiKey?: string; accessToken?: string; enableLogging?: boolean }) {
     this.config = new Configuration({
@@ -129,5 +131,6 @@ export class PlaneClient {
     this.workspaceStates = new WorkspaceStates(this.config);
     this.workspaceWorkflows = new WorkspaceWorkflows(this.config);
     this.workItemTypeGovernance = new WorkItemTypeGovernance(this.config);
+    this.instance = new Instance(this.config);
   }
 }

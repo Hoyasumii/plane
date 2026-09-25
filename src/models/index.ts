@@ -8,6 +8,7 @@ export * from "./Cycle";
 export * from "./Epic";
 export * from "./Estimate";
 export * from "./Initiative";
+export * from "./Instance";
 export * from "./InitiativeLabel";
 export * from "./Intake";
 export * from "./Label";

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": ["scripts/*.{ts,mjs}", "examples/*.ts"],
+      "project": ["src/**/*.ts", "tests/**/*.ts", "scripts/**/*.{ts,mjs}", "examples/**/*.ts"],
+      "ignore": ["src/api/v2/generated/**"],
+      "ignoreExportsUsedInFile": true
+    },
+    "website": {}
+  }
+}

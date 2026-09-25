@@ -34,6 +34,7 @@ root	ArtifactPublishResult	ArtifactPublishResult	fba408b8f4b397eb
 root	ArtifactUpdateResult	ArtifactUpdateResult	8d2f0f1e3dcefafa
 root	Assignee	Assignee	4df1d5e13eae6ada
 root	AttachedWorkItemTypeProperties	AttachedWorkItemTypeProperties	acd010d0807a6bde
+root	AttachmentTooLargeError	AttachmentTooLargeError	17770da81126a973
 root	AttachWorkflowStates	AttachWorkflowStates	92f378e7a9f562ba
 root	AuditLog	AuditLog	5748cf85faae47c1
 root	AuditLogActorType	AuditLogActorType	35e22038eafe4c59
@@ -233,7 +234,7 @@ root	GroupSyncProjectMappingOrderBy	GroupSyncProjectMappingOrderBy	6cbe8f93433eb
 root	GroupSyncWorkspaceMappingField	GroupSyncWorkspaceMappingField	d3d387ed1a378977
 root	GroupSyncWorkspaceMappingFieldsParams	GroupSyncWorkspaceMappingFieldsParams	0821440bcb55890b
 root	GroupSyncWorkspaceMappingOrderBy	GroupSyncWorkspaceMappingOrderBy	017930c76d4c1a70
-root	HttpError	HttpError	294e2313a6d41394
+root	HttpError	HttpError	26af037dcb2a87c7
 root	IconProps	IconProps	6eb6c3e4073ada62
 root	Initiative	Initiative$1	4142dc37060b0b1b
 root	InitiativeEpics	Epics$1	ac4849a10fb57f35
@@ -252,6 +253,10 @@ root	Initiatives	Initiatives$1	6fc71b7e6d37d5a4
 root	InitiativeShapeParams	InitiativeShapeParams	e7f44418db729904
 root	InitiativeState	InitiativeState$1	d5be5f442a985ecc
 root	InitiativeWorkItems	WorkItems$2	8439a00256575c60
+root	Instance	Instance	69c1833e0bf59fc1
+root	InstanceConfig	InstanceConfig	5288af63aada6c03
+root	InstanceDetails	InstanceDetails	4c8e68e01f84eb3e
+root	InstanceInfo	InstanceInfo	1e9583edcac5a55a
 root	Intake	Intake	c78459a12fde46c4
 root	IntakeWorkItem	IntakeWorkItem$1	a54033b5c1d929fb
 root	IntakeWorkItemCreateRequest	IntakeWorkItemCreateRequest	b1f2db6caa073ad0
@@ -435,7 +440,7 @@ root	PermissionSchemeFieldsParams	PermissionSchemeFieldsParams	e0853b2c82507c82
 root	PermissionSchemeNamespace	PermissionSchemeNamespace	8c46326a7bc467f7
 root	PermissionSchemeOrderBy	PermissionSchemeOrderBy	3e26629a8e0ccce0
 root	PlaneApiError	PlaneApiError	7e2374a3de80221b
-root	PlaneClient	PlaneClient	0a85fda8d02f1bbc
+root	PlaneClient	PlaneClient	5fc80f8d892ded5f
 root	PlaneError	PlaneError	82e771135cd4b51d
 root	PlaneNetworkError	PlaneNetworkError	0bb41c61cfdfebd6
 root	PlaneOAuthAppInstallation	PlaneOAuthAppInstallation	d6ac941eb8e46193
@@ -842,7 +847,7 @@ root	WorkItemAttachmentConfirmRequest	WorkItemAttachmentConfirmRequest	93bb2e588
 root	WorkItemAttachmentField	WorkItemAttachmentField	3ebfd0e73543fc29
 root	WorkItemAttachmentFieldsParams	WorkItemAttachmentFieldsParams	a9c77daee6ea003e
 root	WorkItemAttachmentOrderBy	WorkItemAttachmentOrderBy	f3288ee4ddf801a3
-root	WorkItemAttachments	Attachments$1	03fdeda6ecb8be20
+root	WorkItemAttachments	Attachments$1	00c764e577ef9976
 root	WorkItemAttachmentUploadRequest	WorkItemAttachmentUploadRequest$1	c1edb7f528e1ea4f
 root	WorkItemBase	WorkItemBase	04945c0510272045
 root	WorkItemComment	WorkItemComment$1	92d9dedf2daef3dd

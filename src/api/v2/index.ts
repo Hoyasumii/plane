@@ -150,10 +150,10 @@ export type {
   WorkspaceWorkItemTypeIds,
   WorkspaceWorkItemTypeNavigation,
 } from "./loaded/WorkItemType";
-// Narrow a `Page<T>` to its offset or cursor envelope — see README "API v2".
+// Narrow a `Page<T>` to its offset or cursor envelope — see the docs site, "Pagination".
 export { isCursorPage, isOffsetPage } from "./kernel/pagination";
 // Field-name/order_by unions for dynamically-built `fields`/`order_by` values, and the
-// generated data backing them — see README "API v2".
+// generated data backing them — see the docs site, "API v2 overview".
 export type {
   CycleField,
   CycleOrderBy,
@@ -171,7 +171,7 @@ export type {
 } from "./generated/constants";
 export { BULK_MAX_ITEMS, EXPAND, FIELDS, OPENAPI_VERSION, ORDER_BY } from "./generated/constants";
 // The other cap, and the reason it is here: `BULK_MAX_ITEMS` (50) bounds a bulk write and
-// `BRIDGE_MAX_IDS` (100) bounds one `add`/`remove` call. The README documents both as
+// `BRIDGE_MAX_IDS` (100) bounds one `add`/`remove` call. The docs site documents both as
 // `v2.`-prefixed names, so both have to be reachable under that prefix — this one was
 // documented and not exported, which `readme-samples.test.ts` now refuses.
 export { BRIDGE_MAX_IDS } from "./kernel/resource";

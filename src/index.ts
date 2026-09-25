@@ -1,3 +1,10 @@
+/**
+ * The SDK: `PlaneClient` with the v1 resources and the `v2` namespace, `OAuthClient`, the
+ * models and the errors.
+ *
+ * @module @hoyasumii/plane
+ */
+
 // Main client
 export { PlaneClient } from "./client/plane-client";
 
@@ -46,6 +53,7 @@ export { ProjectTemplates } from "./api/ProjectTemplates";
 export { WorkspaceStates } from "./api/WorkspaceStates";
 export { WorkspaceWorkflows } from "./api/WorkspaceWorkflows";
 export { WorkItemTypeGovernance } from "./api/WorkItemTypeGovernance";
+export { Instance } from "./api/Instance";
 
 // Sub-resources
 export { Relations as WorkItemRelations } from "./api/WorkItems/Relations";

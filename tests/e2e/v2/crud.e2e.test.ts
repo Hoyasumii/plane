@@ -150,7 +150,7 @@ maybe("v2 CRUD (live)", () => {
  *
  * **Flat on purpose, and it has to be.** `Owned` erases the type parameter through its
  * conditional, so a navigated `list({ fields })` answers the full row — documented on
- * `Owned`, in the README, and pinned in `tests/unit/v2/navigation-types.test.ts`. The
+ * `Owned`, on the docs site, and pinned in `tests/unit/v2/navigation-types.test.ts`. The
  * narrowing this file asserts is reachable only through the flat form, which is the
  * concrete reason the flat form stays public rather than becoming an implementation
  * detail of navigation.
@@ -206,7 +206,7 @@ maybe("v2 typed field projection (live)", () => {
    * The documented cost of navigating: the same `fields` call off a fetched row answers
    * the *full* row type. Asserted here as a live behavioral fact — the projection still
    * happens on the wire (`color` really is absent), it is only the static type that
-   * widens — so the trade-off the README describes is pinned by a real response, not
+   * widens — so the trade-off the docs site describes is pinned by a real response, not
    * only by a type-level test.
    */
   it("navigated .states.list still projects on the wire, though the type widens", async () => {

@@ -17,7 +17,12 @@
     // decision rather than a defect fix.
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    // `@modelcontextprotocol/sdk` publishes its subpaths only through `exports`, which the
+    // `node` resolver above does not read; Node resolves them at runtime, this maps the types.
+    "paths": {
+      "@modelcontextprotocol/sdk/*": ["./node_modules/@modelcontextprotocol/sdk/dist/cjs/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]

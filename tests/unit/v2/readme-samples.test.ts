@@ -61,22 +61,49 @@ import { PlaneClient } from "../../../src/client/plane-client";
 const REPO_ROOT = path.join(__dirname, "../../..");
 
 /**
+ * The site's hand-written pages, in both languages. `website/docs/api/` is TypeDoc output
+ * generated from `src/` on every build, so it is not a document anyone wrote.
+ */
+const SITE_ROOTS = ["website/docs", "website/i18n/pt-BR/docusaurus-plugin-content-docs/current"] as const;
+const GENERATED_SITE_DIRS = new Set(["website/docs/api"]);
+
+/** Every `.md` under a site root, as repository-relative paths in a stable order. */
+function sitePages(): string[] {
+  const pages: string[] = [];
+  const walk = (dir: string): void => {
+    if (GENERATED_SITE_DIRS.has(dir)) return;
+    for (const entry of fs.readdirSync(path.join(REPO_ROOT, dir), { withFileTypes: true })) {
+      const relative = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) walk(relative);
+      else if (entry.name.endsWith(".md")) pages.push(relative);
+    }
+  };
+  for (const root of SITE_ROOTS) walk(root);
+  return pages.sort();
+}
+
+/**
  * The documents this gate covers.
  *
- * `README.md` is what a user reads, `CLAUDE.md` and `AGENTS.MD` are what an agent reads,
- * and the same commits rewrite all three. Leaving `CLAUDE.md` out is how it came to state
- * a cap that `README.md` contradicted; leaving `AGENTS.MD` out is how eight TypeScript
- * fences went uncompiled.
+ * `README.md` and the site are what a user reads, `CLAUDE.md` and `AGENTS.MD` are what an
+ * agent reads, and the same commits rewrite all of them. Leaving `CLAUDE.md` out is how it
+ * came to state a cap that `README.md` contradicted; leaving `AGENTS.MD` out is how eight
+ * TypeScript fences went uncompiled. The site took over most of the README's samples, so
+ * leaving it out would have unchecked them all at once.
  */
-const DOCUMENTS = ["README.md", "CLAUDE.md", "AGENTS.MD"] as const;
+const DOCUMENTS: readonly string[] = ["README.md", "CLAUDE.md", "AGENTS.MD", ...sitePages()];
+
+/** The page that documents both batch caps, in each language. */
+const CAPS_PAGE = "sdk/v2/memberships-and-bulk.md";
 
 /**
  * The documents that describe the v2 batch caps, and so must state both of them.
  *
  * `AGENTS.MD` is deliberately not here: it describes conventions, not the v2 kernel, and a
- * document is not obliged to mention a cap. Stating a *wrong* one is checked everywhere.
+ * document is not obliged to mention a cap. Neither is the README, which now points at the
+ * site for the v2 details. Stating a *wrong* cap is checked everywhere.
  */
-const CAP_DOCUMENTS = ["README.md", "CLAUDE.md"] as const;
+const CAP_DOCUMENTS: readonly string[] = ["CLAUDE.md", ...SITE_ROOTS.map((root) => `${root}/${CAPS_PAGE}`)];
 
 /** Fence languages compiled as TypeScript. */
 const TS_LANGUAGES = new Set(["ts", "typescript", "tsx", "typescriptreact"]);
@@ -119,7 +146,11 @@ interface Fence {
   document: string;
   /** 1-based line of the opening fence, so a failure points at the source. */
   line: number;
-  /** The info string, lowercased and trimmed; `""` for an untagged fence. */
+  /**
+   * The info string's first word, lowercased; `""` for an untagged fence. Docusaurus puts
+   * metadata after the language (` ```ts title="x.ts" `), and the language alone is what
+   * decides how a fence is checked.
+   */
   language: string;
   body: string;
 }
@@ -149,7 +180,8 @@ function fencesIn(document: string): Fence[] {
     const match = /^(\s*)```(.*)$/.exec(text);
     if (open === null) {
       if (match) {
-        open = { line: index + 1, language: match[2].trim().toLowerCase(), indent: match[1], body: [] };
+        const language = match[2].trim().split(/\s+/)[0].toLowerCase();
+        open = { line: index + 1, language, indent: match[1], body: [] };
       }
       return;
     }
@@ -198,13 +230,30 @@ interface ImportGroup {
  * `node:*`) is left alone and resolves normally.
  */
 function rewriteSpecifier(specifier: string): string {
-  return specifier === manifest().name ? "./src" : specifier;
+  if (specifier === manifest().name) return "./src";
+  // A published subpath (`<name>/mcp`) compiles against the `src/` directory its `exports` entry is built from.
+  if (publishedSubpaths().includes(specifier)) return `./src/${specifier.slice(manifest().name.length + 1)}`;
+  return specifier;
 }
 
-let manifestCache: { name: string; scripts: Record<string, string>; dependencies: Record<string, string> } | undefined;
-function manifest(): { name: string; scripts: Record<string, string>; dependencies: Record<string, string> } {
+interface Manifest {
+  name: string;
+  scripts: Record<string, string>;
+  dependencies: Record<string, string>;
+  exports?: Record<string, unknown>;
+}
+
+let manifestCache: Manifest | undefined;
+function manifest(): Manifest {
   manifestCache ??= JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "package.json"), "utf8"));
   return manifestCache!;
+}
+
+/** `<name>/<subpath>` for every `exports` entry other than the root and `package.json`. */
+function publishedSubpaths(): string[] {
+  return Object.keys(manifest().exports ?? {})
+    .filter((key) => key !== "." && key !== "./package.json")
+    .map((key) => `${manifest().name}/${key.slice(2)}`);
 }
 
 /**
@@ -400,6 +449,22 @@ describe("documented samples", () => {
     expect(fencesOfKind("typescript").length).toBeGreaterThanOrEqual(12);
   });
 
+  it("reads the site in every language, and the pages that must state the caps", () => {
+    // `sitePages()` walks directories, so a moved or renamed site root would drop every page
+    // under it from this gate without a single failure. Each root must still yield pages,
+    // and each language must carry the same pages as the other.
+    const perRoot = SITE_ROOTS.map((root) =>
+      DOCUMENTS.filter((document) => document.startsWith(`${root}/`)).map((document) => document.slice(root.length + 1))
+    );
+    for (const [index, pages] of perRoot.entries()) {
+      expect({ root: SITE_ROOTS[index], empty: pages.length === 0 }).toEqual({ root: SITE_ROOTS[index], empty: false });
+    }
+    expect({ translated: perRoot[1] }).toEqual({ translated: perRoot[0] });
+
+    const missing = CAP_DOCUMENTS.filter((document) => !fs.existsSync(path.join(REPO_ROOT, document)));
+    expect(missing).toEqual([]);
+  });
+
   it("type-checks every fenced TypeScript block against the SDK", () => {
     const fences = fencesOfKind("typescript");
     const virtualPath = path.join(REPO_ROOT, "__document-samples__.ts");
@@ -444,7 +509,7 @@ describe("what the docs claim about this repository", () => {
     // The compile above now resolves named bindings, so a wrong package name already fails
     // there — but with a "cannot find module" that does not say *which* name is right, and
     // only for `import`. This keeps the explanation, and catches `require()` too.
-    const allowed = new Set([manifest().name, ...Object.keys(manifest().dependencies)]);
+    const allowed = new Set([manifest().name, ...publishedSubpaths(), ...Object.keys(manifest().dependencies)]);
     const offenders: string[] = [];
 
     for (const fence of fencesOfKind("typescript")) {
@@ -584,14 +649,15 @@ describe("what the docs claim about this repository", () => {
 });
 
 /**
- * The README's *negative* claims — the lines it says will not compile.
+ * The docs' *negative* claims — the lines they say will not compile.
  *
- * A sample cannot contain these (they would fail the check above), so the README states
- * them in comments and they are pinned here instead. `@ts-expect-error` is the right tool:
- * it asserts the line does not compile *and* fails as an unused directive the moment it
- * starts to, so a claim cannot quietly become false.
+ * A sample cannot contain these (they would fail the check above), so the site states them
+ * in comments and prose (`sdk/v2/field-projection.md`, `loaded-rows.md`, `pagination.md`)
+ * and they are pinned here instead. `@ts-expect-error` is the right tool: it asserts the
+ * line does not compile *and* fails as an unused directive the moment it starts to, so a
+ * claim cannot quietly become false.
  */
-describe("what the README says will not compile", () => {
+describe("what the docs say will not compile", () => {
   it("states each claim to the compiler", async () => {
     const probe = async (client: import("../../../src").PlaneClient): Promise<void> => {
       const page = await client.v2.workspaces.projects.states.list("acme", "ENG", { fields: ["id", "name"] });

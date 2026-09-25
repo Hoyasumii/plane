@@ -2,7 +2,7 @@
  * CRUD/sparse-fields/expand/upsert/bulk/archive/pagination against the project's work
  * items directly — doesn't fit the SPECS harness's shape.
  *
- * Driven navigated off the suite's fetched project row, which is the shape the README
+ * Driven navigated off the suite's fetched project row, which is the shape the docs site
  * leads with for this family. The workspace-level list/iterate/`retrieveByIdentifier`
  * block is flat, because those routes hang off the workspace and take the slug alone,
  * and the uuid-vs-project-key check is flat because a navigated row is already bound to

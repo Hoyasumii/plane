@@ -1,0 +1,35 @@
+{
+  "home.title": {
+    "message": "SDK, servidor MCP e CLI do Plane"
+  },
+  "home.tagline": {
+    "message": "Um SDK TypeScript para a API do Plane, com um servidor MCP e uma CLI construídos sobre ele. Use-o no código, a partir de um agente de IA ou no terminal: os três compartilham o mesmo cliente."
+  },
+  "home.getStarted": {
+    "message": "Começar"
+  },
+  "home.sdk.description": {
+    "message": "Um cliente tipado para a API v1 e toda a superfície v2: 90 recursos, listas de campos que restringem o tipo de retorno em tempo de compilação e linhas buscadas que navegam até seus filhos."
+  },
+  "home.mcp.description": {
+    "message": "O Plane para o Claude Code, o Codex, o OpenCode ou qualquer cliente MCP: ferramentas de tarefa que trabalham por chave e por nome, mais três ferramentas genéricas que alcançam todo método v2."
+  },
+  "home.cli.description": {
+    "message": "Cada ferramenta MCP como um comando de terminal, mais plane mcp para rodar o servidor em segundo plano, iniciá-lo no login e registrá-lo nos seus clientes."
+  },
+  "home.mcp.title": {
+    "message": "Servidor MCP"
+  },
+  "home.badge": {
+    "message": "TypeScript · API v1 + v2 · MCP · CLI"
+  },
+  "home.headline": {
+    "message": "A API do Plane, tipada de ponta a ponta"
+  },
+  "home.install.copy": {
+    "message": "Copiar"
+  },
+  "home.install.copied": {
+    "message": "Copiado"
+  }
+}

@@ -123,7 +123,7 @@ function typeProbes(): void {
   // navigated call resolves against the *general* overload, so `fields` is still accepted
   // and the row still comes back full. Reaching for the narrowed row means calling flat —
   // `v2.workspaces.projects.workItems.comments.list(slug, project, workItem, { fields })`. See
-  // `Owned<…>`'s own doc comment, the README's "Field projection" section, and
+  // `Owned<…>`'s own doc comment, the docs site's "Field projection" page, and
   // `field-projection.test.ts`.
   const stillTheFullRow: Promise<Page<WorkItemComment>> = workItemRow.comments.list({
     fields: ["id", "comment_html"] as const,

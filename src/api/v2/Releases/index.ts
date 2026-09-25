@@ -194,7 +194,3 @@ export { Links } from "./Links";
 export { ReleaseLabels } from "./Labels";
 export { ReleaseTags } from "./Tags";
 export { ReleaseWorkItems } from "./WorkItems";
-export type { ListReleaseCommentsParams, ReleaseCommentField, ReleaseCommentOrderBy } from "./Comments";
-export type { ListReleaseLinksParams, ReleaseLinkField, ReleaseLinkOrderBy } from "./Links";
-export type { ListReleaseLabelsParams, ReleaseLabelField, ReleaseLabelOrderBy } from "./Labels";
-export type { ListReleaseTagsParams, ReleaseTagField, ReleaseTagOrderBy } from "./Tags";
