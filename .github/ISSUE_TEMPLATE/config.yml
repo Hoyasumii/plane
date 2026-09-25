@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Hoyasumii/plane/security/advisories/new
+    about: Report it privately, never in a public issue.
+  - name: Documentation
+    url: https://hoyasumii.github.io/plane/
+    about: Guides for the SDK, the MCP server and the CLI.
+  - name: A problem with Plane itself
+    url: https://github.com/makeplane/plane/issues
+    about: Bugs in the Plane app or its API belong upstream.
