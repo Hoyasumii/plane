@@ -132,7 +132,12 @@ body {
 }
 
 .navbar__logo {
-  height: 1.6rem;
+  height: 1.75rem;
+}
+
+.navbar__logo img {
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--site-border);
 }
 
 .navbar__link {

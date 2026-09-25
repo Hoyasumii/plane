@@ -7,7 +7,7 @@ const repository = "https://github.com/Hoyasumii/plane";
 const config: Config = {
   title: "@hoyasumii/plane",
   tagline: "A TypeScript SDK for the Plane API, with an MCP server and a CLI built on top of it.",
-  favicon: "img/favicon.svg",
+  favicon: "img/favicon.png",
 
   // GitHub Pages, published from the `gh-pages` branch by `pnpm docs:deploy`.
   url: "https://hoyasumii.github.io",
@@ -76,11 +76,12 @@ const config: Config = {
   ],
 
   themeConfig: {
+    image: "img/social-card.png",
     colorMode: { defaultMode: "dark", respectPrefersColorScheme: true },
     docs: { sidebar: { hideable: true } },
     navbar: {
       title: "@hoyasumii/plane",
-      logo: { alt: "Plane SDK", src: "img/logo.svg" },
+      logo: { alt: "hoyasumii", src: "img/logo.png" },
       items: [
         { type: "docSidebar", sidebarId: "guides", position: "left", label: "Docs" },
         { type: "doc", docId: "sdk/v2/overview", position: "left", label: "SDK" },
