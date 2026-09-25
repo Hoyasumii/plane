@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-api/@hoyasumii/plane/index" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.10.2">
+<title data-rh="true">@hoyasumii/plane</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://hoyasumii.github.io/plane/img/social-card.png"><meta data-rh="true" name="twitter:image" content="https://hoyasumii.github.io/plane/img/social-card.png"><meta data-rh="true" property="og:url" content="https://hoyasumii.github.io/plane/docs/api/@hoyasumii/plane"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" property="og:locale:alternate" content="pt_BR"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="@hoyasumii/plane"><meta data-rh="true" name="description" content="The SDK: PlaneClient with the v1 resources and the v2 namespace, OAuthClient, the"><meta data-rh="true" property="og:description" content="The SDK: PlaneClient with the v1 resources and the v2 namespace, OAuthClient, the"><link data-rh="true" rel="icon" href="/plane/img/favicon.png"><link data-rh="true" rel="canonical" href="https://hoyasumii.github.io/plane/docs/api/@hoyasumii/plane"><link data-rh="true" rel="alternate" href="https://hoyasumii.github.io/plane/docs/api/@hoyasumii/plane" hreflang="en"><link data-rh="true" rel="alternate" href="https://hoyasumii.github.io/plane/pt-BR/docs/api/@hoyasumii/plane" hreflang="pt-BR"><link data-rh="true" rel="alternate" href="https://hoyasumii.github.io/plane/docs/api/@hoyasumii/plane" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"@hoyasumii/plane","item":"https://hoyasumii.github.io/plane/docs/api/@hoyasumii/plane/"}]}</script><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap"><link rel="stylesheet" href="/plane/assets/css/styles.f2d3e483.css">
+<script src="/plane/assets/js/runtime~main.b2cc03f1.js" defer="defer"></script>
+<script src="/plane/assets/js/main.dc976e45.js" defer="defer"></script>
+</head>
+<body>
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/plane/img/logo.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_JWeg" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/plane/"><div class="navbar__logo"><img src="/plane/img/logo.png" alt="hoyasumii" class="themedComponent_Giym themedComponent--light_KGda"><img src="/plane/img/logo.png" alt="hoyasumii" class="themedComponent_Giym themedComponent--dark_V14f"></div><b class="navbar__title text--truncate">@hoyasumii/plane</b></a><a class="navbar__item navbar__link" href="/plane/docs/intro">Docs</a><a class="navbar__item navbar__link" href="/plane/docs/sdk/v2/overview">SDK</a><a class="navbar__item navbar__link" href="/plane/docs/mcp/overview">MCP</a><a class="navbar__item navbar__link" href="/plane/docs/cli/overview">CLI</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/plane/docs/api">API Reference</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_RuNE"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>English</a><ul class="dropdown__menu"><li><a href="/plane/docs/api/@hoyasumii/plane" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="en">English</a></li><li><a href="/plane/pt-BR/docs/api/@hoyasumii/plane" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="pt-BR">Português (Brasil)</a></li></ul></div><a href="https://github.com/Hoyasumii/plane" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_ny9m"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_Lxsn colorModeToggle_wCyq"><button class="clean-btn toggleButton_BEJb toggleButtonDisabled_wzmd" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_Lr3m lightToggleIcon_ViIh"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_Lr3m darkToggleIcon_Xnlu"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_Lr3m systemToggleIcon_LOzk"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_agmU"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_ra6T"><div class="docsWrapper_ylEi"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_t5dj" type="button"></button><div class="docRoot_V1J5"><aside class="theme-doc-sidebar-container docSidebarContainer_DBGv"><div class="sidebarViewport_YVHm"><div class="sidebar_tgig"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_JjJ7"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/plane/docs/api"><span class="linkLabel_pzku">Overview</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible menu__list-item-collapsible--active"><a class="categoryLink_QuNW menu__link menu__link--sublist menu__link--active" aria-current="page" href="/plane/docs/api/@hoyasumii/plane"><span class="categoryLinkLabel_Aqc2">@hoyasumii/plane</span></a><button aria-label="Collapse sidebar category &#x27;@hoyasumii/plane&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_QuNW menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2"><span class="categoryLinkLabel_Aqc2">Namespaces</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_QuNW menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/plane/docs/api/@hoyasumii/plane/enumerations/InitiativeState"><span class="categoryLinkLabel_Aqc2">Enumerations</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_QuNW menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/plane/docs/api/@hoyasumii/plane/classes/AgentRunActivities"><span class="categoryLinkLabel_Aqc2">Classes</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_QuNW menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddCollectionPages"><span class="categoryLinkLabel_Aqc2">Interfaces</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_QuNW menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AccessEnum"><span class="categoryLinkLabel_Aqc2">Type Aliases</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_QuNW menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/plane/docs/api/@hoyasumii/plane/variables/CollectionAccess"><span class="categoryLinkLabel_Aqc2">Variables</span></a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_QuNW menu__link menu__link--sublist" href="/plane/docs/api/@hoyasumii/plane/mcp"><span class="categoryLinkLabel_Aqc2">@hoyasumii/plane/mcp</span></a><button aria-label="Expand sidebar category &#x27;@hoyasumii/plane/mcp&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_kZLp"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_yIS5"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div></aside><main class="docMainContainer_t64q"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_PNm0"><div class="docItemContainer_fty0"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_TsV8" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/plane/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_ZRLn"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">@hoyasumii/plane</span></li></ul></nav><div class="tocCollapsible_OUT1 theme-doc-toc-mobile tocMobile_MVBj"><button type="button" class="clean-btn tocCollapsibleButton_jdOG">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>@hoyasumii/plane</h1></header>
+<p>The SDK: <code>PlaneClient</code> with the v1 resources and the <code>v2</code> namespace, <code>OAuthClient</code>, the
+models and the errors.</p>
+<h2 class="anchor anchorTargetStickyNavbar_wsck" id="namespaces">Namespaces<a href="#namespaces" class="hash-link" aria-label="Direct link to Namespaces" title="Direct link to Namespaces" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2">v2</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models">v2models</a></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_wsck" id="enumerations">Enumerations<a href="#enumerations" class="hash-link" aria-label="Direct link to Enumerations" title="Direct link to Enumerations" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/enumerations/InitiativeState">InitiativeState</a></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_wsck" id="classes">Classes<a href="#classes" class="hash-link" aria-label="Direct link to Classes" title="Direct link to Classes" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/AgentRunActivities">AgentRunActivities</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/AgentRuns">AgentRuns</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/AttachmentTooLargeError">AttachmentTooLargeError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/BaseResource">BaseResource</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/CollectionMembersResource">CollectionMembersResource</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/CollectionPagesResource">CollectionPagesResource</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Collections">Collections</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Configuration">Configuration</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/CustomerProperties">CustomerProperties</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/CustomerRequests">CustomerRequests</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Customers">Customers</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Cycles">Cycles</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Epics">Epics</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Estimates">Estimates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/HttpError">HttpError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/InitiativeEpics"><del>InitiativeEpics</del></a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/InitiativeLabels">InitiativeLabels</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/InitiativeProjects">InitiativeProjects</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Initiatives">Initiatives</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/InitiativeWorkItems">InitiativeWorkItems</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Instance">Instance</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Intake">Intake</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Labels">Labels</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Links">Links</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Milestones">Milestones</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/MissingPathIdError">MissingPathIdError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Modules">Modules</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/MultipleMatchesFoundError">MultipleMatchesFoundError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/NoMatchFoundError">NoMatchFoundError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/OAuthClient">OAuthClient</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Pages">Pages</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/PlaneApiError">PlaneApiError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/PlaneClient">PlaneClient</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/PlaneError">PlaneError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/PlaneNetworkError">PlaneNetworkError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ProjectPageTemplates">ProjectPageTemplates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Projects">Projects</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ProjectTemplates">ProjectTemplates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ProjectTypeWorkflows">ProjectTypeWorkflows</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ProjectWorkItemTemplates">ProjectWorkItemTemplates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ReleaseChangelogResource">ReleaseChangelogResource</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ReleaseComments">ReleaseComments</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ReleaseItemLabels">ReleaseItemLabels</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ReleaseLabels">ReleaseLabels</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ReleaseLinks">ReleaseLinks</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Releases">Releases</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ReleaseTags">ReleaseTags</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/ReleaseWorkItems">ReleaseWorkItems</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Roles">Roles</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/States">States</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Stickies">Stickies</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/TeamspaceMembers">TeamspaceMembers</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/TeamspaceProjects">TeamspaceProjects</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Teamspaces">Teamspaces</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Users">Users</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Workflows">Workflows</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkflowStates">WorkflowStates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkflowTransitionHooks">WorkflowTransitionHooks</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkflowTransitions">WorkflowTransitions</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemActivities">WorkItemActivities</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemAttachments">WorkItemAttachments</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemComments">WorkItemComments</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemCustomRelations">WorkItemCustomRelations</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemDependencies">WorkItemDependencies</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemPages">WorkItemPages</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemProperties">WorkItemProperties</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemPropertyOptions">WorkItemPropertyOptions</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemPropertyValues">WorkItemPropertyValues</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemRelationDefinitions">WorkItemRelationDefinitions</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemRelations">WorkItemRelations</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItems">WorkItems</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemTypeGovernance">WorkItemTypeGovernance</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemTypes">WorkItemTypes</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkItemTypeWorkflowPins">WorkItemTypeWorkflowPins</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkLogs">WorkLogs</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/Workspace">Workspace</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspacePageTemplates">WorkspacePageTemplates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceProjectLabels">WorkspaceProjectLabels</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceProjectStates">WorkspaceProjectStates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceProjectTemplates">WorkspaceProjectTemplates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceStates">WorkspaceStates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceTemplates">WorkspaceTemplates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkflows">WorkspaceWorkflows</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkflowStates">WorkspaceWorkflowStates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkflowTransitionHooks">WorkspaceWorkflowTransitionHooks</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkflowTransitions">WorkspaceWorkflowTransitions</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkItemProperties">WorkspaceWorkItemProperties</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkItemPropertyOptions">WorkspaceWorkItemPropertyOptions</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkItemTemplates">WorkspaceWorkItemTemplates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkItemTypeProperties">WorkspaceWorkItemTypeProperties</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/classes/WorkspaceWorkItemTypes">WorkspaceWorkItemTypes</a></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_wsck" id="interfaces">Interfaces<a href="#interfaces" class="hash-link" aria-label="Direct link to Interfaces" title="Direct link to Interfaces" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddCollectionPages">AddCollectionPages</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddEpicWorkItems">AddEpicWorkItems</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddInitiativeEpicsRequest"><del>AddInitiativeEpicsRequest</del></a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddInitiativeLabelsRequest">AddInitiativeLabelsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddInitiativeProjectsRequest">AddInitiativeProjectsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddInitiativeWorkItemsRequest">AddInitiativeWorkItemsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddReleaseItemLabel">AddReleaseItemLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddReleaseWorkItems">AddReleaseWorkItems</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddTeamspaceMembersRequest">AddTeamspaceMembersRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddTeamspaceProjectsRequest">AddTeamspaceProjectsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddWorkItemsToCycleRequest">AddWorkItemsToCycleRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AddWorkspaceWorkflowStates">AddWorkspaceWorkflowStates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AdvancedSearchResult">AdvancedSearchResult</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AdvancedSearchWorkItem">AdvancedSearchWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AgentRun">AgentRun</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AgentRunActivity">AgentRunActivity</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AgentRunActivityActionContent">AgentRunActivityActionContent</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AgentRunActivityTextContent">AgentRunActivityTextContent</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Assignee">Assignee</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/AttachWorkflowStates">AttachWorkflowStates</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/BaseModel">BaseModel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Collection">Collection</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CollectionBranchPage">CollectionBranchPage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CollectionBranchPageDetail">CollectionBranchPageDetail</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CollectionMember">CollectionMember</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CollectionPage">CollectionPage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CollectionPageSearchResult">CollectionPageSearchResult</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateAgentRunActivityRequest">CreateAgentRunActivityRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateAgentRunRequest">CreateAgentRunRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateCollection">CreateCollection</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateCollectionMember">CreateCollectionMember</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateCustomerPropertyRequest">CreateCustomerPropertyRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateCycleRequest">CreateCycleRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateEpic">CreateEpic</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateEstimatePointRequest">CreateEstimatePointRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateEstimateRequest">CreateEstimateRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateLabel">CreateLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateMilestoneRequest">CreateMilestoneRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateModuleRequest">CreateModuleRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateRelease">CreateRelease</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateReleaseComment">CreateReleaseComment</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateReleaseLink">CreateReleaseLink</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateReleaseTag">CreateReleaseTag</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateWorkItem">CreateWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateWorkItemCustomRelationRequest">CreateWorkItemCustomRelationRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateWorkItemDependencyRequest">CreateWorkItemDependencyRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateWorkItemPageRequest">CreateWorkItemPageRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateWorkItemTypeWorkflowPins">CreateWorkItemTypeWorkflowPins</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CreateWorkLogRequest">CreateWorkLogRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Customer">Customer</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CustomerProperty">CustomerProperty</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CustomerPropertyValue">CustomerPropertyValue</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CustomerRequest">CustomerRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CustomPropertyValueResponse">CustomPropertyValueResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Cycle">Cycle</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CycleLite">CycleLite</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/CycleWorkItem">CycleWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Epic">Epic</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/EpicIssue">EpicIssue</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Estimate">Estimate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/EstimatePoint">EstimatePoint</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/FieldError">FieldError</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/GovernanceAllowlistEntry">GovernanceAllowlistEntry</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/GovernancePreview">GovernancePreview</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/GovernanceProjectRef">GovernanceProjectRef</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Initiative">Initiative</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/InitiativeLabel">InitiativeLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/InstanceConfig">InstanceConfig</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/InstanceDetails">InstanceDetails</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/InstanceInfo">InstanceInfo</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/IntakeWorkItem">IntakeWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/IntakeWorkItemCreateRequest">IntakeWorkItemCreateRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Label">Label</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Link">Link</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/LinkedIssue">LinkedIssue</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/LinkIssuesToCustomerResponse">LinkIssuesToCustomerResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListAttachmentsParams">ListAttachmentsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListCollectionPagesParams">ListCollectionPagesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListCommentsParams">ListCommentsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListCustomerPropertiesParams">ListCustomerPropertiesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListCustomerPropertyValuesParams">ListCustomerPropertyValuesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListCustomerRequestsParams">ListCustomerRequestsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListCustomersParams">ListCustomersParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListCyclesLiteParams">ListCyclesLiteParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListInitiativeLabelsParams">ListInitiativeLabelsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListInitiativesParams">ListInitiativesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListInitiativeWorkItemsParams">ListInitiativeWorkItemsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListLabelsParams">ListLabelsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListLinksParams">ListLinksParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListMembersLiteParams">ListMembersLiteParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListModulesLiteParams">ListModulesLiteParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListModulesParamsRequest">ListModulesParamsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListProjectsLiteParams">ListProjectsLiteParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListProjectsParams">ListProjectsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListRolesParams">ListRolesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListStickiesParams">ListStickiesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListTeamspacesParams">ListTeamspacesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListWorkItemPropertiesParams">ListWorkItemPropertiesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListWorkItemPropertyOptionsParams">ListWorkItemPropertyOptionsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListWorkItemPropertyValuesParams">ListWorkItemPropertyValuesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListWorkItemRelationDefinitionsParams">ListWorkItemRelationDefinitionsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListWorkItemsParams">ListWorkItemsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ListWorkItemTypesParams">ListWorkItemTypesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Milestone">Milestone</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/MilestoneLite">MilestoneLite</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/MilestoneWorkItem">MilestoneWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Module">Module</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ModuleLite">ModuleLite</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ModuleWorkItem">ModuleWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Page">Page</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/PageTemplate">PageTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/PaginatedResponse">PaginatedResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/PlaneOAuthAppInstallation">PlaneOAuthAppInstallation</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/PlaneOAuthTokenResponse">PlaneOAuthTokenResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProblemDetail">ProblemDetail</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Project">Project</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProjectFeatures">ProjectFeatures</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProjectLite">ProjectLite</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProjectMember">ProjectMember</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProjectRoleDistribution">ProjectRoleDistribution</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProjectRoleDistributionEntry">ProjectRoleDistributionEntry</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProjectTypeWorkflow">ProjectTypeWorkflow</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ProjectWorkflowPickResult">ProjectWorkflowPickResult</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Release">Release</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ReleaseChangelog">ReleaseChangelog</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ReleaseComment">ReleaseComment</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ReleaseLabel">ReleaseLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ReleaseLink">ReleaseLink</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ReleaseTag">ReleaseTag</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/ReleaseWorkItem">ReleaseWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveCycleIssuesRequestRequest">RemoveCycleIssuesRequestRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveInitiativeEpicsRequest"><del>RemoveInitiativeEpicsRequest</del></a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveInitiativeLabelsRequest">RemoveInitiativeLabelsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveInitiativeProjectsRequest">RemoveInitiativeProjectsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveInitiativeWorkItemsRequest">RemoveInitiativeWorkItemsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveReleaseItemLabel">RemoveReleaseItemLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveReleaseWorkItems">RemoveReleaseWorkItems</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveTeamspaceMembersRequest">RemoveTeamspaceMembersRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveTeamspaceProjectsRequest">RemoveTeamspaceProjectsRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RemoveWorkspaceWorkflowState">RemoveWorkspaceWorkflowState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RichTextValue">RichTextValue</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/RichTextValueDetail">RichTextValueDetail</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Role">Role</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/SetCustomerPropertyValues">SetCustomerPropertyValues</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/SetProjectWorkflowPick">SetProjectWorkflowPick</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Sticky">Sticky</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/SubmitWorkItemApproval">SubmitWorkItemApproval</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Teamspace">Teamspace</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/TransferCycleIssueRequestRequest">TransferCycleIssueRequestRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/TransferCycleWorkItemRequest">TransferCycleWorkItemRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/TypeGovernance">TypeGovernance</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/TypeGovernancePreviewRequest">TypeGovernancePreviewRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateCollection">UpdateCollection</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateCollectionMember">UpdateCollectionMember</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateCollectionPage">UpdateCollectionPage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateCustomerPropertyRequest">UpdateCustomerPropertyRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateCycleRequest">UpdateCycleRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateEstimatePointRequest">UpdateEstimatePointRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateEstimateRequest">UpdateEstimateRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateIntakeStatusRequest">UpdateIntakeStatusRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateIntakeWorkItemRequest">UpdateIntakeWorkItemRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateLabel">UpdateLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateMilestoneRequest">UpdateMilestoneRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateModuleRequest">UpdateModuleRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdatePage">UpdatePage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateReleaseChangelog">UpdateReleaseChangelog</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateReleaseComment">UpdateReleaseComment</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateReleaseLabel">UpdateReleaseLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateReleaseLink">UpdateReleaseLink</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateReleaseTag">UpdateReleaseTag</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateTypeGovernance">UpdateTypeGovernance</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateWorkItem">UpdateWorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UpdateWorkLogRequest">UpdateWorkLogRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/User">User</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UserAssetUploadRequest">UserAssetUploadRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/UserAssetUploadResponse">UserAssetUploadResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2CreatePage">V2CreatePage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2ListCustomerRequestsParams">V2ListCustomerRequestsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2ListInitiativeLabelsParams">V2ListInitiativeLabelsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2ListLabelsParams">V2ListLabelsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2ListStatesParams">V2ListStatesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2ListWorkItemPropertyOptionsParams">V2ListWorkItemPropertyOptionsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2ListWorkItemsParams">V2ListWorkItemsParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/V2Page">V2Page</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/Workflow">Workflow</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkflowActivity">WorkflowActivity</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkflowFallbackPreviewRequest">WorkflowFallbackPreviewRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkflowLite">WorkflowLite</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkflowOption">WorkflowOption</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkflowState">WorkflowState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkflowTransition">WorkflowTransition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkflowTransitionHook">WorkflowTransitionHook</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemActivity">WorkItemActivity</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemApprovalResult">WorkItemApprovalResult</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemAttachment">WorkItemAttachment</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemAttachmentUploadRequest">WorkItemAttachmentUploadRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemBase">WorkItemBase</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemComment">WorkItemComment</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemCommentCreateRequest">WorkItemCommentCreateRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemCommentUpdateRequest">WorkItemCommentUpdateRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemCountEntry">WorkItemCountEntry</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemCountParams">WorkItemCountParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemCountResponse">WorkItemCountResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemDependencyResponse">WorkItemDependencyResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemForIntakeRequest">WorkItemForIntakeRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemPage">WorkItemPage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemPageLite">WorkItemPageLite</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemProperty">WorkItemProperty</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemPropertyOption">WorkItemPropertyOption</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemPropertyValue">WorkItemPropertyValue</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemPropertyValueDetail">WorkItemPropertyValueDetail</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemRelation">WorkItemRelation</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemRelationCreateRequest">WorkItemRelationCreateRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemRelationDefinition">WorkItemRelationDefinition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemRelationRemoveRequest">WorkItemRelationRemoveRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemRelationResponse">WorkItemRelationResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemSearch">WorkItemSearch</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemSearchItem">WorkItemSearchItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemTemplate">WorkItemTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemType">WorkItemType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemTypeWorkflowPin">WorkItemTypeWorkflowPin</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkItemWithRelationType">WorkItemWithRelationType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkLog">WorkLog</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceDetail">WorkspaceDetail</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceFeatures">WorkspaceFeatures</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceMember">WorkspaceMember</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspacePageTemplate">WorkspacePageTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceProjectLabel">WorkspaceProjectLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceProjectState">WorkspaceProjectState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceProjectTemplate">WorkspaceProjectTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceWorkflow">WorkspaceWorkflow</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceWorkflowState">WorkspaceWorkflowState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceWorkflowTransition">WorkspaceWorkflowTransition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceWorkflowUsage">WorkspaceWorkflowUsage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceWorkflowUsageProject">WorkspaceWorkflowUsageProject</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceWorkItemTemplate">WorkspaceWorkItemTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/interfaces/WorkspaceWorkItemTypePropertyLink">WorkspaceWorkItemTypePropertyLink</a></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_wsck" id="type-aliases">Type Aliases<a href="#type-aliases" class="hash-link" aria-label="Direct link to Type Aliases" title="Direct link to Type Aliases" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AccessEnum">AccessEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AdvancedSearchFilter">AdvancedSearchFilter</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AgentRunActivityContent">AgentRunActivityContent</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AgentRunActivitySignal">AgentRunActivitySignal</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AgentRunActivityType">AgentRunActivityType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AgentRunStatus">AgentRunStatus</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/AgentRunType">AgentRunType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CatalogGroupEnum">CatalogGroupEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CollectionAccessEnum">CollectionAccessEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CollectionMemberAccessEnum">CollectionMemberAccessEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateCustomer">CreateCustomer</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateCustomerRequest">CreateCustomerRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateEntity">CreateEntity</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateInitiative">CreateInitiative</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateInitiativeLabel">CreateInitiativeLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateLink">CreateLink</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreatePage">CreatePage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreatePageTemplate">CreatePageTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateProject">CreateProject</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateReleaseLabel">CreateReleaseLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateState">CreateState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateSticky">CreateSticky</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateTeamspace">CreateTeamspace</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkflow">CreateWorkflow</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkflowTransition">CreateWorkflowTransition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkflowTransitionHook">CreateWorkflowTransitionHook</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkItemProperty">CreateWorkItemProperty</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkItemPropertyOption">CreateWorkItemPropertyOption</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkItemRelationDefinition">CreateWorkItemRelationDefinition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkItemTemplate">CreateWorkItemTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkItemType">CreateWorkItemType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspacePageTemplate">CreateWorkspacePageTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspaceProjectLabel">CreateWorkspaceProjectLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspaceProjectState">CreateWorkspaceProjectState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspaceProjectTemplate">CreateWorkspaceProjectTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspaceState">CreateWorkspaceState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspaceWorkflow">CreateWorkspaceWorkflow</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspaceWorkflowTransition">CreateWorkspaceWorkflowTransition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CreateWorkspaceWorkItemTemplate">CreateWorkspaceWorkItemTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CustomerPropertyType">CustomerPropertyType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/CustomerRelationType">CustomerRelationType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/DependencyType">DependencyType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/EstimateType">EstimateType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/GroupEnum">GroupEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/IntakeWorkItemStatusEnum">IntakeWorkItemStatusEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/IssueRelationCreateRelationTypeEnum">IssueRelationCreateRelationTypeEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/ListStatesParams">ListStatesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/ListWorkspaceStatesParams">ListWorkspaceStatesParams</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/LogoProps">LogoProps</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/ModuleStatusEnum">ModuleStatusEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/PaginatedWorkspaceWorkflowResponse">PaginatedWorkspaceWorkflowResponse</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/PriorityEnum">PriorityEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/PropertyRelationType">PropertyRelationType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/PropertyType">PropertyType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/ReleaseStatus">ReleaseStatus</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/ResponseEntity">ResponseEntity</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/RoleNamespace">RoleNamespace</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/ServerGeneratedFields">ServerGeneratedFields</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/State">State</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/TextSettings">TextSettings</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/TimezoneEnum">TimezoneEnum</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/TypeGovernanceMode">TypeGovernanceMode</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateCustomer">UpdateCustomer</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateCustomerPropertyValue">UpdateCustomerPropertyValue</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateCustomerRequest">UpdateCustomerRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateEntity">UpdateEntity</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateEpic">UpdateEpic</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateInitiative">UpdateInitiative</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateInitiativeLabel">UpdateInitiativeLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateLink">UpdateLink</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdatePageTemplate">UpdatePageTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateProject">UpdateProject</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateProjectFeatures">UpdateProjectFeatures</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateRelease">UpdateRelease</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateState">UpdateState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateSticky">UpdateSticky</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateTeamspace">UpdateTeamspace</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkflow">UpdateWorkflow</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkflowState">UpdateWorkflowState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkflowTransition">UpdateWorkflowTransition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkflowTransitionHook">UpdateWorkflowTransitionHook</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkItemAttachmentRequest">UpdateWorkItemAttachmentRequest</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkItemProperty">UpdateWorkItemProperty</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkItemPropertyOption">UpdateWorkItemPropertyOption</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkItemPropertyValue">UpdateWorkItemPropertyValue</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkItemRelationDefinition">UpdateWorkItemRelationDefinition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkItemTemplate">UpdateWorkItemTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkItemType">UpdateWorkItemType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceFeatures">UpdateWorkspaceFeatures</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspacePageTemplate">UpdateWorkspacePageTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceProjectLabel">UpdateWorkspaceProjectLabel</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceProjectState">UpdateWorkspaceProjectState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceProjectTemplate">UpdateWorkspaceProjectTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceState">UpdateWorkspaceState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceWorkflow">UpdateWorkspaceWorkflow</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceWorkflowState">UpdateWorkspaceWorkflowState</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceWorkflowTransition">UpdateWorkspaceWorkflowTransition</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UpdateWorkspaceWorkItemTemplate">UpdateWorkspaceWorkItemTemplate</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/UserAssetEntityType">UserAssetEntityType</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/V2PageEnvelope">V2PageEnvelope</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/V2UpdatePage">V2UpdatePage</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/WorkItem">WorkItem</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/WorkItemExpandableFieldName">WorkItemExpandableFieldName</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/WorkItemPropertySettings">WorkItemPropertySettings</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/type-aliases/WorkItemPropertyValueMap">WorkItemPropertyValueMap</a></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_wsck" id="variables">Variables<a href="#variables" class="hash-link" aria-label="Direct link to Variables" title="Direct link to Variables" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/variables/CollectionAccess">CollectionAccess</a></li>
+<li class=""><a class="" href="/plane/docs/api/@hoyasumii/plane/variables/CollectionMemberAccess">CollectionMemberAccess</a></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_wsck" id="references">References<a href="#references" class="hash-link" aria-label="Direct link to References" title="Direct link to References" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2collection">V2Collection<a href="#v2collection" class="hash-link" aria-label="Direct link to V2Collection" title="Direct link to V2Collection" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Collection">Collection</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2collectionmember">V2CollectionMember<a href="#v2collectionmember" class="hash-link" aria-label="Direct link to V2CollectionMember" title="Direct link to V2CollectionMember" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CollectionMember">CollectionMember</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2collectionmemberaccess">V2CollectionMemberAccess<a href="#v2collectionmemberaccess" class="hash-link" aria-label="Direct link to V2CollectionMemberAccess" title="Direct link to V2CollectionMemberAccess" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/CollectionMemberAccess">CollectionMemberAccess</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createcollection">V2CreateCollection<a href="#v2createcollection" class="hash-link" aria-label="Direct link to V2CreateCollection" title="Direct link to V2CreateCollection" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateCollection">CreateCollection</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createcustomer">V2CreateCustomer<a href="#v2createcustomer" class="hash-link" aria-label="Direct link to V2CreateCustomer" title="Direct link to V2CreateCustomer" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateCustomer">CreateCustomer</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createcustomerrequest">V2CreateCustomerRequest<a href="#v2createcustomerrequest" class="hash-link" aria-label="Direct link to V2CreateCustomerRequest" title="Direct link to V2CreateCustomerRequest" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateCustomerRequest">CreateCustomerRequest</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createinitiative">V2CreateInitiative<a href="#v2createinitiative" class="hash-link" aria-label="Direct link to V2CreateInitiative" title="Direct link to V2CreateInitiative" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateInitiative">CreateInitiative</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createinitiativelabel">V2CreateInitiativeLabel<a href="#v2createinitiativelabel" class="hash-link" aria-label="Direct link to V2CreateInitiativeLabel" title="Direct link to V2CreateInitiativeLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateInitiativeLabel">CreateInitiativeLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createlabel">V2CreateLabel<a href="#v2createlabel" class="hash-link" aria-label="Direct link to V2CreateLabel" title="Direct link to V2CreateLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateLabel">CreateLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createproject">V2CreateProject<a href="#v2createproject" class="hash-link" aria-label="Direct link to V2CreateProject" title="Direct link to V2CreateProject" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateProject">CreateProject</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createrelease">V2CreateRelease<a href="#v2createrelease" class="hash-link" aria-label="Direct link to V2CreateRelease" title="Direct link to V2CreateRelease" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateRelease">CreateRelease</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createreleasecomment">V2CreateReleaseComment<a href="#v2createreleasecomment" class="hash-link" aria-label="Direct link to V2CreateReleaseComment" title="Direct link to V2CreateReleaseComment" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateReleaseComment">CreateReleaseComment</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createreleaselabel">V2CreateReleaseLabel<a href="#v2createreleaselabel" class="hash-link" aria-label="Direct link to V2CreateReleaseLabel" title="Direct link to V2CreateReleaseLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateReleaseLabel">CreateReleaseLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createreleaselink">V2CreateReleaseLink<a href="#v2createreleaselink" class="hash-link" aria-label="Direct link to V2CreateReleaseLink" title="Direct link to V2CreateReleaseLink" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateReleaseLink">CreateReleaseLink</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createreleasetag">V2CreateReleaseTag<a href="#v2createreleasetag" class="hash-link" aria-label="Direct link to V2CreateReleaseTag" title="Direct link to V2CreateReleaseTag" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateReleaseTag">CreateReleaseTag</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createstate">V2CreateState<a href="#v2createstate" class="hash-link" aria-label="Direct link to V2CreateState" title="Direct link to V2CreateState" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateState">CreateState</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createsticky">V2CreateSticky<a href="#v2createsticky" class="hash-link" aria-label="Direct link to V2CreateSticky" title="Direct link to V2CreateSticky" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateSticky">CreateSticky</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createteamspace">V2CreateTeamspace<a href="#v2createteamspace" class="hash-link" aria-label="Direct link to V2CreateTeamspace" title="Direct link to V2CreateTeamspace" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateTeamspace">CreateTeamspace</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkflow">V2CreateWorkflow<a href="#v2createworkflow" class="hash-link" aria-label="Direct link to V2CreateWorkflow" title="Direct link to V2CreateWorkflow" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkflow">CreateWorkflow</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkflowtransition">V2CreateWorkflowTransition<a href="#v2createworkflowtransition" class="hash-link" aria-label="Direct link to V2CreateWorkflowTransition" title="Direct link to V2CreateWorkflowTransition" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkflowTransition">CreateWorkflowTransition</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkitem">V2CreateWorkItem<a href="#v2createworkitem" class="hash-link" aria-label="Direct link to V2CreateWorkItem" title="Direct link to V2CreateWorkItem" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkItem">CreateWorkItem</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkitemproperty">V2CreateWorkItemProperty<a href="#v2createworkitemproperty" class="hash-link" aria-label="Direct link to V2CreateWorkItemProperty" title="Direct link to V2CreateWorkItemProperty" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkItemProperty">CreateWorkItemProperty</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkitempropertyoption">V2CreateWorkItemPropertyOption<a href="#v2createworkitempropertyoption" class="hash-link" aria-label="Direct link to V2CreateWorkItemPropertyOption" title="Direct link to V2CreateWorkItemPropertyOption" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkItemPropertyOption">CreateWorkItemPropertyOption</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkitemrelationdefinition">V2CreateWorkItemRelationDefinition<a href="#v2createworkitemrelationdefinition" class="hash-link" aria-label="Direct link to V2CreateWorkItemRelationDefinition" title="Direct link to V2CreateWorkItemRelationDefinition" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkItemRelationDefinition">CreateWorkItemRelationDefinition</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkitemtemplate">V2CreateWorkItemTemplate<a href="#v2createworkitemtemplate" class="hash-link" aria-label="Direct link to V2CreateWorkItemTemplate" title="Direct link to V2CreateWorkItemTemplate" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkItemTemplate">CreateWorkItemTemplate</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2createworkitemtype">V2CreateWorkItemType<a href="#v2createworkitemtype" class="hash-link" aria-label="Direct link to V2CreateWorkItemType" title="Direct link to V2CreateWorkItemType" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CreateWorkItemType">CreateWorkItemType</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2customer">V2Customer<a href="#v2customer" class="hash-link" aria-label="Direct link to V2Customer" title="Direct link to V2Customer" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Customer">Customer</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2customerproperty">V2CustomerProperty<a href="#v2customerproperty" class="hash-link" aria-label="Direct link to V2CustomerProperty" title="Direct link to V2CustomerProperty" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CustomerProperty">CustomerProperty</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2customerpropertytype">V2CustomerPropertyType<a href="#v2customerpropertytype" class="hash-link" aria-label="Direct link to V2CustomerPropertyType" title="Direct link to V2CustomerPropertyType" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/CustomerPropertyType">CustomerPropertyType</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2customerrequest">V2CustomerRequest<a href="#v2customerrequest" class="hash-link" aria-label="Direct link to V2CustomerRequest" title="Direct link to V2CustomerRequest" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/CustomerRequest">CustomerRequest</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2cycle">V2Cycle<a href="#v2cycle" class="hash-link" aria-label="Direct link to V2Cycle" title="Direct link to V2Cycle" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Cycle">Cycle</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2estimate">V2Estimate<a href="#v2estimate" class="hash-link" aria-label="Direct link to V2Estimate" title="Direct link to V2Estimate" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Estimate">Estimate</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2estimatepoint">V2EstimatePoint<a href="#v2estimatepoint" class="hash-link" aria-label="Direct link to V2EstimatePoint" title="Direct link to V2EstimatePoint" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/EstimatePoint">EstimatePoint</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2estimatetype">V2EstimateType<a href="#v2estimatetype" class="hash-link" aria-label="Direct link to V2EstimateType" title="Direct link to V2EstimateType" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/EstimateType">EstimateType</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2initiative">V2Initiative<a href="#v2initiative" class="hash-link" aria-label="Direct link to V2Initiative" title="Direct link to V2Initiative" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Initiative">Initiative</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2initiativelabel">V2InitiativeLabel<a href="#v2initiativelabel" class="hash-link" aria-label="Direct link to V2InitiativeLabel" title="Direct link to V2InitiativeLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/InitiativeLabel">InitiativeLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2initiativestate">V2InitiativeState<a href="#v2initiativestate" class="hash-link" aria-label="Direct link to V2InitiativeState" title="Direct link to V2InitiativeState" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/InitiativeState">InitiativeState</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2intakeworkitem">V2IntakeWorkItem<a href="#v2intakeworkitem" class="hash-link" aria-label="Direct link to V2IntakeWorkItem" title="Direct link to V2IntakeWorkItem" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/IntakeWorkItem">IntakeWorkItem</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2label">V2Label<a href="#v2label" class="hash-link" aria-label="Direct link to V2Label" title="Direct link to V2Label" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Label">Label</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listcustomerpropertiesparams">V2ListCustomerPropertiesParams<a href="#v2listcustomerpropertiesparams" class="hash-link" aria-label="Direct link to V2ListCustomerPropertiesParams" title="Direct link to V2ListCustomerPropertiesParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListCustomerPropertiesParams">ListCustomerPropertiesParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listcustomersparams">V2ListCustomersParams<a href="#v2listcustomersparams" class="hash-link" aria-label="Direct link to V2ListCustomersParams" title="Direct link to V2ListCustomersParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListCustomersParams">ListCustomersParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listinitiativesparams">V2ListInitiativesParams<a href="#v2listinitiativesparams" class="hash-link" aria-label="Direct link to V2ListInitiativesParams" title="Direct link to V2ListInitiativesParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListInitiativesParams">ListInitiativesParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listprojectsparams">V2ListProjectsParams<a href="#v2listprojectsparams" class="hash-link" aria-label="Direct link to V2ListProjectsParams" title="Direct link to V2ListProjectsParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListProjectsParams">ListProjectsParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listrolesparams">V2ListRolesParams<a href="#v2listrolesparams" class="hash-link" aria-label="Direct link to V2ListRolesParams" title="Direct link to V2ListRolesParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListRolesParams">ListRolesParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2liststickiesparams">V2ListStickiesParams<a href="#v2liststickiesparams" class="hash-link" aria-label="Direct link to V2ListStickiesParams" title="Direct link to V2ListStickiesParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListStickiesParams">ListStickiesParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listteamspacesparams">V2ListTeamspacesParams<a href="#v2listteamspacesparams" class="hash-link" aria-label="Direct link to V2ListTeamspacesParams" title="Direct link to V2ListTeamspacesParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListTeamspacesParams">ListTeamspacesParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listworkitempropertiesparams">V2ListWorkItemPropertiesParams<a href="#v2listworkitempropertiesparams" class="hash-link" aria-label="Direct link to V2ListWorkItemPropertiesParams" title="Direct link to V2ListWorkItemPropertiesParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListWorkItemPropertiesParams">ListWorkItemPropertiesParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listworkitemrelationdefinitionsparams">V2ListWorkItemRelationDefinitionsParams<a href="#v2listworkitemrelationdefinitionsparams" class="hash-link" aria-label="Direct link to V2ListWorkItemRelationDefinitionsParams" title="Direct link to V2ListWorkItemRelationDefinitionsParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListWorkItemRelationDefinitionsParams">ListWorkItemRelationDefinitionsParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2listworkitemtypesparams">V2ListWorkItemTypesParams<a href="#v2listworkitemtypesparams" class="hash-link" aria-label="Direct link to V2ListWorkItemTypesParams" title="Direct link to V2ListWorkItemTypesParams" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2/interfaces/ListWorkItemTypesParams">ListWorkItemTypesParams</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2milestone">V2Milestone<a href="#v2milestone" class="hash-link" aria-label="Direct link to V2Milestone" title="Direct link to V2Milestone" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Milestone">Milestone</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2module">V2Module<a href="#v2module" class="hash-link" aria-label="Direct link to V2Module" title="Direct link to V2Module" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Module">Module</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2project">V2Project<a href="#v2project" class="hash-link" aria-label="Direct link to V2Project" title="Direct link to V2Project" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Project">Project</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2projectmember">V2ProjectMember<a href="#v2projectmember" class="hash-link" aria-label="Direct link to V2ProjectMember" title="Direct link to V2ProjectMember" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ProjectMember">ProjectMember</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2projectroledistribution">V2ProjectRoleDistribution<a href="#v2projectroledistribution" class="hash-link" aria-label="Direct link to V2ProjectRoleDistribution" title="Direct link to V2ProjectRoleDistribution" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ProjectRoleDistribution">ProjectRoleDistribution</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2projectroledistributionentry">V2ProjectRoleDistributionEntry<a href="#v2projectroledistributionentry" class="hash-link" aria-label="Direct link to V2ProjectRoleDistributionEntry" title="Direct link to V2ProjectRoleDistributionEntry" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ProjectRoleDistributionEntry">ProjectRoleDistributionEntry</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2release">V2Release<a href="#v2release" class="hash-link" aria-label="Direct link to V2Release" title="Direct link to V2Release" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Release">Release</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2releasechangelog">V2ReleaseChangelog<a href="#v2releasechangelog" class="hash-link" aria-label="Direct link to V2ReleaseChangelog" title="Direct link to V2ReleaseChangelog" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ReleaseChangelog">ReleaseChangelog</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2releasecomment">V2ReleaseComment<a href="#v2releasecomment" class="hash-link" aria-label="Direct link to V2ReleaseComment" title="Direct link to V2ReleaseComment" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ReleaseComment">ReleaseComment</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2releaselabel">V2ReleaseLabel<a href="#v2releaselabel" class="hash-link" aria-label="Direct link to V2ReleaseLabel" title="Direct link to V2ReleaseLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ReleaseLabel">ReleaseLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2releaselink">V2ReleaseLink<a href="#v2releaselink" class="hash-link" aria-label="Direct link to V2ReleaseLink" title="Direct link to V2ReleaseLink" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ReleaseLink">ReleaseLink</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2releasestatus">V2ReleaseStatus<a href="#v2releasestatus" class="hash-link" aria-label="Direct link to V2ReleaseStatus" title="Direct link to V2ReleaseStatus" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/ReleaseStatus">ReleaseStatus</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2releasetag">V2ReleaseTag<a href="#v2releasetag" class="hash-link" aria-label="Direct link to V2ReleaseTag" title="Direct link to V2ReleaseTag" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/ReleaseTag">ReleaseTag</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2role">V2Role<a href="#v2role" class="hash-link" aria-label="Direct link to V2Role" title="Direct link to V2Role" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Role">Role</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2rolenamespace">V2RoleNamespace<a href="#v2rolenamespace" class="hash-link" aria-label="Direct link to V2RoleNamespace" title="Direct link to V2RoleNamespace" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/RoleNamespace">RoleNamespace</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2state">V2State<a href="#v2state" class="hash-link" aria-label="Direct link to V2State" title="Direct link to V2State" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/State">State</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2sticky">V2Sticky<a href="#v2sticky" class="hash-link" aria-label="Direct link to V2Sticky" title="Direct link to V2Sticky" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Sticky">Sticky</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2teamspace">V2Teamspace<a href="#v2teamspace" class="hash-link" aria-label="Direct link to V2Teamspace" title="Direct link to V2Teamspace" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Teamspace">Teamspace</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatecollection">V2UpdateCollection<a href="#v2updatecollection" class="hash-link" aria-label="Direct link to V2UpdateCollection" title="Direct link to V2UpdateCollection" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateCollection">UpdateCollection</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatecustomer">V2UpdateCustomer<a href="#v2updatecustomer" class="hash-link" aria-label="Direct link to V2UpdateCustomer" title="Direct link to V2UpdateCustomer" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateCustomer">UpdateCustomer</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatecustomerrequest">V2UpdateCustomerRequest<a href="#v2updatecustomerrequest" class="hash-link" aria-label="Direct link to V2UpdateCustomerRequest" title="Direct link to V2UpdateCustomerRequest" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateCustomerRequest">UpdateCustomerRequest</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateinitiative">V2UpdateInitiative<a href="#v2updateinitiative" class="hash-link" aria-label="Direct link to V2UpdateInitiative" title="Direct link to V2UpdateInitiative" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateInitiative">UpdateInitiative</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateinitiativelabel">V2UpdateInitiativeLabel<a href="#v2updateinitiativelabel" class="hash-link" aria-label="Direct link to V2UpdateInitiativeLabel" title="Direct link to V2UpdateInitiativeLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateInitiativeLabel">UpdateInitiativeLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatelabel">V2UpdateLabel<a href="#v2updatelabel" class="hash-link" aria-label="Direct link to V2UpdateLabel" title="Direct link to V2UpdateLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateLabel">UpdateLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateproject">V2UpdateProject<a href="#v2updateproject" class="hash-link" aria-label="Direct link to V2UpdateProject" title="Direct link to V2UpdateProject" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateProject">UpdateProject</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updaterelease">V2UpdateRelease<a href="#v2updaterelease" class="hash-link" aria-label="Direct link to V2UpdateRelease" title="Direct link to V2UpdateRelease" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateRelease">UpdateRelease</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatereleasechangelog">V2UpdateReleaseChangelog<a href="#v2updatereleasechangelog" class="hash-link" aria-label="Direct link to V2UpdateReleaseChangelog" title="Direct link to V2UpdateReleaseChangelog" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/UpdateReleaseChangelog">UpdateReleaseChangelog</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatereleasecomment">V2UpdateReleaseComment<a href="#v2updatereleasecomment" class="hash-link" aria-label="Direct link to V2UpdateReleaseComment" title="Direct link to V2UpdateReleaseComment" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateReleaseComment">UpdateReleaseComment</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatereleaselabel">V2UpdateReleaseLabel<a href="#v2updatereleaselabel" class="hash-link" aria-label="Direct link to V2UpdateReleaseLabel" title="Direct link to V2UpdateReleaseLabel" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateReleaseLabel">UpdateReleaseLabel</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatereleaselink">V2UpdateReleaseLink<a href="#v2updatereleaselink" class="hash-link" aria-label="Direct link to V2UpdateReleaseLink" title="Direct link to V2UpdateReleaseLink" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateReleaseLink">UpdateReleaseLink</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatereleasetag">V2UpdateReleaseTag<a href="#v2updatereleasetag" class="hash-link" aria-label="Direct link to V2UpdateReleaseTag" title="Direct link to V2UpdateReleaseTag" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateReleaseTag">UpdateReleaseTag</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatestate">V2UpdateState<a href="#v2updatestate" class="hash-link" aria-label="Direct link to V2UpdateState" title="Direct link to V2UpdateState" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateState">UpdateState</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updatesticky">V2UpdateSticky<a href="#v2updatesticky" class="hash-link" aria-label="Direct link to V2UpdateSticky" title="Direct link to V2UpdateSticky" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateSticky">UpdateSticky</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateteamspace">V2UpdateTeamspace<a href="#v2updateteamspace" class="hash-link" aria-label="Direct link to V2UpdateTeamspace" title="Direct link to V2UpdateTeamspace" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateTeamspace">UpdateTeamspace</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkflow">V2UpdateWorkflow<a href="#v2updateworkflow" class="hash-link" aria-label="Direct link to V2UpdateWorkflow" title="Direct link to V2UpdateWorkflow" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkflow">UpdateWorkflow</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkflowstate">V2UpdateWorkflowState<a href="#v2updateworkflowstate" class="hash-link" aria-label="Direct link to V2UpdateWorkflowState" title="Direct link to V2UpdateWorkflowState" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/UpdateWorkflowState">UpdateWorkflowState</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkflowtransition">V2UpdateWorkflowTransition<a href="#v2updateworkflowtransition" class="hash-link" aria-label="Direct link to V2UpdateWorkflowTransition" title="Direct link to V2UpdateWorkflowTransition" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkflowTransition">UpdateWorkflowTransition</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkitem">V2UpdateWorkItem<a href="#v2updateworkitem" class="hash-link" aria-label="Direct link to V2UpdateWorkItem" title="Direct link to V2UpdateWorkItem" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkItem">UpdateWorkItem</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkitemproperty">V2UpdateWorkItemProperty<a href="#v2updateworkitemproperty" class="hash-link" aria-label="Direct link to V2UpdateWorkItemProperty" title="Direct link to V2UpdateWorkItemProperty" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkItemProperty">UpdateWorkItemProperty</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkitempropertyoption">V2UpdateWorkItemPropertyOption<a href="#v2updateworkitempropertyoption" class="hash-link" aria-label="Direct link to V2UpdateWorkItemPropertyOption" title="Direct link to V2UpdateWorkItemPropertyOption" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkItemPropertyOption">UpdateWorkItemPropertyOption</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkitemrelationdefinition">V2UpdateWorkItemRelationDefinition<a href="#v2updateworkitemrelationdefinition" class="hash-link" aria-label="Direct link to V2UpdateWorkItemRelationDefinition" title="Direct link to V2UpdateWorkItemRelationDefinition" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkItemRelationDefinition">UpdateWorkItemRelationDefinition</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkitemtemplate">V2UpdateWorkItemTemplate<a href="#v2updateworkitemtemplate" class="hash-link" aria-label="Direct link to V2UpdateWorkItemTemplate" title="Direct link to V2UpdateWorkItemTemplate" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkItemTemplate">UpdateWorkItemTemplate</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2updateworkitemtype">V2UpdateWorkItemType<a href="#v2updateworkitemtype" class="hash-link" aria-label="Direct link to V2UpdateWorkItemType" title="Direct link to V2UpdateWorkItemType" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UpdateWorkItemType">UpdateWorkItemType</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2userassetentitytype">V2UserAssetEntityType<a href="#v2userassetentitytype" class="hash-link" aria-label="Direct link to V2UserAssetEntityType" title="Direct link to V2UserAssetEntityType" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/UserAssetEntityType">UserAssetEntityType</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2userassetuploadrequest">V2UserAssetUploadRequest<a href="#v2userassetuploadrequest" class="hash-link" aria-label="Direct link to V2UserAssetUploadRequest" title="Direct link to V2UserAssetUploadRequest" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/UserAssetUploadRequest">UserAssetUploadRequest</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workflow">V2Workflow<a href="#v2workflow" class="hash-link" aria-label="Direct link to V2Workflow" title="Direct link to V2Workflow" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Workflow">Workflow</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workflowstate">V2WorkflowState<a href="#v2workflowstate" class="hash-link" aria-label="Direct link to V2WorkflowState" title="Direct link to V2WorkflowState" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkflowState">WorkflowState</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workflowtransition">V2WorkflowTransition<a href="#v2workflowtransition" class="hash-link" aria-label="Direct link to V2WorkflowTransition" title="Direct link to V2WorkflowTransition" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkflowTransition">WorkflowTransition</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitem">V2WorkItem<a href="#v2workitem" class="hash-link" aria-label="Direct link to V2WorkItem" title="Direct link to V2WorkItem" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItem">WorkItem</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemactivity">V2WorkItemActivity<a href="#v2workitemactivity" class="hash-link" aria-label="Direct link to V2WorkItemActivity" title="Direct link to V2WorkItemActivity" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemActivity">WorkItemActivity</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemattachment">V2WorkItemAttachment<a href="#v2workitemattachment" class="hash-link" aria-label="Direct link to V2WorkItemAttachment" title="Direct link to V2WorkItemAttachment" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemAttachment">WorkItemAttachment</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemattachmentuploadrequest">V2WorkItemAttachmentUploadRequest<a href="#v2workitemattachmentuploadrequest" class="hash-link" aria-label="Direct link to V2WorkItemAttachmentUploadRequest" title="Direct link to V2WorkItemAttachmentUploadRequest" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemAttachmentUploadRequest">WorkItemAttachmentUploadRequest</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemcomment">V2WorkItemComment<a href="#v2workitemcomment" class="hash-link" aria-label="Direct link to V2WorkItemComment" title="Direct link to V2WorkItemComment" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemComment">WorkItemComment</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemproperty">V2WorkItemProperty<a href="#v2workitemproperty" class="hash-link" aria-label="Direct link to V2WorkItemProperty" title="Direct link to V2WorkItemProperty" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemProperty">WorkItemProperty</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemrelationcreaterequest">V2WorkItemRelationCreateRequest<a href="#v2workitemrelationcreaterequest" class="hash-link" aria-label="Direct link to V2WorkItemRelationCreateRequest" title="Direct link to V2WorkItemRelationCreateRequest" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemRelationCreateRequest">WorkItemRelationCreateRequest</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemrelationdefinition">V2WorkItemRelationDefinition<a href="#v2workitemrelationdefinition" class="hash-link" aria-label="Direct link to V2WorkItemRelationDefinition" title="Direct link to V2WorkItemRelationDefinition" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemRelationDefinition">WorkItemRelationDefinition</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemtemplate">V2WorkItemTemplate<a href="#v2workitemtemplate" class="hash-link" aria-label="Direct link to V2WorkItemTemplate" title="Direct link to V2WorkItemTemplate" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemTemplate">WorkItemTemplate</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workitemtype">V2WorkItemType<a href="#v2workitemtype" class="hash-link" aria-label="Direct link to V2WorkItemType" title="Direct link to V2WorkItemType" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/WorkItemType">WorkItemType</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workspace">V2Workspace<a href="#v2workspace" class="hash-link" aria-label="Direct link to V2Workspace" title="Direct link to V2Workspace" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/interfaces/Workspace">Workspace</a></p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_wsck" id="v2workspacemember">V2WorkspaceMember<a href="#v2workspacemember" class="hash-link" aria-label="Direct link to V2WorkspaceMember" title="Direct link to V2WorkspaceMember" translate="no">​</a></h3>
+<p>Renames and re-exports <a class="" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2models/type-aliases/WorkspaceMember">WorkspaceMember</a></p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_hLnR"><a href="https://github.com/Hoyasumii/plane/edit/main/website/docs/api/@hoyasumii/plane/index.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_a9_Z" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_GhXS"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/plane/docs/api"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Overview</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/plane/docs/api/@hoyasumii/plane/namespaces/v2"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">v2</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_kFBU thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#namespaces" class="table-of-contents__link toc-highlight">Namespaces</a></li><li><a href="#enumerations" class="table-of-contents__link toc-highlight">Enumerations</a></li><li><a href="#classes" class="table-of-contents__link toc-highlight">Classes</a></li><li><a href="#interfaces" class="table-of-contents__link toc-highlight">Interfaces</a></li><li><a href="#type-aliases" class="table-of-contents__link toc-highlight">Type Aliases</a></li><li><a href="#variables" class="table-of-contents__link toc-highlight">Variables</a></li><li><a href="#references" class="table-of-contents__link toc-highlight">References</a><ul><li><a href="#v2collection" class="table-of-contents__link toc-highlight">V2Collection</a></li><li><a href="#v2collectionmember" class="table-of-contents__link toc-highlight">V2CollectionMember</a></li><li><a href="#v2collectionmemberaccess" class="table-of-contents__link toc-highlight">V2CollectionMemberAccess</a></li><li><a href="#v2createcollection" class="table-of-contents__link toc-highlight">V2CreateCollection</a></li><li><a href="#v2createcustomer" class="table-of-contents__link toc-highlight">V2CreateCustomer</a></li><li><a href="#v2createcustomerrequest" class="table-of-contents__link toc-highlight">V2CreateCustomerRequest</a></li><li><a href="#v2createinitiative" class="table-of-contents__link toc-highlight">V2CreateInitiative</a></li><li><a href="#v2createinitiativelabel" class="table-of-contents__link toc-highlight">V2CreateInitiativeLabel</a></li><li><a href="#v2createlabel" class="table-of-contents__link toc-highlight">V2CreateLabel</a></li><li><a href="#v2createproject" class="table-of-contents__link toc-highlight">V2CreateProject</a></li><li><a href="#v2createrelease" class="table-of-contents__link toc-highlight">V2CreateRelease</a></li><li><a href="#v2createreleasecomment" class="table-of-contents__link toc-highlight">V2CreateReleaseComment</a></li><li><a href="#v2createreleaselabel" class="table-of-contents__link toc-highlight">V2CreateReleaseLabel</a></li><li><a href="#v2createreleaselink" class="table-of-contents__link toc-highlight">V2CreateReleaseLink</a></li><li><a href="#v2createreleasetag" class="table-of-contents__link toc-highlight">V2CreateReleaseTag</a></li><li><a href="#v2createstate" class="table-of-contents__link toc-highlight">V2CreateState</a></li><li><a href="#v2createsticky" class="table-of-contents__link toc-highlight">V2CreateSticky</a></li><li><a href="#v2createteamspace" class="table-of-contents__link toc-highlight">V2CreateTeamspace</a></li><li><a href="#v2createworkflow" class="table-of-contents__link toc-highlight">V2CreateWorkflow</a></li><li><a href="#v2createworkflowtransition" class="table-of-contents__link toc-highlight">V2CreateWorkflowTransition</a></li><li><a href="#v2createworkitem" class="table-of-contents__link toc-highlight">V2CreateWorkItem</a></li><li><a href="#v2createworkitemproperty" class="table-of-contents__link toc-highlight">V2CreateWorkItemProperty</a></li><li><a href="#v2createworkitempropertyoption" class="table-of-contents__link toc-highlight">V2CreateWorkItemPropertyOption</a></li><li><a href="#v2createworkitemrelationdefinition" class="table-of-contents__link toc-highlight">V2CreateWorkItemRelationDefinition</a></li><li><a href="#v2createworkitemtemplate" class="table-of-contents__link toc-highlight">V2CreateWorkItemTemplate</a></li><li><a href="#v2createworkitemtype" class="table-of-contents__link toc-highlight">V2CreateWorkItemType</a></li><li><a href="#v2customer" class="table-of-contents__link toc-highlight">V2Customer</a></li><li><a href="#v2customerproperty" class="table-of-contents__link toc-highlight">V2CustomerProperty</a></li><li><a href="#v2customerpropertytype" class="table-of-contents__link toc-highlight">V2CustomerPropertyType</a></li><li><a href="#v2customerrequest" class="table-of-contents__link toc-highlight">V2CustomerRequest</a></li><li><a href="#v2cycle" class="table-of-contents__link toc-highlight">V2Cycle</a></li><li><a href="#v2estimate" class="table-of-contents__link toc-highlight">V2Estimate</a></li><li><a href="#v2estimatepoint" class="table-of-contents__link toc-highlight">V2EstimatePoint</a></li><li><a href="#v2estimatetype" class="table-of-contents__link toc-highlight">V2EstimateType</a></li><li><a href="#v2initiative" class="table-of-contents__link toc-highlight">V2Initiative</a></li><li><a href="#v2initiativelabel" class="table-of-contents__link toc-highlight">V2InitiativeLabel</a></li><li><a href="#v2initiativestate" class="table-of-contents__link toc-highlight">V2InitiativeState</a></li><li><a href="#v2intakeworkitem" class="table-of-contents__link toc-highlight">V2IntakeWorkItem</a></li><li><a href="#v2label" class="table-of-contents__link toc-highlight">V2Label</a></li><li><a href="#v2listcustomerpropertiesparams" class="table-of-contents__link toc-highlight">V2ListCustomerPropertiesParams</a></li><li><a href="#v2listcustomersparams" class="table-of-contents__link toc-highlight">V2ListCustomersParams</a></li><li><a href="#v2listinitiativesparams" class="table-of-contents__link toc-highlight">V2ListInitiativesParams</a></li><li><a href="#v2listprojectsparams" class="table-of-contents__link toc-highlight">V2ListProjectsParams</a></li><li><a href="#v2listrolesparams" class="table-of-contents__link toc-highlight">V2ListRolesParams</a></li><li><a href="#v2liststickiesparams" class="table-of-contents__link toc-highlight">V2ListStickiesParams</a></li><li><a href="#v2listteamspacesparams" class="table-of-contents__link toc-highlight">V2ListTeamspacesParams</a></li><li><a href="#v2listworkitempropertiesparams" class="table-of-contents__link toc-highlight">V2ListWorkItemPropertiesParams</a></li><li><a href="#v2listworkitemrelationdefinitionsparams" class="table-of-contents__link toc-highlight">V2ListWorkItemRelationDefinitionsParams</a></li><li><a href="#v2listworkitemtypesparams" class="table-of-contents__link toc-highlight">V2ListWorkItemTypesParams</a></li><li><a href="#v2milestone" class="table-of-contents__link toc-highlight">V2Milestone</a></li><li><a href="#v2module" class="table-of-contents__link toc-highlight">V2Module</a></li><li><a href="#v2project" class="table-of-contents__link toc-highlight">V2Project</a></li><li><a href="#v2projectmember" class="table-of-contents__link toc-highlight">V2ProjectMember</a></li><li><a href="#v2projectroledistribution" class="table-of-contents__link toc-highlight">V2ProjectRoleDistribution</a></li><li><a href="#v2projectroledistributionentry" class="table-of-contents__link toc-highlight">V2ProjectRoleDistributionEntry</a></li><li><a href="#v2release" class="table-of-contents__link toc-highlight">V2Release</a></li><li><a href="#v2releasechangelog" class="table-of-contents__link toc-highlight">V2ReleaseChangelog</a></li><li><a href="#v2releasecomment" class="table-of-contents__link toc-highlight">V2ReleaseComment</a></li><li><a href="#v2releaselabel" class="table-of-contents__link toc-highlight">V2ReleaseLabel</a></li><li><a href="#v2releaselink" class="table-of-contents__link toc-highlight">V2ReleaseLink</a></li><li><a href="#v2releasestatus" class="table-of-contents__link toc-highlight">V2ReleaseStatus</a></li><li><a href="#v2releasetag" class="table-of-contents__link toc-highlight">V2ReleaseTag</a></li><li><a href="#v2role" class="table-of-contents__link toc-highlight">V2Role</a></li><li><a href="#v2rolenamespace" class="table-of-contents__link toc-highlight">V2RoleNamespace</a></li><li><a href="#v2state" class="table-of-contents__link toc-highlight">V2State</a></li><li><a href="#v2sticky" class="table-of-contents__link toc-highlight">V2Sticky</a></li><li><a href="#v2teamspace" class="table-of-contents__link toc-highlight">V2Teamspace</a></li><li><a href="#v2updatecollection" class="table-of-contents__link toc-highlight">V2UpdateCollection</a></li><li><a href="#v2updatecustomer" class="table-of-contents__link toc-highlight">V2UpdateCustomer</a></li><li><a href="#v2updatecustomerrequest" class="table-of-contents__link toc-highlight">V2UpdateCustomerRequest</a></li><li><a href="#v2updateinitiative" class="table-of-contents__link toc-highlight">V2UpdateInitiative</a></li><li><a href="#v2updateinitiativelabel" class="table-of-contents__link toc-highlight">V2UpdateInitiativeLabel</a></li><li><a href="#v2updatelabel" class="table-of-contents__link toc-highlight">V2UpdateLabel</a></li><li><a href="#v2updateproject" class="table-of-contents__link toc-highlight">V2UpdateProject</a></li><li><a href="#v2updaterelease" class="table-of-contents__link toc-highlight">V2UpdateRelease</a></li><li><a href="#v2updatereleasechangelog" class="table-of-contents__link toc-highlight">V2UpdateReleaseChangelog</a></li><li><a href="#v2updatereleasecomment" class="table-of-contents__link toc-highlight">V2UpdateReleaseComment</a></li><li><a href="#v2updatereleaselabel" class="table-of-contents__link toc-highlight">V2UpdateReleaseLabel</a></li><li><a href="#v2updatereleaselink" class="table-of-contents__link toc-highlight">V2UpdateReleaseLink</a></li><li><a href="#v2updatereleasetag" class="table-of-contents__link toc-highlight">V2UpdateReleaseTag</a></li><li><a href="#v2updatestate" class="table-of-contents__link toc-highlight">V2UpdateState</a></li><li><a href="#v2updatesticky" class="table-of-contents__link toc-highlight">V2UpdateSticky</a></li><li><a href="#v2updateteamspace" class="table-of-contents__link toc-highlight">V2UpdateTeamspace</a></li><li><a href="#v2updateworkflow" class="table-of-contents__link toc-highlight">V2UpdateWorkflow</a></li><li><a href="#v2updateworkflowstate" class="table-of-contents__link toc-highlight">V2UpdateWorkflowState</a></li><li><a href="#v2updateworkflowtransition" class="table-of-contents__link toc-highlight">V2UpdateWorkflowTransition</a></li><li><a href="#v2updateworkitem" class="table-of-contents__link toc-highlight">V2UpdateWorkItem</a></li><li><a href="#v2updateworkitemproperty" class="table-of-contents__link toc-highlight">V2UpdateWorkItemProperty</a></li><li><a href="#v2updateworkitempropertyoption" class="table-of-contents__link toc-highlight">V2UpdateWorkItemPropertyOption</a></li><li><a href="#v2updateworkitemrelationdefinition" class="table-of-contents__link toc-highlight">V2UpdateWorkItemRelationDefinition</a></li><li><a href="#v2updateworkitemtemplate" class="table-of-contents__link toc-highlight">V2UpdateWorkItemTemplate</a></li><li><a href="#v2updateworkitemtype" class="table-of-contents__link toc-highlight">V2UpdateWorkItemType</a></li><li><a href="#v2userassetentitytype" class="table-of-contents__link toc-highlight">V2UserAssetEntityType</a></li><li><a href="#v2userassetuploadrequest" class="table-of-contents__link toc-highlight">V2UserAssetUploadRequest</a></li><li><a href="#v2workflow" class="table-of-contents__link toc-highlight">V2Workflow</a></li><li><a href="#v2workflowstate" class="table-of-contents__link toc-highlight">V2WorkflowState</a></li><li><a href="#v2workflowtransition" class="table-of-contents__link toc-highlight">V2WorkflowTransition</a></li><li><a href="#v2workitem" class="table-of-contents__link toc-highlight">V2WorkItem</a></li><li><a href="#v2workitemactivity" class="table-of-contents__link toc-highlight">V2WorkItemActivity</a></li><li><a href="#v2workitemattachment" class="table-of-contents__link toc-highlight">V2WorkItemAttachment</a></li><li><a href="#v2workitemattachmentuploadrequest" class="table-of-contents__link toc-highlight">V2WorkItemAttachmentUploadRequest</a></li><li><a href="#v2workitemcomment" class="table-of-contents__link toc-highlight">V2WorkItemComment</a></li><li><a href="#v2workitemproperty" class="table-of-contents__link toc-highlight">V2WorkItemProperty</a></li><li><a href="#v2workitemrelationcreaterequest" class="table-of-contents__link toc-highlight">V2WorkItemRelationCreateRequest</a></li><li><a href="#v2workitemrelationdefinition" class="table-of-contents__link toc-highlight">V2WorkItemRelationDefinition</a></li><li><a href="#v2workitemtemplate" class="table-of-contents__link toc-highlight">V2WorkItemTemplate</a></li><li><a href="#v2workitemtype" class="table-of-contents__link toc-highlight">V2WorkItemType</a></li><li><a href="#v2workspace" class="table-of-contents__link toc-highlight">V2Workspace</a></li><li><a href="#v2workspacemember" class="table-of-contents__link toc-highlight">V2WorkspaceMember</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/plane/docs/intro">Getting started</a></li><li class="footer__item"><a class="footer__link-item" href="/plane/docs/sdk/v2/overview">SDK</a></li><li class="footer__item"><a class="footer__link-item" href="/plane/docs/mcp/overview">MCP server</a></li><li class="footer__item"><a class="footer__link-item" href="/plane/docs/cli/overview">CLI</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Package</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.npmjs.com/package/@hoyasumii/plane" target="_blank" rel="noopener noreferrer" class="footer__link-item">npm<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_ny9m"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/Hoyasumii/plane" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_ny9m"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/Hoyasumii/plane/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_ny9m"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">MIT licensed. Not affiliated with or endorsed by Plane Software, Inc. “Plane” is their trademark.</div></div></div></footer></div>
+</body>
+</html>
