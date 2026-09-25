@@ -44,6 +44,8 @@ function fakeDeps(overrides: Partial<McpDeps> = {}): Partial<McpDeps> & { execs:
     exit: () => undefined,
     isWsl: () => false,
     onForeground: (close) => closers.push(close),
+    // Never the real terminal: run from an interactive shell, the default would hand the prompts the developer's TTY.
+    terminal: undefined,
     ...overrides,
     execs,
   };
