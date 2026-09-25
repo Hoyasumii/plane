@@ -81,7 +81,10 @@
   --docsearch-primary-color: var(--ifm-color-primary);
 }
 
-[data-theme="dark"] {
+/* `html[...]`, not `[data-theme="dark"]`: Infima's own dark block is `html[data-theme='dark']`
+   and would otherwise win over the tokens it redefines, leaving <html> at #1b1b1d below the
+   body's first screen. */
+html[data-theme="dark"] {
   --site-bg: #09090b;
   --site-bg-subtle: #0f0f12;
   --site-bg-muted: #18181b;
@@ -102,12 +105,22 @@
   --ifm-color-primary-lighter: #a9c0ff;
   --ifm-color-primary-lightest: #d2deff;
 
+  --ifm-background-color: var(--site-bg);
+  --ifm-background-surface-color: var(--site-bg);
+  --ifm-color-content-secondary: var(--site-fg-muted);
+  --ifm-toc-border-color: var(--site-border);
+  --ifm-table-stripe-background: transparent;
+  --ifm-code-background: var(--site-bg-muted);
   --ifm-navbar-background-color: rgba(9, 9, 11, 0.7);
   --docusaurus-highlighted-code-line-bg: rgba(111, 152, 255, 0.14);
 }
 
+html,
 body {
   background: var(--site-bg);
+}
+
+body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss01", "cv11";
@@ -119,10 +132,22 @@ body {
 
 /* ── Navbar ─────────────────────────────────────────────────────────────── */
 
+/* The blur sits on a pseudo-element: `backdrop-filter` on .navbar itself would make it the
+   containing block of the fixed mobile sidebar, clipping that menu to the navbar's height. */
 .navbar {
   border-bottom: 1px solid var(--site-border);
+  background-color: transparent;
+}
+
+.navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--ifm-navbar-background-color);
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
+  pointer-events: none;
 }
 
 .navbar__title {
