@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: Primeiros passos
+description: "Um SDK TypeScript para a API do Plane, com um servidor MCP e uma CLI construídos sobre ele: o que cada parte faz e como instalar."
 slug: /intro
 ---
 

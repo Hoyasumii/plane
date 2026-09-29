@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 title: Pagination
+description: "Offset and cursor pages in API v2: narrowing the page type, the paging knobs, and iterate for every row."
 ---
 
 # Pagination

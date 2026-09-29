@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: MCP server overview
+description: "The Plane MCP server: Plane for Claude Code, Codex, OpenCode, Claude Desktop and any other MCP client."
 ---
 
 # MCP server

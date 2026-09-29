@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 title: Ferramentas genéricas
+description: "plane_resources, plane_describe e plane_call: três ferramentas MCP que alcançam todos os métodos da API v2 nos 90 recursos."
 ---
 
 # Ferramentas genéricas

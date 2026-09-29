@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: Visão geral da API v2
+description: "A superfície da API v2 em client.v2: 90 recursos, ids de caminho como parâmetros posicionais iniciais e os nomes de método padrão."
 ---
 
 # Visão geral da API v2

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 title: Lookups by human key
+description: "Lookups that resolve exactly one row on the server by name, slug or key, and throw when nothing or more than one matches."
 ---
 
 # Lookups by human key

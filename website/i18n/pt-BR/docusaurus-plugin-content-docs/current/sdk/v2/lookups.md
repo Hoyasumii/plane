@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 title: Buscas por chave humana
+description: "Buscas que resolvem exatamente uma linha no servidor por nome, slug ou chave, e lançam um erro quando nada ou mais de uma corresponde."
 ---
 
 # Buscas por chave humana

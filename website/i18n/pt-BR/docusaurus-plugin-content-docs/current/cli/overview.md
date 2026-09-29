@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: Visão geral da CLI
+description: "O comando plane: cada ferramenta MCP como um subcomando, com o schema de entrada da ferramenta como flags."
 ---
 
 # CLI

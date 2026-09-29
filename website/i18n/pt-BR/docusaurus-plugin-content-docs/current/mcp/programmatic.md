@@ -1,6 +1,7 @@
 ---
 sidebar_position: 7
 title: Uso programático
+description: "Embuta o servidor MCP do Plane no seu próprio processo, via stdio, Streamable HTTP ou qualquer outro transporte."
 ---
 
 # Uso programático

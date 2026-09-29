@@ -3,7 +3,8 @@ import Translate, { translate } from "@docusaurus/Translate";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import CodeBlock from "@theme/CodeBlock";
 import Layout from "@theme/Layout";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { preferredLocale } from "../locale-preference";
 
 const INSTALL = "npm install @hoyasumii/plane";
 
@@ -89,8 +90,25 @@ function InstallCommand(): ReactNode {
   );
 }
 
+/**
+ * On the English home page only, sends the visitor to the translation that matches the language they
+ * picked in the navbar menu or, failing that, their browser's. Every other page, translated homes
+ * included, stays where its link pointed.
+ */
+function useLocaleRedirect(): void {
+  const { i18n } = useDocusaurusContext();
+  useEffect(() => {
+    if (i18n.currentLocale !== i18n.defaultLocale) return;
+    const locale = preferredLocale(i18n.locales);
+    if (!locale || locale === i18n.currentLocale) return;
+    const { search, hash } = window.location;
+    window.location.replace(`${i18n.localeConfigs[locale]!.baseUrl}${search}${hash}`);
+  }, [i18n]);
+}
+
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
+  useLocaleRedirect();
   return (
     <Layout
       title={translate({ id: "home.title", message: "Plane SDK, MCP server and CLI" })}

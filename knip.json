@@ -7,6 +7,12 @@
       "ignore": ["src/api/v2/generated/**"],
       "ignoreExportsUsedInFile": true
     },
-    "website": {}
+    "website": {
+      "entry": ["src/remember-locale.ts"],
+      "ignoreDependencies": [
+        "@easyops-cn/docusaurus-search-local",
+        "@easyops-cn/docusaurus-theme-docusaurus-search-local"
+      ]
+    }
   }
 }

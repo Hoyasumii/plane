@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: Configuração inicial
+description: "Salve suas configurações uma vez e registre o servidor MCP do Plane no Claude Code, no Codex e no OpenCode."
 ---
 
 # Configuração inicial

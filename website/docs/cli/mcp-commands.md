@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: plane mcp
+description: "plane mcp: save the configuration, run the server in the background, start it at login and register it in your MCP clients."
 ---
 
 # `plane mcp`

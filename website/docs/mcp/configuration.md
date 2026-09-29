@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 title: Configuration
+description: "The four settings the MCP server, the plane-mcp bin and the plane CLI share, where they are saved and which one wins."
 ---
 
 # Configuration

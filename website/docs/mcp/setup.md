@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: Setup
+description: "Save your settings once and register the Plane MCP server in Claude Code, Codex and OpenCode."
 ---
 
 # Setup

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: CLI overview
+description: "The plane command: every MCP tool as a subcommand, with the tool's input schema as its flags."
 ---
 
 # CLI

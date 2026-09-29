@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: plane mcp
+description: "plane mcp: salve a configuração, rode o servidor em segundo plano, inicie-o no login e registre-o nos seus clientes MCP."
 ---
 
 # `plane mcp`

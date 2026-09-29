@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Field projection
+description: "How fields narrows the return type at compile time, on reads and on writes, and the one place the narrowing does not survive."
 ---
 
 # Field projection

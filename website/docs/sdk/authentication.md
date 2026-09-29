@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Authentication and OAuth
+description: "Authenticate PlaneClient with an API key or an OAuth access token, and run the OAuth flow with OAuthClient."
 ---
 
 # Authentication and OAuth

@@ -1,0 +1,35 @@
+{
+  "home.title": {
+    "message": "Plane 的 SDK、MCP 服务器和 CLI"
+  },
+  "home.tagline": {
+    "message": "一个面向 Plane API 的 TypeScript SDK，内置了一个 MCP 服务器和一个 CLI。可以在代码中使用它、从 AI 代理中使用它，或者在终端中使用它：三者共享同一个客户端。"
+  },
+  "home.getStarted": {
+    "message": "快速开始"
+  },
+  "home.sdk.description": {
+    "message": "一个覆盖 API v1 和整个 v2 表面的类型化客户端：90 个资源，在编译期缩小返回类型的字段列表，以及可以导航到其子项的已加载行。"
+  },
+  "home.mcp.description": {
+    "message": "面向 Claude Code、Codex、OpenCode 或任意 MCP 客户端的 Plane：按键和按名称工作的任务工具，加上三个可以访问所有 v2 方法的通用工具。"
+  },
+  "home.cli.description": {
+    "message": "每个 MCP 工具都是一条终端命令，另外还有 plane mcp 用于在后台运行服务器、在登录时启动它，并将它注册到你的客户端中。"
+  },
+  "home.mcp.title": {
+    "message": "MCP 服务器"
+  },
+  "home.badge": {
+    "message": "TypeScript · API v1 + v2 · MCP · CLI"
+  },
+  "home.headline": {
+    "message": "从头到尾都有类型的 Plane API"
+  },
+  "home.install.copy": {
+    "message": "复制"
+  },
+  "home.install.copied": {
+    "message": "已复制"
+  }
+}

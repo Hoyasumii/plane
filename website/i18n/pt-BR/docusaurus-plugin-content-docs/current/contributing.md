@@ -1,6 +1,7 @@
 ---
 sidebar_position: 100
 title: Contribuindo
+description: "Prepare o repositório, rode as verificações e os testes, e compile e visualize este site de documentação."
 ---
 
 # Contribuindo
@@ -88,19 +89,24 @@ nenhuma propriedade encobrindo um campo real. Todo método também verifica a UR
 servidor simulado.
 
 A documentação também é verificada. `tests/unit/v2/readme-samples.test.ts` checa os tipos de todo bloco
-TypeScript do `README.md`, do `CLAUDE.md`, do `AGENTS.MD` e de toda página deste site, nos dois idiomas, contra o
+TypeScript do `README.md`, do `CLAUDE.md`, do `AGENTS.MD` e de toda página deste site, em todos os idiomas, contra o
 código do SDK. Também checa as afirmações em prosa que são fatos sobre o repositório: scripts que existem,
 caminhos que existem, nomes `v2.` exportados e limites de lote que batem com o kernel.
 
 ## Este site
 
 O site fica em `website/`, um pacote do workspace construído com Docusaurus. Os guias são Markdown em
-`website/docs/`, a tradução pt-BR os espelha em `website/i18n/pt-BR/`, e a referência da API é gerada a partir
+`website/docs/`, cada tradução os espelha em `website/i18n/<locale>/`, e a referência da API é gerada a partir
 de `src/` pelo TypeDoc a cada build.
 
 ```bash
 pnpm docs:dev                        # prévia ao vivo, em inglês
-pnpm docs:dev --locale pt-BR         # prévia ao vivo, em português
-pnpm docs:build                      # os dois idiomas, em website/build/
+pnpm docs:dev --locale pt-BR         # prévia ao vivo em outro idioma (pt-PT, es-ES, zh-Hans, …)
+pnpm docs:build                      # todos os idiomas, em website/build/
 GIT_USER=<usuario-github> pnpm docs:deploy   # compila e envia para o branch gh-pages
 ```
+
+A busca (Ctrl/Cmd+K) usa um índice offline, um por idioma, que o `pnpm docs:build` gera; ela não funciona no
+`pnpm docs:dev`, então teste com `pnpm docs:serve` depois de um build. A referência da API fica fora do índice. O
+build em inglês também gera `llms.txt` e `llms-full.txt` na raiz do site, a partir dos guias em inglês, para
+ferramentas de IA lerem. Os dois são saída do build: nunca os commite nem os escreva à mão.

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: Linhas carregadas
+description: "Linhas navegáveis na API v2: uma linha carregada traz os próprios ids, então os filhos são alcançados sem passá-los de novo."
 ---
 
 # Linhas carregadas

@@ -174,6 +174,12 @@ body {
   color: var(--site-fg);
 }
 
+/* The external-link icon sits on the baseline, which lifts it above the label like a
+   superscript; this centers it on the text instead. */
+.navbar__link svg[class*="iconExternalLink_"] {
+  vertical-align: -0.15em;
+}
+
 .navbar-sidebar {
   background: var(--site-bg);
 }
@@ -619,4 +625,308 @@ a code {
   z-index: 1;
   margin: 0;
   font-size: 0.78rem;
+}
+
+/* ── Search ─────────────────────────────────────────────────────────────────
+   @easyops-cn/docusaurus-search-local renders its input straight into the navbar, with the
+   results in a dropdown under it. Here the navbar keeps a quiet trigger, and focusing it
+   (click or Ctrl/Cmd+K) lifts the whole search box into a centered dialog over a dimmed page.
+   The plugin's classes are CSS modules, so they are matched by their `name_` prefix, as
+   `codeBlockTitle` is above. Nothing here uses `transform`: it would become the containing
+   block of the fixed backdrop. */
+
+:root {
+  --search-slot-width: 13rem;
+  --search-backdrop: rgba(9, 9, 11, 0.4);
+  --search-panel-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--site-border);
+
+  /* The plugin's own knobs; its dark-mode rules read them too. */
+  --search-local-modal-background: transparent;
+  --search-local-modal-shadow: none;
+  --search-local-hit-background: transparent;
+  --search-local-hit-shadow: none;
+  --search-local-hit-color: var(--site-fg);
+  --search-local-hit-active-color: var(--site-fg);
+  --search-local-muted-color: var(--site-fg-subtle);
+  --search-local-highlight-color: var(--site-bg-muted);
+}
+
+html[data-theme="dark"] {
+  --search-backdrop: rgba(0, 0, 0, 0.6);
+  --search-panel-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--site-border);
+}
+
+@media (max-width: 996px) {
+  :root {
+    --search-slot-width: 9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --search-slot-width: 2.25rem;
+  }
+}
+
+/* The navbar's slot keeps its size while the search box is lifted out of it, so the items
+   around it do not move. */
+[class*="navbarSearchContainer_"] {
+  box-sizing: content-box;
+  width: var(--search-slot-width);
+  height: 2.25rem;
+}
+
+.navbar__search[class*="searchBarContainer_"] {
+  margin-left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The trigger. */
+.navbar__search .navbar__search-input {
+  width: 100%;
+  height: 2.25rem;
+  border: 1px solid var(--site-border);
+  border-radius: 8px;
+  background: var(--site-bg-subtle);
+  color: var(--site-fg);
+  font: inherit;
+  font-size: 0.875rem;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.navbar__search .navbar__search-input::placeholder {
+  color: var(--site-fg-subtle);
+}
+
+.navbar__search .navbar__search-input:hover {
+  border-color: var(--site-border-strong);
+}
+
+.navbar__search .navbar__search-input:focus {
+  outline: none;
+}
+
+.navbar__search [class*="searchIcon_"] {
+  color: var(--site-fg-subtle);
+}
+
+.navbar__search [class*="searchHint_"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  border: 1px solid var(--site-border);
+  border-radius: 4px;
+  background: var(--site-bg);
+  box-shadow: none;
+  color: var(--site-fg-subtle);
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.navbar__search [class*="searchClearButton_"] {
+  color: var(--site-fg-subtle);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.navbar__search [class*="searchClearButton_"]:hover {
+  color: var(--site-fg);
+}
+
+/* autocomplete.js measures the query in a hidden <pre> next to the input; absolutely positioned,
+   a long query pushed it past a phone's viewport and gave the page a horizontal scroll. Fixed
+   boxes never widen the page, and the measurement is the same. */
+.navbar__search [class*="searchBar_"] > pre[aria-hidden="true"] {
+  position: fixed !important;
+}
+
+/* The dialog. The container becomes the panel; ::before is the backdrop and ::after the
+   panel's surface, both under the content (z-index -1, in that order). A click on the
+   backdrop blurs the input, which closes the dialog. */
+.navbar__search[class*="focused_"] {
+  position: fixed;
+  top: max(4rem, 12vh);
+  left: 0;
+  right: 0;
+  z-index: 1;
+  width: min(40rem, calc(100vw - 2rem));
+  height: auto;
+  margin: 0 auto;
+  padding: 0.75rem;
+  animation: search-dialog-in 0.14s ease-out;
+}
+
+.navbar__search[class*="focused_"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--search-backdrop);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: search-backdrop-in 0.14s ease-out;
+}
+
+.navbar__search[class*="focused_"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 14px;
+  background: var(--site-bg);
+  box-shadow: var(--search-panel-shadow);
+}
+
+@keyframes search-dialog-in {
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
+}
+
+@keyframes search-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.navbar__search[class*="focused_"] [class*="searchBar_"] {
+  display: block !important;
+  width: 100%;
+}
+
+.navbar__search[class*="focused_"] .navbar__search-input {
+  width: 100%;
+  height: 3rem;
+  padding-left: 2.75rem;
+  padding-right: 4.5rem;
+  border-color: var(--site-border-strong);
+  border-radius: 999px;
+  background: var(--site-bg-subtle);
+  font-size: 1rem;
+  box-shadow: 0 0 0 3px var(--site-accent-soft);
+}
+
+.navbar__search[class*="focused_"] [class*="searchIcon_"] {
+  top: 2.25rem;
+  left: 1.75rem;
+  color: var(--site-fg-muted);
+}
+
+.navbar__search[class*="focused_"] [class*="searchBarLoadingRing_"] {
+  top: 1.75rem;
+  left: 1.5rem;
+}
+
+.navbar__search[class*="focused_"] [class*="searchHintContainer_"] {
+  top: 0.75rem;
+  right: 1.75rem;
+  height: 3rem;
+}
+
+.navbar__search[class*="focused_"] [class*="searchClearButton_"] {
+  top: 2.25rem;
+  right: 1.75rem;
+}
+
+/* Results, in the panel under the input rather than floating below the navbar. */
+html .navbar__search [class*="searchBar_"] [class*="dropdownMenu_"] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100%;
+  max-height: min(60vh, 32rem);
+  margin-top: 0.75rem;
+  padding: 0.75rem 0 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top: 1px solid var(--site-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html .navbar__search [class*="searchBar_"] [class*="dropdownMenu_"] [class*="suggestion_"] {
+  height: 3.5rem;
+  padding: 0 0.75rem;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--site-fg);
+}
+
+html .navbar__search [class*="searchBar_"] [class*="dropdownMenu_"] [class*="suggestion_"]:not(:last-child) {
+  margin-bottom: 2px;
+}
+
+html .navbar__search [class*="searchBar_"] [class*="dropdownMenu_"] [class*="suggestion_"][class*="cursor_"] {
+  background: var(--site-bg-muted);
+}
+
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"] [class*="hitIcon_"],
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"] [class*="hitTree_"],
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"] [class*="hitAction_"],
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"] [class*="hitPath_"] {
+  color: var(--site-fg-subtle) !important;
+}
+
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"] [class*="hitTitle_"] {
+  color: var(--site-fg);
+  font-size: 0.925rem;
+}
+
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"] [class*="hitPath_"] {
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"] mark {
+  background: none;
+  color: var(--site-accent) !important;
+  text-decoration: none !important;
+}
+
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"][class*="cursor_"] [class*="hitIcon_"],
+html .navbar__search [class*="dropdownMenu_"] [class*="suggestion_"][class*="cursor_"] [class*="hitAction_"] {
+  color: var(--site-fg) !important;
+}
+
+.navbar__search [class*="noResults_"] {
+  padding: 2rem 0;
+  color: var(--site-fg-muted);
+  font-size: 0.9rem;
+}
+
+.navbar__search [class*="noResultsIcon_"] {
+  color: var(--site-fg-subtle);
+}
+
+.navbar__search [class*="hitFooter_"] {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.8rem;
+}
+
+.navbar__search [class*="hitFooter_"] a {
+  color: var(--site-fg-muted);
+  text-decoration-color: var(--site-border-strong);
+  text-underline-offset: 3px;
+}
+
+.navbar__search [class*="hitFooter_"] a:hover {
+  color: var(--site-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar__search[class*="focused_"],
+  .navbar__search[class*="focused_"]::before {
+    animation: none;
+  }
 }

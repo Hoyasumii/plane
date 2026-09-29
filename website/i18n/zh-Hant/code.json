@@ -1,0 +1,65 @@
+{
+  "home.title": {
+    "message": "Plane 的 SDK、MCP 伺服器和 CLI"
+  },
+  "home.tagline": {
+    "message": "一個針對 Plane API 的 TypeScript SDK，內建一個 MCP 伺服器和一個 CLI。可以在程式碼中使用它、透過 AI 代理使用它，或是在終端機中使用它：三者共用同一個客戶端。"
+  },
+  "home.getStarted": {
+    "message": "快速開始"
+  },
+  "home.sdk.description": {
+    "message": "一個涵蓋 API v1 和整個 v2 介面的型別化客戶端：90 個資源、在編譯期縮小回傳型別的欄位清單，以及可以導覽至其子項目的已載入資料列。"
+  },
+  "home.mcp.description": {
+    "message": "為 Claude Code、Codex、OpenCode 或任何 MCP 客戶端提供的 Plane：依鍵值和名稱運作的工作工具，加上三個可存取所有 v2 方法的通用工具。"
+  },
+  "home.cli.description": {
+    "message": "每個 MCP 工具都是一個終端機命令，另外還有 plane mcp 可在背景執行伺服器、於登入時啟動它，並將它註冊到你的客戶端中。"
+  },
+  "home.mcp.title": {
+    "message": "MCP 伺服器"
+  },
+  "home.badge": {
+    "message": "TypeScript · API v1 + v2 · MCP · CLI"
+  },
+  "home.headline": {
+    "message": "從頭到尾都有型別的 Plane API"
+  },
+  "home.install.copy": {
+    "message": "複製"
+  },
+  "home.install.copied": {
+    "message": "已複製"
+  },
+  "theme.SearchBar.label": {
+    "message": "搜尋"
+  },
+  "theme.SearchBar.seeAll": {
+    "message": "查看全部結果"
+  },
+  "theme.SearchBar.noResultsText": {
+    "message": "沒有結果"
+  },
+  "theme.SearchBar.searchInContext": {
+    "message": "查看「{context}」內的全部結果"
+  },
+  "theme.SearchBar.seeAllOutsideContext": {
+    "message": "查看「{context}」以外的全部結果"
+  },
+  "theme.SearchPage.existingResultsTitle": {
+    "message": "「{query}」的搜尋結果"
+  },
+  "theme.SearchPage.emptyResultsTitle": {
+    "message": "搜尋文件"
+  },
+  "theme.SearchPage.documentsFound.plurals": {
+    "message": "找到 1 份文件|找到 {count} 份文件"
+  },
+  "theme.SearchPage.noResultsText": {
+    "message": "找不到文件"
+  },
+  "theme.SearchPage.searchContext.everywhere": {
+    "message": "全部"
+  }
+}

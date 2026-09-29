@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: Getting started
+description: "A TypeScript SDK for the Plane API, with an MCP server and a CLI built on it: what each part does and how to install it."
 slug: /intro
 ---
 

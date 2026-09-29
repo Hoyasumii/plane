@@ -1,6 +1,7 @@
 ---
 sidebar_position: 8
 title: Erros
+description: "Todo erro que o SDK lança estende PlaneError: detalhes de problema da API, buscas sem resultado, falhas de rede e URLs que não podem ser montadas."
 ---
 
 # Erros

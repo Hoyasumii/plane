@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: Loaded rows
+description: "Navigable rows in API v2: a fetched row carries its ids, so its children are reached without passing them again."
 ---
 
 # Loaded rows

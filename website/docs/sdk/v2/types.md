@@ -1,6 +1,7 @@
 ---
 sidebar_position: 9
 title: Types
+description: "Where the API v2 types live: the v2 and v2models namespaces, and the V2-prefixed aliases at the package root."
 ---
 
 # Types

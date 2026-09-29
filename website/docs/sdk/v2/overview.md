@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: API v2 overview
+description: "The API v2 surface on client.v2: 90 resources, path ids as leading positional parameters, and the standard method names."
 ---
 
 # API v2 overview

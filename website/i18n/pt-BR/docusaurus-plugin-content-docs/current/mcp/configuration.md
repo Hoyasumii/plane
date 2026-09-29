@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 title: Configurações
+description: "As quatro configurações que o servidor MCP, o bin plane-mcp e a CLI plane compartilham, onde ficam salvas e qual prevalece."
 ---
 
 # Configurações

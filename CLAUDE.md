@@ -25,8 +25,9 @@ pnpm check:knip           # Unused files, exports and dependencies (knip, config
 pnpm codegen:v2 <golden>  # Regenerate src/api/v2/generated/constants.ts from the api_v2 OpenAPI golden
 pnpm check:types-bundle   # Compare dist/types.bundle.d.ts's export surface against the snapshot
 pnpm codegen:mcp          # Regenerate src/mcp/generated/catalog.json from the v2 source (after any v2 change)
-pnpm docs:dev             # Preview the docs site (append `--locale pt-BR` for Portuguese)
-pnpm docs:build           # Build the docs site, both languages, into website/build/
+pnpm docs:dev             # Preview the docs site (append `--locale <locale>`, e.g. `--locale pt-BR`)
+pnpm docs:build           # Build the docs site, every locale, into website/build/
+pnpm docs:serve           # Serve website/build/ (where search works; it does not under docs:dev)
 GIT_USER=<user> pnpm docs:deploy  # Build and push the site to the gh-pages branch (GitHub Pages)
 ```
 
@@ -144,10 +145,11 @@ be), and `loaded-navigation.test.ts` requires a resource that attaches a migrate
 to be navigable, with one property per child, no property shadowing a field, no grandchild
 reachable through an owned view, and the narrowing caveat documented on every navigation
 property. `readme-samples.test.ts` type-checks every TypeScript fence in `README.md`,
-`CLAUDE.md`, `AGENTS.MD` and every hand-written page of the docs site in both languages,
+`CLAUDE.md`, `AGENTS.MD` and every hand-written page of the docs site in every language,
 and checks the prose claims that are facts about this repo (scripts that exist, paths
-that exist, caps that match the kernel, and the package's real name). It also requires the
-pt-BR site to carry the same pages as the English one.
+that exist, caps that match the kernel, and the package's real name). It also requires every
+translated site to carry the same pages as the English one, and the locales under
+`website/i18n/` to match `i18n.locales` in `website/docusaurus.config.ts`.
 
 Every exception list in those files is guarded from both ends (an entry naming
 something that does not exist fails; an entry that is no longer needed fails) and
@@ -215,10 +217,32 @@ alone does not catch them.
 **Docs site** (`website/`, a workspace package): Docusaurus, published to GitHub
 Pages at `https://hoyasumii.github.io/plane/` by `pnpm docs:deploy` — not by pnpm's built-in
 `deploy` command, which does something else entirely. The guides are plain Markdown (`markdown.format: "md"`, not MDX) in
-`website/docs/`, mirrored page for page in pt-BR under
-`website/i18n/pt-BR/docusaurus-plugin-content-docs/current/`; change both together.
+`website/docs/`, mirrored page for page under
+`website/i18n/<locale>/docusaurus-plugin-content-docs/current/` for every locale in
+`website/docusaurus.config.ts` (pt-BR, pt-PT, es-ES, es-419, fr-FR, fr-CA, de-DE, de-CH,
+zh-Hans, zh-Hant); change them all together.
 `website/docs/api/` is generated from `src/index.ts` and `src/mcp/index.ts` by
-docusaurus-plugin-typedoc on every build and is gitignored. The README is only the
+docusaurus-plugin-typedoc on every build and is gitignored. `llms.txt` and `llms-full.txt`
+are generated into the build root from the English guides (not `api/`) by
+docusaurus-plugin-llms, for the `en` build only; never commit or hand-write them. Its
+`gray-matter` needs js-yaml 3, hence the `gray-matter>js-yaml` override in
+`pnpm-workspace.yaml` next to the global js-yaml 4 one. Search (Ctrl/Cmd+K) is
+`@easyops-cn/docusaurus-search-local`: an offline index per locale, built by `docs:build` (so it
+does not work under `docs:dev`), with `api/` left out. The build runs on Rspack and SWC
+(`@docusaurus/faster`, `future.faster` in the config). The TypeDoc reference (about 1,150 pages) is
+English-only: only the `en` build loads docusaurus-plugin-typedoc and has the `api` sidebar; every
+translated locale excludes `api/**` and its "API Reference" navbar item and links point at the
+English one through `pathname:///plane/docs/api`. The English home page (and only it) redirects to
+the locale the visitor picked in the navbar menu (remembered in `localStorage` by the
+`website/src/remember-locale.ts` client module, a knip entry) or else to their browser's language
+(`website/src/locale-preference.ts`). `docs:build` runs `website/scripts/build.mjs`,
+which builds one locale per process (a single `docusaurus build` keeps its memory for every locale
+and ran a 15 GB WSL machine out of memory): `en` first and alone, since its build clears `build/`,
+then the translated locales four at a time (`--jobs N`), each with its own generated-files directory
+(`DOCUSAURUS_GENERATED_FILES_DIR_NAME=.docusaurus/<locale>`) — builds sharing `.docusaurus/` link
+each other's pages, and poison the Rspack cache in `website/node_modules/.cache/rspack` (delete it if
+that ever happens). Pass locales to build only those (`pnpm --filter @hoyasumii/plane-website build pt-BR`).
+The README is only the
 package's front page: the documentation lives on the site.
 
 **OAuth**: Standalone `OAuthClient` (`src/client/oauth-client.ts`) handles authorization flows, token exchange, and refresh separately from the main SDK auth.

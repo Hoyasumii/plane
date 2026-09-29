@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Windows and WSL
+description: "Using the CLI on Windows 10/11 from PowerShell or cmd, and registering the server in Windows clients from WSL."
 ---
 
 # Windows and WSL

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 title: Paginação
+description: "Páginas por offset e por cursor na API v2: como restringir o tipo da página, os controles de paginação e o iterate para todas as linhas."
 ---
 
 # Paginação

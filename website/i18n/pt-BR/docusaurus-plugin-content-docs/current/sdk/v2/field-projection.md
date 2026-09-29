@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Projeção de campos
+description: "Como fields restringe o tipo de retorno em tempo de compilação, em leituras e escritas, e o único lugar onde a restrição não sobrevive."
 ---
 
 # Projeção de campos

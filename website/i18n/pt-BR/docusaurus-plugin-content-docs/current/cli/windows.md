@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Windows e WSL
+description: "Como usar a CLI no Windows 10/11 pelo PowerShell ou pelo cmd, e registrar o servidor nos clientes do Windows a partir do WSL."
 ---
 
 # Windows e WSL

@@ -18,14 +18,14 @@ So the architecture lives in exactly one place per audience, and both are checke
 | Read this | For |
 | --- | --- |
 | `CLAUDE.md` | the architecture, the v2 kernel, and the sweeps that enforce it |
-| the docs site (`website/docs/`, pt-BR in `website/i18n/pt-BR/`) | the public surface as a user meets it, with worked samples |
+| the docs site (`website/docs/`, translations in `website/i18n/<locale>/`) | the public surface as a user meets it, with worked samples |
 | `README.md` | the package's front page: install, a quick start, links to the site |
 | this file | the rules every change is held to |
 
 Every TypeScript fence in all of them is compiled against `src/` by
 `tests/unit/v2/readme-samples.test.ts`, and every fence must carry a language that gate
 recognises. A change to the public surface updates the site page that describes it, in
-both languages. A sample here is checked code, not illustration — which is why the ones this
+every language. A sample here is checked code, not illustration — which is why the ones this
 file used to carry are gone rather than corrected.
 
 ## Layout
@@ -168,7 +168,7 @@ This section defines the rules and conventions that all AI agents and models mus
 #### User Documentation
 
 - **Where**: the docs site in `website/docs/`, plain Markdown (not MDX), with the same page in
-  `website/i18n/pt-BR/docusaurus-plugin-content-docs/current/`
+  `website/i18n/<locale>/docusaurus-plugin-content-docs/current/` for every locale
 - **Usage Examples**: Practical code examples, which the samples gate compiles
 - **Configuration Guide**: Detailed configuration options
 - **README**: install, a quick start and links to the site; no more than that

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 100
 title: Contributing
+description: "Set up the repository, run the checks and the tests, and build and preview this documentation site."
 ---
 
 # Contributing
@@ -86,19 +87,24 @@ requires a resource that attaches a child to answer navigable rows, with one pro
 shadowing a real field. Every method also asserts its exact request URL against a mock server.
 
 The documentation is checked too. `tests/unit/v2/readme-samples.test.ts` type-checks every TypeScript fence in
-`README.md`, `CLAUDE.md`, `AGENTS.MD` and every page of this site, in both languages, against the SDK source. It
+`README.md`, `CLAUDE.md`, `AGENTS.MD` and every page of this site, in every language, against the SDK source. It
 also checks the claims in prose that are facts about the repository: scripts that exist, paths that exist,
 `v2.` names that are exported, and batch caps that match the kernel.
 
 ## This site
 
 The site lives in `website/`, a workspace package built with Docusaurus. The guides are Markdown in
-`website/docs/`, the pt-BR translation mirrors them in `website/i18n/pt-BR/`, and the API reference is generated
+`website/docs/`, each translation mirrors them in `website/i18n/<locale>/`, and the API reference is generated
 from `src/` by TypeDoc on every build.
 
 ```bash
 pnpm docs:dev                        # live preview, in English
-pnpm docs:dev --locale pt-BR         # live preview, in Portuguese
-pnpm docs:build                      # both languages, into website/build/
+pnpm docs:dev --locale pt-BR         # live preview in another locale (pt-PT, es-ES, zh-Hans, …)
+pnpm docs:build                      # every locale, into website/build/
 GIT_USER=<github-user> pnpm docs:deploy   # build and push to the gh-pages branch
 ```
+
+Search (Ctrl/Cmd+K) runs on an offline index, one per locale, that `pnpm docs:build` writes; it does not work
+under `pnpm docs:dev`, so try it with `pnpm docs:serve` after a build. The API reference stays out of the index. The
+English build also writes `llms.txt` and `llms-full.txt` at the site root, from the English guides, for AI tools to
+read. Both are build output: never commit or hand-write them.

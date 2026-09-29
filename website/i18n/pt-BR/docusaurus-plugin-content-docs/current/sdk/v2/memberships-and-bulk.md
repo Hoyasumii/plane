@@ -1,6 +1,7 @@
 ---
 sidebar_position: 4
 title: Memberships e escritas em lote
+description: "Pontes de associação (add e remove, até 100 ids) e escritas em lote (até 50 itens) na API v2, e por que os limites diferem."
 ---
 
 # Memberships e escritas em lote

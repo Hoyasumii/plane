@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: Visão geral do servidor MCP
+description: "O servidor MCP do Plane: o Plane para o Claude Code, o Codex, o OpenCode, o Claude Desktop e qualquer outro cliente MCP."
 ---
 
 # Servidor MCP

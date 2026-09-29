@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 title: Generic tools
+description: "plane_resources, plane_describe and plane_call: three MCP tools that reach every API v2 method across all 90 resources."
 ---
 
 # Generic tools

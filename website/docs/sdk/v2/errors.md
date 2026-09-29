@@ -1,6 +1,7 @@
 ---
 sidebar_position: 8
 title: Errors
+description: "Every error the SDK raises extends PlaneError: API problem details, lookup misses, network failures and URLs that cannot be built."
 ---
 
 # Errors

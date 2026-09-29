@@ -1,0 +1,65 @@
+{
+  "home.title": {
+    "message": "SDK, serveur MCP et CLI de Plane"
+  },
+  "home.tagline": {
+    "message": "Un SDK TypeScript pour l'API Plane, avec un serveur MCP et une CLI construits par-dessus. Utilisez-le depuis votre code, depuis un agent d'IA ou depuis votre terminal : les trois partagent le même client."
+  },
+  "home.getStarted": {
+    "message": "Commencer"
+  },
+  "home.sdk.description": {
+    "message": "Un client typé pour l'API v1 et toute la surface v2 : 90 ressources, des listes de champs qui restreignent le type de retour à la compilation, et des lignes chargées que vous pouvez parcourir jusqu'à leurs enfants."
+  },
+  "home.mcp.description": {
+    "message": "Plane pour Claude Code, Codex, OpenCode ou tout autre client MCP : des outils de tâche qui fonctionnent par clé et par nom, plus trois outils génériques qui couvrent chaque méthode v2."
+  },
+  "home.cli.description": {
+    "message": "Chaque outil MCP sous forme de commande de terminal, plus plane mcp pour exécuter le serveur en arrière-plan, le démarrer à la connexion et l'enregistrer dans vos clients."
+  },
+  "home.mcp.title": {
+    "message": "Serveur MCP"
+  },
+  "home.badge": {
+    "message": "TypeScript · API v1 + v2 · MCP · CLI"
+  },
+  "home.headline": {
+    "message": "L'API Plane, typée de bout en bout"
+  },
+  "home.install.copy": {
+    "message": "Copier"
+  },
+  "home.install.copied": {
+    "message": "Copié"
+  },
+  "theme.SearchBar.label": {
+    "message": "Rechercher"
+  },
+  "theme.SearchBar.seeAll": {
+    "message": "Voir tous les résultats"
+  },
+  "theme.SearchBar.noResultsText": {
+    "message": "Aucun résultat"
+  },
+  "theme.SearchBar.searchInContext": {
+    "message": "Voir tous les résultats dans « {context} »"
+  },
+  "theme.SearchBar.seeAllOutsideContext": {
+    "message": "Voir tous les résultats hors de « {context} »"
+  },
+  "theme.SearchPage.existingResultsTitle": {
+    "message": "Résultats de recherche pour « {query} »"
+  },
+  "theme.SearchPage.emptyResultsTitle": {
+    "message": "Rechercher dans la documentation"
+  },
+  "theme.SearchPage.documentsFound.plurals": {
+    "message": "1 document trouvé|{count} documents trouvés"
+  },
+  "theme.SearchPage.noResultsText": {
+    "message": "Aucun document trouvé"
+  },
+  "theme.SearchPage.searchContext.everywhere": {
+    "message": "Partout"
+  }
+}

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Ferramentas de tarefa
+description: "As ferramentas de tarefa do MCP: tarefas pela chave, e projetos, estados, labels e membros pelo nome, com saída legível."
 ---
 
 # Ferramentas de tarefa

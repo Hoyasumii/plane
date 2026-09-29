@@ -1,6 +1,7 @@
 ---
 sidebar_position: 4
 title: Ferramentas de work item
+description: "Quatro ferramentas MCP tipadas para work items sobre a API v2, com os filtros, fields e expand dela."
 ---
 
 # Ferramentas de work item

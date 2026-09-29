@@ -1,6 +1,7 @@
 ---
 sidebar_position: 4
 title: Memberships and bulk writes
+description: "Membership bridges (add and remove, up to 100 ids) and bulk writes (up to 50 items) in API v2, and why the caps differ."
 ---
 
 # Memberships and bulk writes

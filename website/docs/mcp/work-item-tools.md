@@ -1,6 +1,7 @@
 ---
 sidebar_position: 4
 title: Work item tools
+description: "Four typed MCP tools for work items over API v2, with its filters, fields and expand."
 ---
 
 # Work item tools

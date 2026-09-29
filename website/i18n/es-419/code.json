@@ -1,0 +1,65 @@
+{
+  "home.title": {
+    "message": "SDK, servidor MCP y CLI de Plane"
+  },
+  "home.tagline": {
+    "message": "Un SDK de TypeScript para la API de Plane, con un servidor MCP y una CLI construidos sobre él. Úsalo desde el código, desde un agente de IA o desde tu terminal: los tres comparten el mismo cliente."
+  },
+  "home.getStarted": {
+    "message": "Empezar"
+  },
+  "home.sdk.description": {
+    "message": "Un cliente tipado para la API v1 y toda la superficie v2: 90 recursos, listas de campos que restringen el tipo de retorno en tiempo de compilación, y filas obtenidas que puedes navegar hasta sus hijos."
+  },
+  "home.mcp.description": {
+    "message": "Plane para Claude Code, Codex, OpenCode o cualquier cliente MCP: herramientas de tarea que funcionan por clave y por nombre, más tres herramientas genéricas que alcanzan todos los métodos v2."
+  },
+  "home.cli.description": {
+    "message": "Cada herramienta MCP como un comando de terminal, más plane mcp para ejecutar el servidor en segundo plano, iniciarlo al iniciar sesión y registrarlo en tus clientes."
+  },
+  "home.mcp.title": {
+    "message": "Servidor MCP"
+  },
+  "home.badge": {
+    "message": "TypeScript · API v1 + v2 · MCP · CLI"
+  },
+  "home.headline": {
+    "message": "La API de Plane, tipada de principio a fin"
+  },
+  "home.install.copy": {
+    "message": "Copiar"
+  },
+  "home.install.copied": {
+    "message": "Copiado"
+  },
+  "theme.SearchBar.label": {
+    "message": "Buscar"
+  },
+  "theme.SearchBar.seeAll": {
+    "message": "Ver todos los resultados"
+  },
+  "theme.SearchBar.noResultsText": {
+    "message": "Sin resultados"
+  },
+  "theme.SearchBar.searchInContext": {
+    "message": "Ver todos los resultados en \"{context}\""
+  },
+  "theme.SearchBar.seeAllOutsideContext": {
+    "message": "Ver todos los resultados fuera de \"{context}\""
+  },
+  "theme.SearchPage.existingResultsTitle": {
+    "message": "Resultados de búsqueda para \"{query}\""
+  },
+  "theme.SearchPage.emptyResultsTitle": {
+    "message": "Buscar en la documentación"
+  },
+  "theme.SearchPage.documentsFound.plurals": {
+    "message": "1 documento encontrado|{count} documentos encontrados"
+  },
+  "theme.SearchPage.noResultsText": {
+    "message": "No se encontraron documentos"
+  },
+  "theme.SearchPage.searchContext.everywhere": {
+    "message": "En todas partes"
+  }
+}

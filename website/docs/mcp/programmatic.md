@@ -1,6 +1,7 @@
 ---
 sidebar_position: 7
 title: Programmatic use
+description: "Embed the Plane MCP server in your own process, over stdio, Streamable HTTP or any other transport."
 ---
 
 # Programmatic use

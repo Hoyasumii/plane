@@ -60,11 +60,29 @@ import { PlaneClient } from "../../../src/client/plane-client";
 
 const REPO_ROOT = path.join(__dirname, "../../..");
 
+/** The translated locales: every directory under `website/i18n/`. */
+const TRANSLATED_LOCALES = fs
+  .readdirSync(path.join(REPO_ROOT, "website/i18n"), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
+
+/** The locales the site declares, read from `i18n.locales` in the Docusaurus config. */
+function configuredLocales(): string[] {
+  const config = fs.readFileSync(path.join(REPO_ROOT, "website/docusaurus.config.ts"), "utf8");
+  const list = /\blocales:\s*\[([^\]]*)\]/.exec(config);
+  if (list === null) throw new Error("website/docusaurus.config.ts declares no i18n.locales");
+  return [...list[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]);
+}
+
 /**
- * The site's hand-written pages, in both languages. `website/docs/api/` is TypeDoc output
+ * The site's hand-written pages, in every language. `website/docs/api/` is TypeDoc output
  * generated from `src/` on every build, so it is not a document anyone wrote.
  */
-const SITE_ROOTS = ["website/docs", "website/i18n/pt-BR/docusaurus-plugin-content-docs/current"] as const;
+const SITE_ROOTS: readonly string[] = [
+  "website/docs",
+  ...TRANSLATED_LOCALES.map((locale) => `website/i18n/${locale}/docusaurus-plugin-content-docs/current`),
+];
 const GENERATED_SITE_DIRS = new Set(["website/docs/api"]);
 
 /** Every `.md` under a site root, as repository-relative paths in a stable order. */
@@ -452,14 +470,23 @@ describe("documented samples", () => {
   it("reads the site in every language, and the pages that must state the caps", () => {
     // `sitePages()` walks directories, so a moved or renamed site root would drop every page
     // under it from this gate without a single failure. Each root must still yield pages,
-    // and each language must carry the same pages as the other.
+    // and each translation must carry the same pages as the English site.
     const perRoot = SITE_ROOTS.map((root) =>
       DOCUMENTS.filter((document) => document.startsWith(`${root}/`)).map((document) => document.slice(root.length + 1))
     );
     for (const [index, pages] of perRoot.entries()) {
       expect({ root: SITE_ROOTS[index], empty: pages.length === 0 }).toEqual({ root: SITE_ROOTS[index], empty: false });
     }
-    expect({ translated: perRoot[1] }).toEqual({ translated: perRoot[0] });
+    for (const [index, pages] of perRoot.entries()) {
+      expect({ root: SITE_ROOTS[index], pages }).toEqual({ root: SITE_ROOTS[index], pages: perRoot[0] });
+    }
+
+    // A locale the config serves with no translation, or a translation the config never
+    // serves, would pass the page check above untouched.
+    const configured = configuredLocales()
+      .filter((locale) => locale !== "en")
+      .sort();
+    expect({ translated: TRANSLATED_LOCALES }).toEqual({ translated: configured });
 
     const missing = CAP_DOCUMENTS.filter((document) => !fs.existsSync(path.join(REPO_ROOT, document)));
     expect(missing).toEqual([]);

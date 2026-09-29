@@ -1,6 +1,7 @@
 ---
 sidebar_position: 7
 title: Wiki
+description: "The workspace wiki in API v2: global pages, collections and their members, under v2.workspaces.wiki."
 ---
 
 # Wiki

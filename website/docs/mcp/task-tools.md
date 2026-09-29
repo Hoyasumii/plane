@@ -1,6 +1,7 @@
 ---
 sidebar_position: 3
 title: Task tools
+description: "The MCP task tools: tasks by key, and projects, states, labels and members by name, with readable output."
 ---
 
 # Task tools
