@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_hoyasumii_plane_website=self.webpackChunk_hoyasumii_plane_website||[]).push([["668"],{7934(e,s,a){a.r(s),a.d(s,{default:()=>l});var r=a(1058);a(3706);var u=a(3372),i=a(7597),n=a(1042),t=a(9401),c=a(6874);function l(e){return(0,r.jsx)(i.e3,{className:(0,u.A)(n.G.wrapper.docsPages),children:(0,r.jsx)(c.A,{children:(0,t.v)(e.route.routes)})})}}}]);

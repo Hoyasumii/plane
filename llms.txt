@@ -1,0 +1,31 @@
+# @hoyasumii/plane
+
+> A TypeScript SDK for the Plane API, with an MCP server and a CLI built on top of it.
+
+This file contains links to documentation sections following the llmstxt.org standard.
+
+## Table of Contents
+
+- [Getting started](https://hoyasumii.github.io/plane/docs/intro): A TypeScript SDK for the Plane API, with an MCP server and a CLI built on it: what each part does and how to install it.
+- [Authentication and OAuth](https://hoyasumii.github.io/plane/docs/sdk/authentication): Authenticate PlaneClient with an API key or an OAuth access token, and run the OAuth flow with OAuthClient.
+- [API v1](https://hoyasumii.github.io/plane/docs/sdk/v1): The API v1 resources on PlaneClient: the workspace slug first, then the project UUID, and work items by their human key.
+- [Errors](https://hoyasumii.github.io/plane/docs/sdk/v2/errors): Every error the SDK raises extends PlaneError: API problem details, lookup misses, network failures and URLs that cannot be built.
+- [Field projection](https://hoyasumii.github.io/plane/docs/sdk/v2/field-projection): How fields narrows the return type at compile time, on reads and on writes, and the one place the narrowing does not survive.
+- [Loaded rows](https://hoyasumii.github.io/plane/docs/sdk/v2/loaded-rows): Navigable rows in API v2: a fetched row carries its ids, so its children are reached without passing them again.
+- [Lookups by human key](https://hoyasumii.github.io/plane/docs/sdk/v2/lookups): Lookups that resolve exactly one row on the server by name, slug or key, and throw when nothing or more than one matches.
+- [Memberships and bulk writes](https://hoyasumii.github.io/plane/docs/sdk/v2/memberships-and-bulk): Membership bridges (add and remove, up to 100 ids) and bulk writes (up to 50 items) in API v2, and why the caps differ.
+- [API v2 overview](https://hoyasumii.github.io/plane/docs/sdk/v2/overview): The API v2 surface on client.v2: 90 resources, path ids as leading positional parameters, and the standard method names.
+- [Pagination](https://hoyasumii.github.io/plane/docs/sdk/v2/pagination): Offset and cursor pages in API v2: narrowing the page type, the paging knobs, and iterate for every row.
+- [Types](https://hoyasumii.github.io/plane/docs/sdk/v2/types): Where the API v2 types live: the v2 and v2models namespaces, and the V2-prefixed aliases at the package root.
+- [Wiki](https://hoyasumii.github.io/plane/docs/sdk/v2/wiki): The workspace wiki in API v2: global pages, collections and their members, under v2.workspaces.wiki.
+- [Configuration](https://hoyasumii.github.io/plane/docs/mcp/configuration): The four settings the MCP server, the plane-mcp bin and the plane CLI share, where they are saved and which one wins.
+- [Generic tools](https://hoyasumii.github.io/plane/docs/mcp/generic-tools): plane_resources, plane_describe and plane_call: three MCP tools that reach every API v2 method across all 90 resources.
+- [MCP server overview](https://hoyasumii.github.io/plane/docs/mcp/overview): The Plane MCP server: Plane for Claude Code, Codex, OpenCode, Claude Desktop and any other MCP client.
+- [Programmatic use](https://hoyasumii.github.io/plane/docs/mcp/programmatic): Embed the Plane MCP server in your own process, over stdio, Streamable HTTP or any other transport.
+- [Setup](https://hoyasumii.github.io/plane/docs/mcp/setup): Save your settings once and register the Plane MCP server in Claude Code, Codex and OpenCode.
+- [Task tools](https://hoyasumii.github.io/plane/docs/mcp/task-tools): The MCP task tools: tasks by key, and projects, states, labels and members by name, with readable output.
+- [Work item tools](https://hoyasumii.github.io/plane/docs/mcp/work-item-tools): Four typed MCP tools for work items over API v2, with its filters, fields and expand.
+- [plane mcp](https://hoyasumii.github.io/plane/docs/cli/mcp-commands): plane mcp: save the configuration, run the server in the background, start it at login and register it in your MCP clients.
+- [CLI overview](https://hoyasumii.github.io/plane/docs/cli/overview): The plane command: every MCP tool as a subcommand, with the tool's input schema as its flags.
+- [Windows and WSL](https://hoyasumii.github.io/plane/docs/cli/windows): Using the CLI on Windows 10/11 from PowerShell or cmd, and registering the server in Windows clients from WSL.
+- [Contributing](https://hoyasumii.github.io/plane/docs/contributing): Set up the repository, run the checks and the tests, and build and preview this documentation site.

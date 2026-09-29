@@ -1,0 +1,1489 @@
+# @hoyasumii/plane
+
+> A TypeScript SDK for the Plane API, with an MCP server and a CLI built on top of it.
+
+This file contains all documentation content in a single document following the llmstxt.org standard.
+
+## Getting started
+
+`@hoyasumii/plane` is a TypeScript SDK for the [Plane](https://plane.so) API, with an MCP server and a CLI
+built on top of it. Use it from code, from an AI agent, or from your terminal: all three share the same client.
+
+- **SDK**: a typed client for API v1 and the whole v2 surface (`client.v2`, 90 resources). `fields` narrows
+  the return type at compile time, and fetched rows can be navigated to their children.
+  Start at [API v2](./sdk/v2/overview.md).
+- **MCP server** (`@hoyasumii/plane/mcp`): stdio or Streamable HTTP. It has task tools that work with keys and
+  names (`ACME-130`, `"Todo"`, `"me"`) and generic tools that reach every v2 method.
+  Start at [MCP server](./mcp/overview.md).
+- **CLI** (`plane`): every MCP tool as a subcommand, plus `plane mcp` to configure the server, run it in the
+  background, start it at login and register it in Claude Code, Codex and OpenCode.
+  Start at [CLI](./cli/overview.md).
+
+It works with Plane Cloud and with self-hosted instances, including self-hosted 1.4.x, which has no API v2.
+
+### Installation
+
+Requires Node.js 20 or later.
+
+```bash
+npm install @hoyasumii/plane
+# or
+pnpm add @hoyasumii/plane
+```
+
+### Quick start
+
+Create a client with an API key (Plane → workspace settings → API tokens), or with an OAuth access token.
+`baseUrl` defaults to Plane Cloud (`https://api.plane.so`); point it at your own instance when self-hosting.
+
+```ts
+import { PlaneClient } from "@hoyasumii/plane";
+
+const client = new PlaneClient({ apiKey: "your-api-key" });
+
+// API v2: path ids are positional and come first, in URL order.
+const states = await client.v2.workspaces.projects.states.list("acme", "ENG");
+
+// A fetched row carries its ids, so its children need none.
+const eng = await client.v2.workspaces.projects.retrieve("acme", "ENG");
+await eng.workItems.create({ name: "Fix login bug", state: "Todo", labels: ["bug"] });
+
+// API v1 is on the client too.
+const projects = await client.projects.list("acme");
+```
+
+### Using it from an AI agent
+
+Save your settings once and register the MCP server in the clients installed on your machine:
+
+```bash
+npx plane mcp config    # asks for the API key, the instance URL and a default workspace
+npx plane mcp install   # registers plane-mcp in Claude Code, Codex and OpenCode
+```
+
+[MCP setup](./mcp/setup.md) covers the manual configuration and the HTTP transport.
+
+### Using it from the terminal
+
+After `plane mcp config`, every MCP tool is a command:
+
+```bash
+npx plane whoami
+npx plane list-my-issues
+npx plane get-issue --key ACME-14
+```
+
+See [CLI](./cli/overview.md).
+
+---
+
+## Authentication and OAuth
+
+`PlaneClient` takes one of two credentials:
+
+| Option        | Sent as                         | Use it for                                 |
+| ------------- | ------------------------------- | ------------------------------------------ |
+| `apiKey`      | `X-Api-Key: <key>`              | a personal or workspace API token          |
+| `accessToken` | `Authorization: Bearer <token>` | an OAuth access token (a Plane app, a bot) |
+
+`baseUrl` defaults to Plane Cloud, `https://api.plane.so`. Set it to your instance's URL when self-hosting.
+`enableLogging: true` logs every request and response to the console, with credentials removed from the
+logged headers.
+
+```ts
+import { PlaneClient } from "@hoyasumii/plane";
+
+const cloud = new PlaneClient({ apiKey: "your-api-key" });
+
+const selfHosted = new PlaneClient({
+  baseUrl: "https://plane.example.com",
+  accessToken: "your-access-token",
+  enableLogging: true,
+});
+```
+
+### OAuth apps
+
+`OAuthClient` handles the OAuth flow of a Plane app on its own: it needs no API key, only the app's client
+credentials.
+
+```ts
+import { OAuthClient, PlaneClient } from "@hoyasumii/plane";
+
+const oauth = new OAuthClient({
+  clientId: "your-client-id",
+  clientSecret: "your-client-secret",
+  redirectUri: "https://your-app.example.com/oauth/callback",
+});
+
+// 1. Send the user to Plane to authorize the app.
+const authorizeUrl = oauth.getAuthorizationUrl("code", "a-random-state");
+
+// 2. On the callback, exchange the code for tokens.
+const tokens = await oauth.exchangeCodeForToken("code-from-the-callback");
+const client = new PlaneClient({ accessToken: tokens.access_token });
+
+// 3. Later, refresh the access token.
+if (tokens.refresh_token) {
+  const refreshed = await oauth.getRefreshToken(tokens.refresh_token);
+  void refreshed;
+}
+```
+
+| Method                                           | What it does                                                    |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| `getAuthorizationUrl(responseType?, state?)`     | the URL that starts the authorization flow                      |
+| `exchangeCodeForToken(code, grantType?)`         | trades the authorization code for an access and a refresh token |
+| `getRefreshToken(refreshToken)`                  | a new access token from a refresh token                         |
+| `getBotToken(appInstallationId)`                 | a bot token for an app installation (client credentials)        |
+| `getAppInstallations(token, appInstallationId?)` | the app's installations, or one of them                         |
+
+---
+
+## API v1
+
+The v1 resources hang directly off the client: `client.projects`, `client.workItems`, `client.cycles`, and so
+on. Every workspace-scoped call takes the workspace slug first, then the project id where the URL has one.
+Unlike v2, `project` here is the project's UUID, and the older classes spell the removal method `delete` or
+`del` (follow the method list your editor shows).
+
+```ts
+import { PlaneClient } from "@hoyasumii/plane";
+
+const client = new PlaneClient({ apiKey: "your-api-key" });
+
+const projects = await client.projects.list("workspace-slug");
+
+const project = await client.projects.create("workspace-slug", {
+  name: "My Project",
+  description: "A new project",
+});
+
+const item = await client.workItems.create("workspace-slug", project.id, { name: "First task" });
+await client.workItems.comments.create("workspace-slug", project.id, item.id, { comment_html: "<p>Hello</p>" });
+
+// A work item by its human key, across the workspace.
+const byKey = await client.workItems.retrieveByIdentifier("workspace-slug", "ENG-12");
+```
+
+### Resources
+
+- **Projects**: Project management and organization
+- **WorkItems**: Issue and task management with full CRUD operations
+- **WorkItemTypes**: Custom work item type definitions and management
+- **WorkItemProperties**: Custom properties for work items
+- **Labels**: Issue categorization and tagging
+- **States**: Workflow state management
+- **Users**: User management and profiles
+- **Roles**: Workspace and project role definitions (read-only)
+- **Estimates**: Project estimates and estimate points
+- **Modules**: Feature organization and module management
+- **Cycles**: Sprint and iteration management
+- **Customers**: Customer management and operations
+- **Pages**: Workspace and project page management
+- **Links**: Work item linking and relationships
+- **Workspace**: Workspace-level operations
+- **Epics**: Epic management and organization
+- **Intake**: Intake form and request management
+- **Stickies**: Stickies management
+- **Teamspaces**: Teamspace management
+- **Milestones**: Milestone tracking and management
+- **Initiatives**: Initiative management
+- **WorkspaceTemplates**: Workspace-level work item, project, and page templates
+- **WorkspaceWorkItemTypes**: Workspace-level work item type management with property links
+- **WorkspaceWorkItemProperties**: Workspace-level custom property management with options
+- **WorkspaceProjectLabels**: Workspace-level project label management
+- **WorkspaceProjectStates**: Workspace-level project state management
+- **WorkItemRelationDefinitions**: Custom work item relation type definitions
+- **Releases**: Release management with tags, labels, item labels, changelog, comments, links, and work items
+- **Collections**: Folders that group workspace pages, with member and page management
+- **AgentRuns**: AI agent run orchestration and activity tracking
+- **Workflows**: Project workflow management with state attachments, transitions, transition hooks, activities, and work item approvals
+- **ProjectTemplates**: Work item and page template management per project
+- **Features**: Workspace and project features management
+- **WorkspaceStates**: Workspace-level (catalog) work-item states under workspace governance — dual-mode reads, governed-only writes
+- **WorkspaceWorkflows**: Workspace-level workflow catalog under workspace governance, with chain (states), transitions, usage, activities, and transition hooks
+- **WorkItemTypeGovernance**: Governs which workflows a workspace-level work item type may use (any/constrained/required modes), with per-project pins and the project-side pick/fallback-preview endpoints
+- **Instance**: Instance configuration and metadata (version, edition, auth providers, SMTP, upload limits) from `GET /api/instances/`
+
+Sub-resources hang off their parent: `workItems.comments`, `workItems.attachments`, `workItems.activities`,
+`workItems.relations`, `workItems.workLogs`, `customers.properties`, `customers.requests`,
+`teamspaces.members`, `teamspaces.projects`, `initiatives.labels`, `initiatives.projects`,
+`initiatives.epics`, `agentRuns.activities`, `workItemProperties.options`, `workItemProperties.values`, and so on.
+
+### Instance information
+
+```ts
+const info = await client.instance.retrieve();
+console.log(info.instance.current_version, info.config.is_smtp_configured);
+```
+
+### Downloading attachments
+
+`workItems.attachments.download` resolves an attachment's signed URL and downloads it, without sending the API
+key to the storage host. With `maxBytes`, a larger file is refused with `AttachmentTooLargeError`: up front when
+storage announces its `Content-Length`, otherwise as soon as the body passes the cap.
+
+```ts
+import { AttachmentTooLargeError } from "@hoyasumii/plane";
+
+try {
+  const { data, contentType } = await client.workItems.attachments.download("acme", projectId, itemId, "asset-1", {
+    maxBytes: 20 * 1024 * 1024,
+  });
+  console.log(contentType, data.length);
+} catch (error) {
+  if (error instanceof AttachmentTooLargeError) console.log("too large");
+  else throw error;
+}
+```
+
+### Errors
+
+A failed v1 request raises `HttpError`, with the status code, the response body and the response headers
+(lower-cased, so `headers["retry-after"]` on a 429). See [Errors](./v2/errors.md) for the whole hierarchy.
+
+---
+
+## Errors
+
+Every error the SDK raises extends `PlaneError`, and every class below is exported from the package root.
+
+| Error                       | Raised by | When                                                                             |
+| --------------------------- | --------- | -------------------------------------------------------------------------------- |
+| `PlaneApiError`             | v2        | the API answered an error: an RFC 9457 problem detail                            |
+| `NoMatchFoundError`         | v2        | a `findBy*` lookup matched nothing                                               |
+| `MultipleMatchesFoundError` | v2        | a `findBy*` lookup matched more than one row                                     |
+| `PlaneNetworkError`         | v2        | the request never reached a server: connection refused, DNS failure, timeout, …  |
+| `MissingPathIdError`        | v2        | a URL cannot be built because a path id is missing                               |
+| `HttpError`                 | v1        | a v1 request failed: the status code, the response body and the response headers |
+| `AttachmentTooLargeError`   | v1        | `workItems.attachments.download` passed its `maxBytes`                           |
+
+All seven extend `PlaneError` directly. In particular the lookup errors are **not** subclasses of
+`PlaneApiError`, so catching that alone does not catch them.
+
+### `PlaneApiError`
+
+`PlaneApiError` carries the problem detail as `.status`, `.type`, `.code`, `.detail` and `.errors`, the last
+being the per-field validation errors when the server sent them.
+
+```ts
+import { PlaneApiError, PlaneNetworkError } from "@hoyasumii/plane";
+
+try {
+  await client.v2.workspaces.projects.states.create("acme", "ENG", { name: "", color: "#000000" });
+} catch (error) {
+  if (error instanceof PlaneApiError) {
+    console.log(error.status, error.code, error.detail, error.errors);
+  } else if (error instanceof PlaneNetworkError) {
+    console.log("unreachable:", error.message, error.cause);
+  } else {
+    throw error;
+  }
+}
+```
+
+A bulk write answers HTTP 200 even when rows fail. `v2.raiseForFailures(result)` turns a failure into a
+`PlaneApiError` (see [Memberships and bulk writes](./memberships-and-bulk.md#bulk-writes)).
+
+---
+
+## Field projection
+
+`fields` narrows the **return type**, not just the response. Ask for two fields and the row you get back has
+those two plus `id`. Reading anything else is a compile error, not an `undefined` at runtime:
+
+```ts
+const page = await client.v2.workspaces.projects.states.list("acme", "ENG", { fields: ["id", "name"] });
+for (const state of page.data) {
+  console.log(state.id, state.name); // typed: only id/name exist on this row
+  // console.log(state.color);       // compile error: `color` was not requested
+}
+```
+
+An inline array literal needs no `as const`. The same holds for `iterate` and `retrieve`, and, since it is
+the same claim, for **writes**: `create`, `update` and `upsert` accept `fields` and narrow their answer the
+same way.
+
+```ts
+const created = await client.v2.workspaces.projects.states.create(
+  "acme",
+  "ENG",
+  { name: "In Review", color: "#4ECDC4" },
+  { fields: ["id", "name"] }
+);
+console.log(created.name); // narrowed; `created.color` would not compile
+```
+
+### Field lists built at runtime
+
+A field list built at runtime (not a literal) must still be typed as field names. Plain `string[]` is **not**
+assignable to `readonly StateField[]` and fails with a long overload-mismatch error. The row is narrowed to the
+list's **element type**, so type the variable as narrowly as you actually use it:
+
+```ts
+import { PlaneClient, v2 } from "@hoyasumii/plane";
+
+const client = new PlaneClient({ baseUrl: "https://api.plane.so", apiKey: "..." });
+
+// Narrowed to these two names, even though the value is chosen at run time.
+const wanted: ("id" | "name")[] = includeColor ? ["id", "name"] : ["id"];
+const page = await client.v2.workspaces.projects.states.list("acme", "ENG", { fields: wanted });
+
+// Typed as the whole union instead, this narrows to "every field", i.e. the full row.
+const anything: v2.StateField[] = includeColor ? ["id", "name", "color"] : ["id", "name"];
+const unnarrowed = await client.v2.workspaces.projects.states.list("acme", "ENG", { fields: anything });
+```
+
+`"all"` is a legal field value meaning "every field", and it correctly yields the full row type.
+
+Sparse responses mean every read field except `id` is optional in the models. Check for `undefined` rather
+than assuming presence. When the list was built dynamically, `row.$loaded.present` tells you what actually
+came back.
+
+### Navigated calls do not narrow
+
+**This limitation is the reason the flat form stays public.** A navigated call resolves against the general
+signature, so it accepts `fields` but does **not** narrow:
+
+```ts
+const eng = await client.v2.workspaces.projects.retrieve("acme", "ENG");
+const listed = await eng.states.list({ fields: ["id", "name"] }); // Page<State>, not narrowed
+```
+
+TypeScript erases a type parameter when it infers through the conditional type behind a navigation property,
+so the narrowing overload cannot be carried across. Matching the overload set instead would be worse, not
+better: the inference would erase `F` to its constraint and claim _every_ field is present. When you want the
+narrowed row, call the resource flat:
+`client.v2.workspaces.projects.states.list("acme", "ENG", { fields: [...] })`.
+
+### `expand` and `order_by`
+
+`expand` inlines related objects (`{ expand: ["state", "labels"] }` on a work item), validated against the
+operation's allowed values in `v2.EXPAND`.
+
+`order_by` is validated the same way `fields` is, against a generated union (`StateOrderBy`, `LabelOrderBy`,
+…). A literal outside that union is a compile error, and a value built at runtime is rejected client-side by
+`encodeOrderBy` rather than reaching the server as a 400.
+
+```ts
+await client.v2.workspaces.projects.states.list("acme", "ENG", { order_by: "-created_at" });
+```
+
+---
+
+## Loaded rows
+
+A resource that has children answers **navigable rows** from every row-returning method: the row's own data,
+plus one property per child, with the ids that produced it already supplied. This is the id-consumption rule:
+_an id is passed once, at the point it is known_. A resource with no children (`states`, `labels`, `roles`)
+answers the plain model, since there is nothing to reach from it.
+
+```ts
+const workspace = await client.v2.workspaces.retrieve("acme");
+
+await workspace.projects.list(); // no slug
+await workspace.teamspaces.list(); // no slug
+
+// And it chains: a fetched project carries both ids.
+const eng = await workspace.projects.retrieve("ENG");
+await eng.states.list(); // no slug, no project key
+await eng.workItems.create({ name: "Fix login bug", state: "Todo", labels: ["bug"] });
+
+// Three levels deep: a fetched work item carries all three.
+const item = await eng.workItems.retrieve("wi-1");
+await item.comments.list();
+```
+
+Chaining works because a row _knows which ids fetched it_. `list` and `iterate` hand back navigable rows too,
+so paging does not lose navigation:
+
+```ts
+for await (const project of client.v2.workspaces.projects.iterate("acme")) {
+  await project.states.list(); // still navigable
+}
+```
+
+### What a loaded row carries
+
+A navigable row has the type `Loaded<Row, Navigation>`. Each navigation property is an `Owned<Child, Ids>`
+view: the child resource's own methods, with the ids the row already holds dropped from the front. So
+`eng.states.list()` is `client.v2.workspaces.projects.states.list("acme", "ENG")` with both leading
+arguments supplied.
+
+- **`row.$loaded`** carries `ids`, `idNames` and `present`, the set of field names the server actually
+  returned. It and the navigation properties are non-enumerable, so `{ ...row }`, `Object.keys(row)` and
+  `JSON.stringify(row)` see the plain API row.
+- **A navigation property never shadows a field.** Where a child's natural name is already a field of the row,
+  the property is renamed and the field is kept: `estimate.estimatePoints` (because `?expand=points` returns a
+  real `points` field) and `property.propertyOptions` (likewise `options`). Building a row that would shadow a
+  field throws rather than hiding data.
+- **Only methods survive navigation.** A grandchild resource is not reachable from a view:
+  `project.workItems.comments` does not exist, because a comment needs a work item's own id, which only a
+  fetched work item carries. Fetch the work item first.
+
+```ts
+const project = await client.v2.workspaces.projects.retrieve("acme", "ENG");
+console.log(project.$loaded.ids, project.$loaded.present.has("name"));
+console.log(JSON.stringify(project)); // the plain API row, no navigation
+```
+
+### Where navigation stops
+
+`wiki` and `groupSync` are grouping nodes, not resources: they consume no path id of their own, so they are
+not navigation properties on a fetched workspace row. Reach them flat, as `client.v2.workspaces.wiki` and
+`client.v2.workspaces.groupSync`.
+
+`releases.labels` is the one place where a fetched row and the flat path differ. The class holds both the
+workspace-level label catalog (`list`/`create`, slug only) and the per-release membership bridge. A fetched
+release binds the bridge, so `release.labels.add(...)` works and `release.labels.list()` does not type-check.
+Reach the catalog flat.
+
+### Navigated calls do not narrow `fields`
+
+A navigated call accepts `fields` but answers the full row type. That is the one limitation of this form, and
+the reason the flat path stays public. See [Field projection](./field-projection.md#navigated-calls-do-not-narrow).
+
+### There is no third form
+
+`client.v2.workspace(slug).project(key)`, the bound locator chain earlier previews carried, is **deleted**, not
+deprecated. It bound nothing: every resource takes its ids per call, so `workspace(slug).roles.list(slug)`
+passed the slug twice. Every family it held is on `v2.workspaces` already.
+
+---
+
+## Lookups by human key
+
+A lookup resolves exactly one row on the server, and throws when there is not exactly one:
+`NoMatchFoundError` when nothing matches, `MultipleMatchesFoundError` when several do.
+
+- `findByName` wherever the API filters on `name`: states, labels, cycles, modules, projects, teamspaces,
+  views, wiki collections, work item types and properties, property options and contexts, and more.
+- `roles.findBySlug`, `estimates.points.findByKey`, `releases.tags.findByVersion`.
+- `customerProperties.findByDisplayName`, next to `findByName`.
+
+```ts
+await client.v2.workspaces.projects.states.findByName("acme", "ENG", "Todo");
+await client.v2.workspaces.roles.findBySlug("acme", "admin", { namespace: "workspace" });
+await client.v2.workspaces.projects.estimates.points.findByKey("acme", "ENG", estimateId, 3);
+```
+
+On custom properties, `name` is the machine key (for example, `story_points`), not the label shown in the app.
+
+Both errors extend `PlaneError`, **not** `PlaneApiError`, so catching `PlaneApiError` alone does not catch
+them:
+
+```ts
+import { MultipleMatchesFoundError, NoMatchFoundError } from "@hoyasumii/plane";
+
+try {
+  await client.v2.workspaces.projects.states.findByName("acme", "ENG", "Todo");
+} catch (error) {
+  if (error instanceof NoMatchFoundError) console.log("no such state");
+  else if (error instanceof MultipleMatchesFoundError) console.log("the name is ambiguous");
+  else throw error;
+}
+```
+
+---
+
+## Memberships and bulk writes
+
+**There are two batch caps, and they are different numbers.**
+
+| Batch               | Cap                            | Methods                                          |
+| ------------------- | ------------------------------ | ------------------------------------------------ |
+| A membership bridge | `v2.BRIDGE_MAX_IDS` (100) ids  | `add` / `remove` (and `link` on type properties) |
+| A bulk write        | `v2.BULK_MAX_ITEMS` (50) items | `bulkCreate` / `bulkUpdate` / `bulkDelete`       |
+
+The first is the golden's `maxItems` on the 24 `add`/`remove` schemas, the second its `maxItems` on the 21 bulk
+create/update/delete schemas. Sizing a bridge call at 50 works but wastes half of each round trip; sizing a bulk
+call at 100 throws client-side.
+
+### Memberships
+
+Memberships are `add`/`remove` on a sub-resource named for the thing being added: path ids first, then
+1..100 ids (`BRIDGE_MAX_IDS`). An empty or oversized list throws before any request. Each call sends only its
+own verb and resolves to the ids the server actually changed.
+
+```ts
+const v2ns = client.v2;
+
+await v2ns.workspaces.projects.cycles.workItems.add("acme", "ENG", cycleId, [itemId]); // -> ["<item id>"]
+await v2ns.workspaces.projects.modules.workItems.remove("acme", "ENG", moduleId, [itemId]);
+await v2ns.workspaces.releases.labels.add("acme", releaseId, [labelId]);
+await v2ns.workspaces.initiatives.projects.add("acme", initiativeId, [projectId]);
+await v2ns.workspaces.wiki.collections.members.add("acme", collectionId, [{ member_id: userId, access: 1 }]);
+```
+
+Properties on a work item type use `link`/`unlink` instead, matching the web app. `unlink` deletes that
+property's values on every work item of the type.
+
+```ts
+await client.v2.workspaces.projects.workItemTypes.properties.link("acme", "ENG", typeId, [propertyId]);
+await client.v2.workspaces.projects.workItemTypes.properties.unlink("acme", "ENG", typeId, propertyId);
+```
+
+### Bulk writes
+
+`bulkCreate` / `bulkUpdate` / `bulkDelete` always answer HTTP 200, even when some rows fail: partial success is
+the default. The answer counts `succeeded` and `failed` and has one entry per row in `results`. Call
+`v2.raiseForFailures(result)` to throw a `PlaneApiError` carrying the first failure's `errors`, or read the
+failed rows with `v2.bulkFailures(result)`.
+
+The cap is 50 items per call (`BULK_MAX_ITEMS`), not the 100 a membership bridge takes. An empty batch is
+rejected client-side rather than being a silent no-op.
+
+```ts
+import { v2 } from "@hoyasumii/plane";
+
+const result = await client.v2.workspaces.projects.states.bulkCreate("acme", "ENG", [{ name: "QA", color: "#ffffff" }]);
+v2.raiseForFailures(result);
+
+// Each bulkUpdate item is the patch plus the target id.
+await client.v2.workspaces.projects.states.bulkUpdate("acme", "ENG", [{ id: "state-1", color: "#000000" }]);
+```
+
+Every bulk method takes a last `allOrNone` argument (default `false`). Pass `true` to ask the server to apply
+every row or none of them.
+
+To write more than 50 rows, split them yourself:
+
+```ts
+import { v2, v2models } from "@hoyasumii/plane";
+
+const rows: v2models.CreateState[] = [{ name: "QA", color: "#ffffff" }];
+
+for (let start = 0; start < rows.length; start += v2.BULK_MAX_ITEMS) {
+  const chunk = rows.slice(start, start + v2.BULK_MAX_ITEMS);
+  v2.raiseForFailures(await client.v2.workspaces.projects.states.bulkCreate("acme", "ENG", chunk));
+}
+```
+
+---
+
+## API v2 overview
+
+`client.v2` reaches the v2 surface: 90 resource classes, generated against Plane's api_v2 OpenAPI document.
+The v1 resources on the client are unchanged (see [API v1](../v1.md)).
+
+There are **two ways in**, and they are the same resources either way:
+
+1. **The flat path.** Every resource is an attribute, and every id is an argument.
+2. **Loaded rows.** A fetched row is where its children live. See [Loaded rows](./loaded-rows.md).
+
+### The flat path
+
+A resource hangs off the namespace at the position its URL puts it, and takes the ids its URL names as
+**leading positional arguments**, in path order:
+
+```ts
+import { PlaneClient } from "@hoyasumii/plane";
+
+const client = new PlaneClient({ baseUrl: "https://api.plane.so", apiKey: "..." });
+
+// GET /workspaces/acme/projects/ENG/states/
+await client.v2.workspaces.projects.states.list("acme", "ENG");
+
+// GET /workspaces/acme/projects/ENG/work-items/wi-1/comments/
+await client.v2.workspaces.projects.workItems.comments.list("acme", "ENG", "wi-1");
+
+// GET /workspaces/acme/teamspaces/
+await client.v2.workspaces.teamspaces.list("acme");
+```
+
+`v2.workspaces` and `v2.workspaces.projects` are the two roots. Every resource sits at exactly one attribute
+path, the one its URL names: a workspace-level resource under `v2.workspaces`, a project-level one under
+`v2.workspaces.projects`.
+
+`project` accepts a project's UUID **or** its readable identifier (`"ENG"`). A work item can be reached by its
+human key with `retrieveByIdentifier`. No v2 method takes a `workspaceSlug` or `project` option object: path
+ids are positional and always first, in URL order, and everything else lives in the trailing `params` object.
+
+```ts
+// ENG-123, without knowing its project first.
+const item = await client.v2.workspaces.workItems.retrieveByIdentifier("acme", "ENG-123");
+console.log(item.name);
+```
+
+### The standard methods
+
+Most resources expose some of the same verbs, each with its path ids first:
+
+| Method                                     | What it does                                                            |
+| ------------------------------------------ | ----------------------------------------------------------------------- |
+| `list(...ids, params?)`                    | one page of rows ([Pagination](./pagination.md))                        |
+| `iterate(...ids, params?)`                 | an async iterator that follows the pages for you                        |
+| `retrieve(...ids, id, params?)`            | one row                                                                 |
+| `create(...ids, data, params?)`            | a new row                                                               |
+| `update(...ids, id, data, params?)`        | a partial update                                                        |
+| `upsert(...ids, data, params?)`            | create, or update the row with the same `external_source`/`external_id` |
+| `delete(...ids, id)`                       | removes the row                                                         |
+| `archive` / `unarchive`                    | on projects and work items                                              |
+| `bulkCreate` / `bulkUpdate` / `bulkDelete` | batches ([Memberships and bulk writes](./memberships-and-bulk.md))      |
+| `findByName` and other `findBy*`           | exactly one row by a human key ([Lookups](./lookups.md))                |
+
+Reads and writes that accept `fields` narrow their return type to the fields you asked for
+([Field projection](./field-projection.md)). `expand` inlines related objects, and `order_by` is checked
+against the operation's own sort orders.
+
+### Generated data
+
+`v2.FIELDS`, `v2.EXPAND` and `v2.ORDER_BY` are the full operation-id → allowed-values maps the encoders
+validate against (for example, `v2.FIELDS["states_list"]` lists every field `states.list` accepts).
+`v2.OPENAPI_VERSION` is the api_v2 document version the SDK was generated from. All of them, plus the two caps
+`v2.BULK_MAX_ITEMS` and `v2.BRIDGE_MAX_IDS`, are exported so you can enumerate valid values instead of guessing.
+
+```ts
+import { v2 } from "@hoyasumii/plane";
+
+console.log(v2.OPENAPI_VERSION, v2.FIELDS["states_list"]);
+```
+
+---
+
+## Pagination
+
+`list()` answers one page. `Page<T>` is a union of the offset envelope (`total_count`, `next`) and the cursor
+envelope (`has_more`, `next_cursor`), and which one you get depends on the request's `paginate` param. Narrow
+it with `v2.isCursorPage` / `v2.isOffsetPage` before reading an envelope-specific field. Reading one without
+narrowing is a compile error, since it may not exist on the other half of the union:
+
+```ts
+import { v2 } from "@hoyasumii/plane";
+
+const page = await client.v2.workspaces.projects.states.list("acme", "ENG");
+if (v2.isOffsetPage(page)) {
+  console.log(page.total_count); // only reachable once narrowed
+} else if (v2.isCursorPage(page)) {
+  console.log(page.next_cursor);
+}
+```
+
+Every page has `data`, the rows themselves.
+
+### The paging knobs
+
+List params take `per_page`, plus either `offset` (offset paging) or `paginate: "cursor"` with the `cursor`
+of the previous page. `count: false` skips computing `total_count` on an offset page.
+
+```ts
+const first = await client.v2.workspaces.projects.workItems.list("acme", "ENG", { per_page: 50, paginate: "cursor" });
+if (v2.isCursorPage(first) && first.has_more) {
+  await client.v2.workspaces.projects.workItems.list("acme", "ENG", {
+    per_page: 50,
+    paginate: "cursor",
+    cursor: first.next_cursor ?? undefined,
+  });
+}
+```
+
+### `iterate`
+
+`iterate` follows the pages for you and yields rows, so it does not accept the knobs its own loop sets. Rows
+from a navigable resource stay navigable:
+
+```ts
+for await (const item of client.v2.workspaces.projects.workItems.iterate("acme", "ENG", { per_page: 100 })) {
+  console.log(item.name);
+}
+```
+
+---
+
+## Types
+
+v2 types are reachable through the `v2` and `v2models` namespaces (for example, `v2models.State` and
+`v2.StateField`). The most common ones are also aliased at the package root: `V2Label`, `V2State`,
+`V2Project`, `V2Workspace`, `V2WorkItem`, `V2Cycle`, `V2Module`, `V2Milestone`, `V2ListStatesParams` and
+`V2ListLabelsParams`, and the `V2Create*`/`V2Update*` request models.
+
+Use those names. v2's bare `Label`/`State`/`Project`/`Workspace`/`Page` names collide with v1's in the bundled
+type definitions, so `import { Workspace } from "@hoyasumii/plane"` resolves to **v1's** shape, not v2's.
+`V2Page` is the wiki page model, and the pagination envelope `Page<T>` is aliased separately as
+`V2PageEnvelope`.
+
+```ts
+import type { V2PageEnvelope, V2State, v2, v2models } from "@hoyasumii/plane";
+
+const fields: v2.StateField[] = ["id", "name"];
+const page: V2PageEnvelope<V2State> = await client.v2.workspaces.projects.states.list("acme", "ENG");
+const first: v2models.State | undefined = page.data[0];
+```
+
+The types a navigable row resolves to are exported under `v2` too: `v2.LoadedProject`, `v2.ProjectNavigation`,
+`v2.ProjectIds`, `v2.PROJECT_ID_NAMES`, and the same set for each family, plus the `v2.Loaded`, `v2.Owned` and
+`v2.LoadedMeta` kernel types.
+
+Read models mark every field except `id` optional, because `?fields=` and collection deferral can omit any of
+them.
+
+For the full list of exported classes, models and helpers, see the [API reference](/docs/api).
+
+---
+
+## Wiki
+
+`v2.workspaces.wiki` groups the workspace wiki:
+
+- `v2.workspaces.wiki.pages` is every global page in the workspace. A project's pages are
+  `v2.workspaces.projects.pages` instead.
+- `v2.workspaces.wiki.collections` is the wiki's collections, with their `members` bridge.
+
+A page write's `collection_id` can be omitted for a public page, which lands in the workspace's default
+"General" collection. A private page needs an explicit `collection_id` of a collection the caller owns.
+
+```ts
+const wiki = client.v2.workspaces.wiki;
+
+await wiki.pages.create("acme", { name: "Handbook" }); // public page -> default collection
+const handbook = await wiki.collections.findByName("acme", "Engineering handbook");
+await wiki.pages.create("acme", { name: "Runbook", collection_id: handbook.id });
+await wiki.collections.default("acme"); // the default collection, resolved via `is_default`
+```
+
+`wiki` and `groupSync` are grouping nodes, not resources: they consume no path id of their own, so they are not
+navigation properties on a fetched workspace row. Reach them flat.
+
+The wiki page model is exported as `V2Page` from the package root, and as `v2models.Page`.
+
+---
+
+## Configuration
+
+The server, the `plane-mcp` bin and the `plane` CLI read the same four settings:
+
+| Setting           | Flag          | Default                | Meaning                                                       |
+| ----------------- | ------------- | ---------------------- | ------------------------------------------------------------- |
+| `PLANE_API_KEY`   | `--api-key`   | none (required)        | the Plane API key, sent as `X-Api-Key`                        |
+| `PLANE_BASE_URL`  | `--base-url`  | `https://api.plane.so` | the Plane instance: Plane Cloud, or your self-hosted URL      |
+| `PLANE_WORKSPACE` | `--workspace` | none                   | a default workspace: with it, every tool's `slug` is optional |
+| `PORT`            | `--port`      | `3766`                 | the HTTP server's port on `127.0.0.1`                         |
+
+Each one is taken from the first of: a flag, the environment, the saved file, the default. The resolution lives
+in `resolveMcpConfig` (`src/mcp/config.ts`).
+
+### The saved file
+
+`plane mcp config` saves the settings to a per-user `.env`:
+
+| OS      | Path                                                 |
+| ------- | ---------------------------------------------------- |
+| Linux   | `~/.config/plane/.env` (honouring `XDG_CONFIG_HOME`) |
+| macOS   | `~/Library/Application Support/plane/.env`           |
+| Windows | `%APPDATA%\plane\.env`                               |
+
+`PLANE_CONFIG` (or `--config`) points at another file instead. The background server's pid file and log live
+in a `run/` folder beside it.
+
+```text
+PLANE_API_KEY=plane_api_0123456789abcdef
+PLANE_BASE_URL=https://plane.example.com
+PLANE_WORKSPACE=acme
+PORT=3766
+```
+
+Every `plane` command except `plane mcp config` and `plane mcp uninstall` refuses to run until that file holds
+an API key. Flags and environment variables then override the saved values for that run only. `plane-mcp` and
+the in-process `plane <tool>` read the saved file too.
+
+See [`plane mcp config`](../cli/mcp-commands.md#plane-mcp-config) for the three ways to write it.
+
+### From code
+
+The same resolution is exported, for tools that want to reuse the saved configuration:
+
+```ts
+import { configFilePath, readEnvFile, resolveMcpConfig, startPlaneMcpServer } from "@hoyasumii/plane/mcp";
+
+const config = resolveMcpConfig({ env: process.env, file: readEnvFile(configFilePath()) });
+if (!config.apiKey) throw new Error("run `plane mcp config` first");
+
+const server = await startPlaneMcpServer(config);
+console.log(server.url);
+```
+
+---
+
+## Generic tools
+
+Three tools reach every v2 method the SDK has, across all 90 resources: cycles, modules, pages, releases,
+initiatives, customers, webhooks, and the rest. They live in `src/mcp/tools/generic.ts`.
+
+1. **`plane_resources`** finds a resource. Without a `query`, it lists every resource path with its method
+   names. With one (`"cycle work items"`, `"webhook"`), it shows the matching resources with their method
+   signatures.
+2. **`plane_describe`** takes a `resource` and a `method` and shows the full signature: the parameters in call
+   order (with the write-body fields), which of them are path ids, the allowed `fields`/`expand`/`order_by`/
+   filter values, and an example `plane_call` input.
+3. **`plane_call`** runs the method, with its arguments by parameter name.
+
+A typical exchange, as the agent sees it:
+
+```json
+{ "tool": "plane_resources", "arguments": { "query": "cycle" } }
+{ "tool": "plane_describe", "arguments": { "resource": "workspaces.projects.cycles", "method": "list" } }
+{
+  "tool": "plane_call",
+  "arguments": {
+    "resource": "workspaces.projects.cycles",
+    "method": "list",
+    "args": { "slug": "acme", "project": "ENG", "params": { "per_page": 20 } }
+  }
+}
+```
+
+### `plane_call`
+
+| Input      | Meaning                                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------- |
+| `resource` | the dotted resource path, e.g. `workspaces.projects.states`                                          |
+| `method`   | the method name, e.g. `list`, `create`, `add`                                                        |
+| `args`     | arguments by parameter name: path ids first (`slug`, `project`, …), then the `data`/`params` objects |
+| `limit`    | for `iterate` methods: how many items to collect (default 100, at most 1000)                         |
+| `confirm`  | must be `true` to run a destructive method                                                           |
+
+`slug` defaults to the configured workspace. List `params` accept `fields`, filters, `order_by`, `per_page` and
+`offset`. A result longer than 60,000 characters is cut, with a note saying so.
+
+**Destructive methods** (`delete`, `bulkDelete`, `remove`, `unlink`) refuse to run without `confirm: true`. The
+tool description tells the agent to ask the user first.
+
+### The catalog
+
+The generic tools read `src/mcp/generated/catalog.json`: resource paths, parameter names in call order, and
+the allowed values from the api_v2 OpenAPI document. It is generated from the SDK source by
+`pnpm codegen:mcp`, and never edited by hand.
+
+`plane_call` only reaches methods in the catalog, and orders the named arguments by the parameter names it
+declares. On an instance without API v2, `plane_resources` and `plane_call` refuse with a message that points to
+the typed tools; `plane_describe` keeps working, since it reads only the catalog.
+
+---
+
+## MCP server overview
+
+## MCP server
+
+`@hoyasumii/plane/mcp` turns the SDK into an [MCP](https://modelcontextprotocol.io) server, so Claude Code,
+Codex, OpenCode, Claude Desktop or any other MCP client can work with Plane.
+
+### Two transports
+
+| Transport           | Who runs the server                                      | How to start it                                      |
+| ------------------- | -------------------------------------------------------- | ---------------------------------------------------- |
+| **stdio** (default) | the MCP client launches `plane-mcp` and owns the process | `plane mcp install`, or register `plane-mcp` by hand |
+| **Streamable HTTP** | one long-running server that several clients share       | `plane mcp start`, `plane-mcp --http`, or from code  |
+
+In stdio mode the server starts with the client and ends when the client closes stdin. stdout carries the
+protocol, so the server logs to stderr only. In HTTP mode it listens on `127.0.0.1` only, stateless over
+Streamable HTTP (`POST /mcp`), and its cache is shared by every client that connects.
+
+### Three kinds of tools
+
+- **[Task tools](./task-tools.md)** (`plane_get_issue`, `plane_update_issue`, `plane_add_comment`, …) are the
+  stable contract task-driven agent workflows rely on. They take tasks by key (`ACME-130`) and projects, states,
+  labels and members by name, and they answer readable output with no ids. They always use API v1, which both
+  Plane Cloud and self-hosted serve.
+- **[Work item tools](./work-item-tools.md)** (`plane_list_work_items`, `plane_get_work_item`,
+  `plane_create_work_item`, `plane_update_work_item`) use API v2, with its filters, `fields` and `expand`.
+- **[Generic tools](./generic-tools.md)** (`plane_resources`, `plane_describe`, `plane_call`) reach every
+  other v2 method, across all 90 resources.
+
+### Instances without API v2
+
+Self-hosted Plane 1.4.x answers 404 to every `/api/v2` route. The server finds out with one
+`GET /api/v2/users/me/` the first time it needs to, and remembers the answer for the life of the process. A bad
+key or a network error is not remembered. On such an instance:
+
+- The task tools work as usual, since they use v1 anyway.
+- The `*_work_item` tools answer through v1 with the same inputs. Parameters only v2 can serve (`cycle_id`,
+  `module_id`, `order_by`, `fields`, `expand`, `type`, `estimate`) fail by name.
+- `plane_resources` and `plane_call` say that v2 is unavailable and point to the typed tools, instead of
+  relaying a 404. `plane_describe` still works, because it reads only the catalog.
+
+`plane_whoami` reports which API the instance serves (`v1` or `v2`).
+
+### Next steps
+
+- [Setup](./setup.md): register the server in your MCP client.
+- [Configuration](./configuration.md): the settings and where they are saved.
+- [Programmatic use](./programmatic.md): start the server from your own code.
+
+---
+
+## Programmatic use
+
+`@hoyasumii/plane/mcp` exports the server itself, for embedding it in your own process.
+
+### stdio
+
+`servePlaneMcpStdio` speaks MCP on stdin/stdout, the way a client runs a server it launched itself. It resolves
+once connected, and `closed` settles when the client closes stdin. stdout is the protocol channel: log to stderr
+only.
+
+```ts
+import { servePlaneMcpStdio } from "@hoyasumii/plane/mcp";
+
+const stdio = await servePlaneMcpStdio({ baseUrl: "https://api.plane.so", apiKey: "your-api-key" });
+await stdio.closed; // the client closed stdin
+```
+
+Options: `baseUrl`, `apiKey`, `workspace?` (the default workspace), and `stdin?`/`stdout?` to use other
+streams.
+
+### Streamable HTTP
+
+`startPlaneMcpServer` serves Streamable HTTP on `127.0.0.1`, statelessly. One process shares one cache and one
+API-version probe across every request.
+
+```ts
+import { startPlaneMcpServer } from "@hoyasumii/plane/mcp";
+
+const mcp = await startPlaneMcpServer({
+  port: 3766,
+  baseUrl: "https://api.plane.so",
+  apiKey: "your-api-key",
+});
+console.log(mcp.url); // http://127.0.0.1:3766/mcp
+// later: await mcp.close();
+```
+
+`port: 0` picks a free port, which you can read back from `mcp.port`. The server:
+
+- answers MCP on `POST /mcp`;
+- answers `GET /health` with `{ "ok": true, "workspace": …, "api": "v1" | "v2" | "unknown" }`;
+- refuses a request whose `Host` is not `127.0.0.1`, `localhost` or `[::1]`, against DNS rebinding;
+- with a `shutdownToken`, closes on `POST /shutdown` carrying the header `X-Plane-Shutdown: <token>` (or calls
+  your `onShutdown`). `plane mcp stop` uses this.
+
+### Any other transport
+
+`buildPlaneMcpServer(client)` returns the bare `McpServer` from `@modelcontextprotocol/sdk`, with every tool
+registered and no transport attached:
+
+```ts
+import { PlaneClient } from "@hoyasumii/plane";
+import { buildPlaneMcpServer } from "@hoyasumii/plane/mcp";
+
+const server = buildPlaneMcpServer(new PlaneClient({ apiKey: "your-api-key" }), { workspace: "acme" });
+// await server.connect(yourTransport);
+```
+
+### The catalog and `invoke`
+
+The generic tools are built on exports you can use directly: `CATALOG` (every v2 resource and method),
+`searchCatalog`, `describeMethod`, and `invoke(client, resource, method, options)`, which calls a catalog method
+with named arguments and refuses a destructive one without `confirm: true`.
+
+```ts
+import { PlaneClient } from "@hoyasumii/plane";
+import { invoke } from "@hoyasumii/plane/mcp";
+
+const plane = new PlaneClient({ apiKey: "your-api-key" });
+const states = await invoke(plane, "workspaces.projects.states", "list", { args: { slug: "acme", project: "ENG" } });
+```
+
+---
+
+## Setup
+
+### The quick way
+
+Save your settings once, then let the CLI register the server in the clients it finds:
+
+```bash
+npx plane mcp config    # asks for the API key, the instance URL, a default workspace and a port
+npx plane mcp install   # finds Claude Code, Codex and OpenCode on your PATH and registers plane-mcp (stdio)
+```
+
+`install` shows a checklist of the clients it found. Tick the ones you want, and it registers the server
+through each client's own CLI, under the name `plane`. The registered command reads the saved configuration
+when the client launches it, so no API key ends up in the client's config. See
+[`plane mcp install`](../cli/mcp-commands.md#plane-mcp-install) for the flags.
+
+### By hand: stdio
+
+Let the client start `plane-mcp`. It reads the saved configuration, so the client config needs no keys:
+
+```json
+{
+  "mcpServers": {
+    "plane": { "command": "npx", "args": ["-y", "-p", "@hoyasumii/plane", "plane-mcp"] }
+  }
+}
+```
+
+In Claude Code:
+
+```bash
+claude mcp add plane -- npx -y -p @hoyasumii/plane plane-mcp
+```
+
+Without a saved configuration, or to override it, give the client an `env` block with `PLANE_API_KEY`,
+`PLANE_BASE_URL` and `PLANE_WORKSPACE`:
+
+```json
+{
+  "mcpServers": {
+    "plane": {
+      "command": "npx",
+      "args": ["-y", "-p", "@hoyasumii/plane", "plane-mcp"],
+      "env": { "PLANE_API_KEY": "your-api-key", "PLANE_WORKSPACE": "acme" }
+    }
+  }
+}
+```
+
+### By hand: HTTP
+
+Run one server in the background and point your clients at its URL:
+
+```bash
+npx plane mcp start          # prints the URL, http://127.0.0.1:3766/mcp by default
+claude mcp add --transport http plane http://127.0.0.1:3766/mcp
+```
+
+Without the CLI: `PORT=3766 PLANE_BASE_URL=... PLANE_API_KEY=... npx plane-mcp --http` runs it in the
+foreground. `plane-mcp --help` lists the flags. To start the server at every login, run
+`npx plane mcp boot enable` (see [`plane mcp boot`](../cli/mcp-commands.md#plane-mcp-boot)).
+
+### Checking it works
+
+Ask your agent to call `plane_whoami`, or run it from the terminal:
+
+```bash
+npx plane whoami
+```
+
+It answers the key's user, the default workspace, the base URL and the API the instance serves.
+
+---
+
+## Task tools
+
+These tools are the stable contract that task-driven agent workflows rely on. They take tasks by key
+(`ACME-130`) and projects, states, labels and members by name, and they answer readable output with no ids.
+They live in `src/mcp/tools/kit.ts`.
+
+Every tool takes an optional `slug` (the workspace). With a default workspace configured (`PLANE_WORKSPACE`),
+it can be omitted everywhere.
+
+| Tool                     | What it does                                                                                             |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `plane_whoami`           | the key's user, the workspace, the base URL and the API the instance serves (`v1`/`v2`)                  |
+| `plane_list_projects`    | projects of the workspace, with the identifier used in keys                                              |
+| `plane_list_my_issues`   | tasks assigned to me (open ones by default), in one project or all of them                               |
+| `plane_search_issues`    | a project's tasks by text, assignee and state group                                                      |
+| `plane_get_issue`        | one task: state and group, priority, assignees and labels by name, dates, `url`, the description as text |
+| `plane_get_issue_images` | downloads the description images to `image-<n>.<ext>` (default `<tmp>/plane-mcp/<KEY>/`)                 |
+| `plane_list_comments`    | a task's comments, oldest first: author, date, text                                                      |
+| `plane_add_comment`      | comments as the key's user                                                                               |
+| `plane_create_issue`     | creates a task, writing state, labels and assignees by name                                              |
+| `plane_update_issue`     | changes only the fields given                                                                            |
+| `plane_list_states`      | the project's states, with their group                                                                   |
+| `plane_list_labels`      | the project's labels                                                                                     |
+| `plane_list_members`     | who can be assigned: display name and email                                                              |
+
+None of these tools deletes anything.
+
+### Inputs
+
+| Tool                                                             | Inputs (besides `slug`)                                                                                            |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `plane_list_my_issues`                                           | `project?`, `state_groups?` (default: backlog, unstarted, started), `limit` (1–200, default 50)                    |
+| `plane_search_issues`                                            | `project`, `query?`, `assignee?` (name, email or `"me"`), `state_groups?`, `limit` (1–200, default 30)             |
+| `plane_get_issue`                                                | `key`                                                                                                              |
+| `plane_get_issue_images`                                         | `key`, `dir?` (an absolute folder, created if missing)                                                             |
+| `plane_list_comments`                                            | `key`                                                                                                              |
+| `plane_add_comment`                                              | `key`, `text`, `format` (`"text"`, the default, or `"markdown"`)                                                   |
+| `plane_create_issue`                                             | `project`, `title`, `description?`, `state?`, `priority?`, `assignees?`, `labels?`, `start_date?`, `target_date?`  |
+| `plane_update_issue`                                             | `key`, then any of `title`, `description`, `state`, `priority`, `assignees`, `labels`, `start_date`, `target_date` |
+| `plane_list_states` / `plane_list_labels` / `plane_list_members` | `project`                                                                                                          |
+
+State groups are `backlog`, `unstarted`, `started`, `completed` and `cancelled`. Priorities are `urgent`,
+`high`, `medium`, `low` and `none`. Dates are `YYYY-MM-DD`.
+
+### How names are resolved
+
+- **Projects** by identifier (`ACME`), name or id.
+- **States** and **labels** by name, within the task's project.
+- **Members** by `"me"`, email, display name, full name or id.
+
+A value that matches nothing fails with the list of valid options, so the agent can correct itself.
+
+### Writing
+
+- `plane_create_issue` assigns the key's user unless `assignees` is given (`[]` means nobody).
+- In `plane_update_issue`, `assignees` and `labels` replace the whole list, `description` replaces the whole
+  description, and a `null` date clears it. Passing no field at all is an error.
+- `description` is plain text: each line becomes a paragraph.
+- In `plane_add_comment`, `format: "text"` makes one paragraph per line; `format: "markdown"` renders GFM
+  (headings, lists, checkboxes, bold) and escapes raw HTML.
+
+### Images
+
+In `plane_get_issue`, each image of the description becomes an `[image n]` marker in the text and is listed in
+`images`. `plane_get_issue_images` saves them in the same order, as `image-<n>.<ext>`, so the agent can open
+them with its file-reading tool. It detects the type from the file signature and caps each file at 20 MB. A
+failed or external image does not stop the others.
+
+On Plane 1.4.2 the documented asset download (`GET /workspaces/<ws>/assets/<id>/`) answers 500. The server
+therefore calls `client.workItems.attachments.download`, which reads the redirect from the attachment detail
+and follows the signed URL without sending the API key.
+
+### Rate limits and caching
+
+Plane allows 60 requests a minute. On a `429` the server waits out the `Retry-After` once (60 s at most) and
+retries. Projects, states, labels, members and the current user are cached for five minutes, shared by every
+request the process serves.
+
+---
+
+## Work item tools
+
+Four typed tools cover work items over API v2, with v2's filters, `fields` and `expand`. They live in
+`src/mcp/tools/curated.ts`. Everything else goes through the [generic tools](./generic-tools.md).
+
+| Tool                     | What it does                                                                 |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| `plane_list_work_items`  | work items in one project, or across the workspace when `project` is omitted |
+| `plane_get_work_item`    | one work item, by identifier (`ENG-123`) or by UUID plus `project`           |
+| `plane_create_work_item` | creates a work item in a project                                             |
+| `plane_update_work_item` | changes the fields given, and sends only those                               |
+
+`slug` is required unless a default workspace is configured. `project` is a project UUID or its identifier
+(`ENG`), and `workItem` an identifier like `ENG-123` or a UUID. With an identifier, no project is needed: it is
+resolved through the workspace-wide lookup.
+
+### `plane_list_work_items`
+
+| Input          | Meaning                                                                 |
+| -------------- | ----------------------------------------------------------------------- |
+| `project?`     | one project; omitted, the whole workspace                               |
+| `search?`      | free-text search                                                        |
+| `state_id?`    | one state                                                               |
+| `state_group?` | `backlog`, `unstarted`, `started`, `completed`, `cancelled` or `triage` |
+| `assignee_id?` | one assignee                                                            |
+| `label_id?`    | one label                                                               |
+| `priority?`    | `none`, `low`, `medium`, `high` or `urgent`                             |
+| `cycle_id?`    | one cycle                                                               |
+| `module_id?`   | one module                                                              |
+| `order_by?`    | a sort order, e.g. `-updated_at`                                        |
+| `fields?`      | only these fields, e.g. `["name", "state_id"]`                          |
+| `per_page?`    | page size, 1–100                                                        |
+| `offset?`      | rows to skip, for the next page                                         |
+
+For the filters these inputs do not cover, run `plane_describe` on `workspaces.projects.workItems` `list`.
+
+### `plane_get_work_item`
+
+`workItem`, plus `project` (only when `workItem` is a UUID) and `expand` (related objects to inline, e.g.
+`["state", "labels"]`).
+
+### `plane_create_work_item` and `plane_update_work_item`
+
+Both take `project` (create) or `workItem` (update), then the work item fields. `name` is required on create.
+
+| Field                        | Meaning                                                         |
+| ---------------------------- | --------------------------------------------------------------- |
+| `name`                       | the title                                                       |
+| `description_html`           | the description as HTML, e.g. `<p>text</p>`                     |
+| `state` / `state_id`         | a state name (`In Progress`) or its id                          |
+| `priority`                   | `none`, `low`, `medium`, `high` or `urgent`                     |
+| `assignees` / `assignee_ids` | assignee emails, or their ids                                   |
+| `labels` / `label_ids`       | label names, or their ids                                       |
+| `parent`                     | the parent work item's identifier or id                         |
+| `type`                       | a work item type name                                           |
+| `start_date` / `target_date` | `YYYY-MM-DD`; the target date cannot come before the start date |
+| `estimate`                   | an estimate value                                               |
+| `cycle_id`                   | a cycle id, or `null`                                           |
+
+### On an instance without API v2
+
+On self-hosted Plane 1.4.x these four tools answer through v1 (`src/mcp/tools/work-items-v1.ts`) with the
+same inputs. The parameters only v2 can serve (`cycle_id`, `module_id`, `order_by`, `fields`, `expand`, `type`,
+`estimate`) fail by name instead of being ignored.
+
+---
+
+## plane mcp
+
+## `plane mcp`
+
+`plane mcp` manages the MCP server for you: its saved configuration, a background HTTP server, a login service,
+and its registration in your MCP clients.
+
+```bash
+npx plane mcp config                 # asks for the settings in the terminal and saves them
+npx plane mcp config --workspace acme --port 4000   # no prompts (scripts, CI): saves just these, keeps the rest
+npx plane mcp config --web           # the same, in a local web form
+npx plane mcp install                # pick Claude Code / Codex / OpenCode and register plane-mcp (stdio) in them
+npx plane mcp install --client claude,opencode --force   # no picker (scripts, CI); --force replaces an entry
+npx plane mcp uninstall              # pick the clients to remove the 'plane' entry from (no saved config needed)
+npx plane mcp start                  # start in the background (needs a saved config); prints the URL for `claude mcp add`
+npx plane mcp start --api-key other --port 4000   # one-off values, never saved
+npx plane mcp status                 # running or stopped (exit 3), URL, pid, uptime
+npx plane mcp stop
+npx plane mcp boot enable            # start at every login; `boot disable` / `boot status`
+```
+
+### `plane mcp config`
+
+Writes the saved `.env` ([Configuration](../mcp/configuration.md)). It works three ways:
+
+- **In the terminal** (the default). It asks for each setting in turn, starting from the saved values. The key
+  is typed masked, and enter keeps the saved one. For the other settings, clear the line (Ctrl+U) to go back to
+  the default.
+- **With flags.** Given any of `--api-key`, `--base-url`, `--workspace` or `--port`, it asks nothing and saves
+  just those (`--workspace=` clears one). Without a terminal, it needs them. A key passed as a flag stays in your
+  shell history, so prefer the prompt for it.
+- **In a web form** with `--web`: a local page, opened in the browser (`--no-open` to only print its URL).
+
+If a server is running, it is told to restart to pick the changes up. `--config <file>` (or `PLANE_CONFIG`)
+writes another file.
+
+### `plane mcp install`
+
+Detects each client by running its `--version`, and registers the stdio server through the client's own CLI,
+under the name `plane`:
+
+| Client      | Command it runs             |
+| ----------- | --------------------------- |
+| Claude Code | `claude mcp add -s user`    |
+| Codex       | `codex mcp add`             |
+| OpenCode    | `opencode mcp add --global` |
+
+The registered command is `node <package>/dist/mcp/cli.js` by absolute path, with no API key: the server reads
+the saved file when the client launches it (`PLANE_CONFIG` is passed only when `--config` names another file).
+
+Every client found starts ticked. One that already has a `plane` entry is marked
+`already installed, reinstalls` and gets it replaced. Without an interactive terminal, `--client` is required
+(`claude`, `codex`, `opencode`; inside WSL also `claude@windows`, `codex@windows`, `opencode@windows`), plus
+`--force` to replace an entry. `--dry-run` prints the commands instead of running them.
+
+Both `install` and `uninstall` work on each client's user-level (global) config. Project-scoped entries are
+never touched.
+
+### `plane mcp uninstall`
+
+Lists the clients with a `plane` entry, showing whether it is `stdio` or `http`, and removes any entry of that
+name: `claude mcp remove -s user`, `codex mcp remove`, and for OpenCode (which has no `remove`) an edit of its
+global config file that deletes only that key, keeping comments and layout.
+
+It is the one command besides `plane mcp config` that runs without a saved configuration, so a client can be
+cleaned up after the configuration is gone. `--client` and `--dry-run` work as in `install`.
+
+### `plane mcp start`, `stop` and `status`
+
+`start` runs the HTTP server detached, and prints its URL, its log file and the `claude mcp add` line to
+register it. It needs a saved configuration. `--api-key`, `--base-url`, `--workspace` and `--port` override it
+for this run only, and are never saved. `--foreground` serves in the current process instead.
+
+`status` prints whether the server is running, with its URL, pid and uptime, and exits with code 3 when it is
+not. `stop` asks the server to shut down through a token-guarded `POST /shutdown`, and signals the process only
+if that fails.
+
+### `plane mcp boot`
+
+`boot enable` installs a service of the current user that starts the server at every login, so no sudo is
+needed:
+
+| OS      | Service                                                         |
+| ------- | --------------------------------------------------------------- |
+| Linux   | a systemd user unit (on WSL, enable systemd in `/etc/wsl.conf`) |
+| macOS   | a LaunchAgent                                                   |
+| Windows | a logon task                                                    |
+
+The service reads only the saved configuration. `boot disable` removes it and `boot status` reports it.
+
+---
+
+## CLI overview
+
+## CLI
+
+The package installs a `plane` command. It is an MCP client of the [same server](../mcp/overview.md): every MCP
+tool becomes a subcommand, and the tool's input schema becomes its flags. By default the server runs inside the
+command, so there is nothing to start first.
+
+```bash
+npx plane mcp config                 # once: save the API key (PLANE_BASE_URL defaults to https://api.plane.so)
+npx plane tools                      # every command, one per MCP tool
+npx plane whoami
+npx plane get-issue --key ACME-14
+npx plane list-my-issues --project ACME
+npx plane list-work-items --slug acme --project ENG --per-page 20 --fields name,state_id
+npx plane get-work-item --slug acme --work-item ENG-123
+npx plane resources --query cycle
+npx plane describe --resource workspaces.projects.cycles --method delete
+npx plane call --resource workspaces.projects.cycles --method delete \
+  --args '{"slug":"acme","project":"ENG","cycle":"<cycle-id>"}' --confirm
+```
+
+Nothing but `--help`, `--version` and `plane docs` runs until `plane mcp config` has saved a configuration with
+an API key. `plane docs` prints the link to this site and opens it in the browser.
+
+### From tools to commands
+
+- The command is the tool's name without `plane_`, in kebab-case: `plane_list_work_items` → `list-work-items`.
+- Each flag is an input in kebab-case: `per_page` → `--per-page`, `workItem` → `--work-item`.
+- Array flags take `a,b` or JSON, object flags take JSON, and boolean flags need no value.
+- `plane <command> --help` lists a command's flags, with the allowed values of enum inputs.
+
+Tool output goes to stdout. A tool error goes to stderr with exit code 1.
+
+### Talking to a running server
+
+To use a `plane-mcp` that is already running over HTTP instead of the in-process one, pass
+`--url http://127.0.0.1:3766/mcp` or set `PLANE_MCP_URL`. `--base-url` and `--api-key` override the
+environment and the saved file for the in-process server.
+
+None of these flags stands in for the saved configuration: the CLI refuses to run tools without it, even when
+`--url` or `--api-key` is given.
+
+### Managing the server
+
+`plane mcp` is intercepted before any connection is made. It configures the server, runs it in the background,
+starts it at login and registers it in your MCP clients. See [`plane mcp`](./mcp-commands.md).
+
+---
+
+## Windows and WSL
+
+Everything in the CLI is built to work from PowerShell or cmd on Windows 10/11 with Node.js 20 or later. It is
+implemented and unit-tested, but not yet smoke-tested on a native Windows install. The WSL bridge below has
+been verified end to end.
+
+- The settings file lives in `%APPDATA%\plane\.env`, protected by that folder's per-user permissions (file modes
+  mean nothing on Windows).
+- `plane mcp boot enable` registers a logon task.
+- `plane mcp stop` asks the server to shut down through a token-guarded `POST /shutdown` before falling back to
+  terminating it.
+- The client CLIs are run through `cross-spawn`, so Windows `.cmd` shims work.
+
+### From WSL
+
+When the package is installed inside WSL, `plane mcp install` and `uninstall` also list the clients installed on
+the Windows side, as `Claude Code (Windows)` and so on (`--client claude@windows`). They start the server with
+`wsl.exe -d <distro> -e node …/dist/mcp/cli.js`, so it keeps reading the configuration saved inside WSL. The
+first call after WSL has been idle pays for the distro starting (a second or two).
+
+The Windows side is reached through `powershell.exe`, taken from the PATH or, with `appendWindowsPath = false`,
+from `/mnt/c/Windows/System32/WindowsPowerShell/v1.0/`. When it cannot be reached, `--client claude@windows`
+says which step failed.
+
+To start the server at login inside WSL, enable systemd in `/etc/wsl.conf` first, then run
+`npx plane mcp boot enable`.
+
+---
+
+## Contributing
+
+The repository is [Hoyasumii/plane](https://github.com/Hoyasumii/plane), managed with pnpm (Node.js 20 or later).
+
+```bash
+pnpm install          # dependencies, plus the git hooks (husky)
+pnpm build            # compile to dist/ and bundle dist/types.bundle.d.ts
+pnpm dev              # tsc --watch
+pnpm test:unit        # unit tests (no Plane instance needed)
+pnpm check:lint       # oxlint (`pnpm fix:lint` fixes what it can)
+pnpm check:format     # oxfmt, 120 columns (`pnpm fix:format` rewrites)
+pnpm check:knip       # unused files, exports and dependencies
+```
+
+There is no CI: the checks run locally through git hooks. `pre-commit` runs `check:lint` and `check:format`,
+`commit-msg` runs commitlint with the conventional config (`feat: …`, `fix(mcp): …`), and `pre-push` runs
+`check:types`, `check:knip` and `test:unit`.
+
+After a push of `main` to `origin` that touches `website/` or `src/`, `pre-push` also starts
+`scripts/deploy-site.mjs` in the background. It waits for the push to land, checks the pushed commit out in a
+worktree of its own and runs `pnpm docs:deploy` there, so the site follows `main` without holding up the push.
+Its log is `site-deploy/deploy.log` under the git directory; `PLANE_SKIP_SITE_DEPLOY=1` skips it for one push.
+
+### Building from source
+
+`pnpm build` runs `tsc` into `dist/`, bundles the type definitions into `dist/types.bundle.d.ts`, and compares
+that bundle's exports with `scripts/__fixtures__/types-bundle-exports.snapshot.txt`. If you changed the public
+exports on purpose, update the snapshot. For a clean rebuild:
+
+```bash
+pnpm clean            # deletes dist/ and node_modules/
+pnpm install
+pnpm build
+```
+
+After changing anything under `src/api/v2/`, run `pnpm codegen:mcp` to regenerate the method catalog the MCP
+server reads (`src/mcp/generated/catalog.json`). `src/api/v2/generated/constants.ts` is produced by
+`pnpm codegen:v2` from the api_v2 OpenAPI document: never edit either by hand.
+
+To try the build locally, run `node dist/cli/index.js --help`, or link it with `npm link` and run
+`plane --help`. `npm pack --dry-run` lists exactly what would be published.
+
+### Tests
+
+Tests live in `tests/unit/` and `tests/e2e/`. The unit tests need no Plane instance. The end-to-end tests need
+a `.env.test` with real ids:
+
+```bash
+cp env.example .env.test
+```
+
+Then fill in `TEST_WORKSPACE_SLUG`, `TEST_PROJECT_ID`, `TEST_USER_ID`, `TEST_WORK_ITEM_ID`, `TEST_CUSTOMER_ID`
+and the other ids the suites ask for.
+
+```bash
+pnpm test                                 # everything
+pnpm test:unit                            # unit tests only
+pnpm test:e2e                             # end-to-end tests only
+pnpm test tests/unit/page.test.ts         # one file
+```
+
+Tests run one at a time, to stay under Plane's rate limit.
+
+### How the v2 surface is kept honest
+
+The v2 surface is 90 resource classes, and none of it is spot-checked. Rule sweeps run over **every** class,
+enumerated from the TypeScript source, and each is proved by introducing the violation and watching the sweep
+name it:
+
+| Sweep                    | What it refuses                                                                                  |
+| ------------------------ | ------------------------------------------------------------------------------------------------ |
+| Call shape               | a method that does not open with its URL's path ids, in path order                               |
+| `fields` / `expand`      | an operation that offers a projection the SDK does not expose                                    |
+| Query filters            | a `?filter=` the API accepts and no params type declares                                         |
+| `order_by`               | a missing sort order, or a params type pointed at a sibling's enum                               |
+| Pagination               | an unreachable half of the paging envelope — including a `paginate` with no `cursor` to spend it |
+| Operation correspondence | a method with no `operations` entry, silently exempt from the above                              |
+| Projection soundness     | a method that accepts `fields` and answers the full row anyway                                   |
+| Loader routing           | a row-returning method on a navigable class that skips `load()`                                  |
+| Alternate paths          | a method that declares an `extraPaths` override and ignores it                                   |
+| Lookups                  | a `findBy*` filtering on something the API does not filter on                                    |
+
+Two more sweeps cover the tree rather than the classes: **band completeness** requires every resource to be
+attached to the root its URL template names (and nothing foreign to be), and **navigation completeness**
+requires a resource that attaches a child to answer navigable rows, with one property per child and no property
+shadowing a real field. Every method also asserts its exact request URL against a mock server.
+
+The documentation is checked too. `tests/unit/v2/readme-samples.test.ts` type-checks every TypeScript fence in
+`README.md`, `CLAUDE.md`, `AGENTS.MD` and every page of this site, in every language, against the SDK source. It
+also checks the claims in prose that are facts about the repository: scripts that exist, paths that exist,
+`v2.` names that are exported, and batch caps that match the kernel.
+
+### This site
+
+The site lives in `website/`, a workspace package built with Docusaurus. The guides are Markdown in
+`website/docs/`, each translation mirrors them in `website/i18n/<locale>/`, and the API reference is generated
+from `src/` by TypeDoc on every build.
+
+```bash
+pnpm docs:dev                        # live preview, in English
+pnpm docs:dev --locale pt-BR         # live preview in another locale (pt-PT, es-ES, zh-Hans, …)
+pnpm docs:build                      # every locale, into website/build/
+GIT_USER=<github-user> pnpm docs:deploy   # build and push to the gh-pages branch
+```
+
+Search (Ctrl/Cmd+K) runs on an offline index, one per locale, that `pnpm docs:build` writes; it does not work
+under `pnpm docs:dev`, so try it with `pnpm docs:serve` after a build. The API reference stays out of the index. The
+English build also writes `llms.txt` and `llms-full.txt` at the site root, from the English guides, for AI tools to
+read. Both are build output: never commit or hand-write them.
