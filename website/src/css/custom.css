@@ -146,7 +146,6 @@ body {
   z-index: -1;
   background-color: var(--ifm-navbar-background-color);
   backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
   pointer-events: none;
 }
 
@@ -770,7 +769,6 @@ html[data-theme="dark"] {
   z-index: -1;
   background: var(--search-backdrop);
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   animation: search-backdrop-in 0.14s ease-out;
 }
 
