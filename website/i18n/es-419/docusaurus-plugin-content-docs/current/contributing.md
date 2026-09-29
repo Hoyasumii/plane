@@ -23,6 +23,11 @@ No hay CI: las comprobaciones se ejecutan en local mediante git hooks. `pre-comm
 `check:format`, `commit-msg` ejecuta commitlint con la configuración convencional (`feat: …`, `fix(mcp): …`), y
 `pre-push` ejecuta `check:types`, `check:knip` y `test:unit`.
 
+Después de un push de `main` a `origin` que toque `website/` o `src/`, `pre-push` también inicia
+`scripts/deploy-site.mjs` en segundo plano. Espera a que el push llegue, hace checkout del commit enviado en un
+worktree propio y ejecuta `pnpm docs:deploy` ahí, así que el sitio sigue a `main` sin demorar el push. Su registro
+queda en `site-deploy/deploy.log`, dentro del directorio de git; `PLANE_SKIP_SITE_DEPLOY=1` lo omite en un push.
+
 ## Compilar desde el código fuente
 
 `pnpm build` ejecuta `tsc` hacia `dist/`, empaqueta las definiciones de tipos en `dist/types.bundle.d.ts` y

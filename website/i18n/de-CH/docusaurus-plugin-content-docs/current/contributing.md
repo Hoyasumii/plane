@@ -23,6 +23,11 @@ Es gibt keine CI: Die Prüfungen laufen lokal über Git-Hooks. `pre-commit` füh
 aus, `commit-msg` führt commitlint mit der konventionellen Konfiguration aus (`feat: …`, `fix(mcp): …`), und
 `pre-push` führt `check:types`, `check:knip` und `test:unit` aus.
 
+Nach einem Push von `main` nach `origin`, der `website/` oder `src/` berührt, startet `pre-push` ausserdem
+`scripts/deploy-site.mjs` im Hintergrund. Es wartet, bis der Push angekommen ist, checkt den gepushten Commit in
+einem eigenen Worktree aus und führt dort `pnpm docs:deploy` aus, sodass die Site `main` folgt, ohne den Push
+aufzuhalten. Das Log liegt unter `site-deploy/deploy.log` im Git-Verzeichnis; `PLANE_SKIP_SITE_DEPLOY=1` überspringt es für einen Push.
+
 ## Aus dem Quellcode bauen
 
 `pnpm build` führt `tsc` nach `dist/` aus, bündelt die Typdefinitionen in `dist/types.bundle.d.ts` und vergleicht

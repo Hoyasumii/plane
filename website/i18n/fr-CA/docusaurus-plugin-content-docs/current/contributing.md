@@ -23,6 +23,11 @@ Il n'y a pas d'intégration continue : les vérifications tournent localement v
 exécute `check:lint` et `check:format`, `commit-msg` exécute commitlint avec la configuration conventionnelle
 (`feat: …`, `fix(mcp): …`), et `pre-push` exécute `check:types`, `check:knip` et `test:unit`.
 
+Après un push de `main` vers `origin` qui touche `website/` ou `src/`, `pre-push` lance aussi
+`scripts/deploy-site.mjs` en arrière-plan. Il attend que le push arrive, extrait le commit poussé dans son propre
+worktree et y exécute `pnpm docs:deploy` : le site suit `main` sans retarder le push. Son journal est
+`site-deploy/deploy.log`, dans le répertoire git ; `PLANE_SKIP_SITE_DEPLOY=1` le saute pour un push.
+
 ## Compiler depuis les sources
 
 `pnpm build` exécute `tsc` vers `dist/`, regroupe les définitions de types dans `dist/types.bundle.d.ts`, et

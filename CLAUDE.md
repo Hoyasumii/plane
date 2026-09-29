@@ -36,7 +36,12 @@ GIT_USER=<user> pnpm docs:deploy  # Build and push the site to the gh-pages bran
 There is no CI: the checks run locally through husky (`.husky/`). `pre-commit` runs
 `check:lint` and `check:format`; `commit-msg` runs commitlint with
 `@commitlint/config-conventional` (`feat: …`, `fix(mcp): …`); `pre-push` runs
-`check:types`, `check:knip` and `test:unit`. `pnpm install` installs the hooks through `prepare`.
+`check:types`, `check:knip` and `test:unit`, then hands its refs to `scripts/deploy-site.mjs`: on a
+push of `main` to `origin`'s URL that touches `website/` or `src/`, it starts itself detached, waits
+until `origin`'s `main` is the pushed commit (a rejected push deploys nothing), checks it out in the
+worktree `<git dir>/site-deploy/tree` and runs `pnpm docs:deploy` there, one run at a time, logging
+to `<git dir>/site-deploy/deploy.log`. `PLANE_SKIP_SITE_DEPLOY=1` skips it. `pnpm install` installs
+the hooks through `prepare`.
 
 ## Testing
 

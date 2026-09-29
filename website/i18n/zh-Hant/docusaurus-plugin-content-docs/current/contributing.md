@@ -23,6 +23,11 @@ pnpm check:knip       # 未使用的檔案、匯出和依賴
 `commit-msg` 使用約定式配置執行 commitlint（`feat: …`、`fix(mcp): …`），`pre-push` 執行 `check:types`、
 `check:knip` 和 `test:unit`。
 
+當推送到 `origin` 的 `main` 變更了 `website/` 或 `src/` 時，`pre-push` 還會在背景啟動
+`scripts/deploy-site.mjs`。它等待推送完成，在獨立的 worktree 中檢出所推送的提交並在其中執行
+`pnpm docs:deploy`，這樣網站會跟隨 `main`，而不會拖慢推送。日誌位於 git 目錄下的 `site-deploy/deploy.log`；
+設定 `PLANE_SKIP_SITE_DEPLOY=1` 可在某次推送時略過部署。
+
 ## 從原始碼構建
 
 `pnpm build` 會把 `tsc` 編譯到 `dist/`，將型別定義打包進 `dist/types.bundle.d.ts`，並把這個打包結果的匯出
