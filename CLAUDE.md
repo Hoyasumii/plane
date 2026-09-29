@@ -237,7 +237,9 @@ does not work under `docs:dev`), with `api/` left out. The build runs on Rspack 
 (`@docusaurus/faster`, `future.faster` in the config). The TypeDoc reference (about 1,150 pages) is
 English-only: only the `en` build loads docusaurus-plugin-typedoc and has the `api` sidebar; every
 translated locale excludes `api/**` and its "API Reference" navbar item and links point at the
-English one through `pathname:///plane/docs/api`. The English home page (and only it) redirects to
+English one through `pathname://` (Docusaurus's `<Link>` prepends the locale's baseUrl to any
+`/`-rooted path, `pathname://` included: the navbar item sets `autoAddBaseUrl: false`, and the
+Markdown links are relative, `pathname://../../../../docs/api`). The English home page (and only it) redirects to
 the locale the visitor picked in the navbar menu (remembered in `localStorage` by the
 `website/src/remember-locale.ts` client module, a knip entry) or else to their browser's language
 (`website/src/locale-preference.ts`). `docs:build` runs `website/scripts/build.mjs`,

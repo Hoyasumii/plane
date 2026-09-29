@@ -29,4 +29,4 @@ const first: v2models.State | undefined = page.data[0];
 
 读取模型里除了 `id` 之外的每一个字段都是可选的，因为 `?fields=` 和集合的延迟加载都可能省略掉任何字段。
 
-完整的导出类、模型和辅助函数列表，请参见 [API 参考](pathname:///plane/docs/api)。
+完整的导出类、模型和辅助函数列表，请参见 [API 参考](pathname://../../../../docs/api)。

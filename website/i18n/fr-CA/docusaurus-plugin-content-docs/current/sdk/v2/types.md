@@ -32,4 +32,4 @@ Les modèles de lecture marquent chaque champ, sauf `id`, comme facultatif, car 
 collection peuvent en omettre n'importe lequel.
 
 Pour la liste complète des classes, modèles et fonctions utilitaires exportés, voir la
-[référence de l'API](pathname:///plane/docs/api).
+[référence de l'API](pathname://../../../../docs/api).

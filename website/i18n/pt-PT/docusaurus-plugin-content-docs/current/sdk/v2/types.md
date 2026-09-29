@@ -31,4 +31,4 @@ tipos do kernel `v2.Loaded`, `v2.Owned` e `v2.LoadedMeta`.
 Os modelos de leitura marcam todos os campos, exceto `id`, como opcionais, porque `?fields=` e o adiamento de
 coleções podem omitir qualquer um deles.
 
-Para a lista completa de classes, modelos e helpers exportados, veja a [referência da API](pathname:///plane/docs/api).
+Para a lista completa de classes, modelos e helpers exportados, veja a [referência da API](pathname://../../../../docs/api).

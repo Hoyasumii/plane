@@ -32,4 +32,4 @@ Lesemodelle markieren jedes Feld außer `id` als optional, weil `?fields=` und C
 auslassen können.
 
 Für die vollständige Liste der exportierten Klassen, Modelle und Hilfsmittel siehe die
-[API-Referenz](pathname:///plane/docs/api).
+[API-Referenz](pathname://../../../../docs/api).

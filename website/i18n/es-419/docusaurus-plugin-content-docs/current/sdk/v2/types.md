@@ -32,4 +32,4 @@ Los modelos de lectura marcan como opcional todo campo salvo `id`, porque `?fiel
 colecciones pueden omitir cualquiera de ellos.
 
 Para la lista completa de clases, modelos y helpers exportados, consulta la
-[referencia de la API](pathname:///plane/docs/api).
+[referencia de la API](pathname://../../../../docs/api).

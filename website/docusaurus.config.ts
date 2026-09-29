@@ -173,11 +173,12 @@ const config: Config = {
         { type: "doc", docId: "sdk/v2/overview", position: "left", label: "SDK" },
         { type: "doc", docId: "mcp/overview", position: "left", label: "MCP" },
         { type: "doc", docId: "cli/overview", position: "left", label: "CLI" },
-        // Only the English site has the reference. `pathname://` keeps the translated sites' baseUrl
-        // off the link and makes it a full page load, since the page is not in their bundle.
+        // Only the English site has the reference. `pathname://` makes it a full page load, since the
+        // page is not in the translated bundles; `autoAddBaseUrl: false` (passed through to <Link>)
+        // keeps the locale's baseUrl off it, which <Link> would otherwise prepend to /plane/docs/api.
         isDefaultLocale
           ? { type: "docSidebar", sidebarId: "api", position: "left", label: "API Reference" }
-          : { to: `pathname://${baseUrl}docs/api`, position: "left", label: "API Reference" },
+          : { to: `pathname://${baseUrl}docs/api`, autoAddBaseUrl: false, position: "left", label: "API Reference" },
         { type: "localeDropdown", position: "right" },
         { href: repository, label: "GitHub", position: "right" },
       ],

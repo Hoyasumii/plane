@@ -29,4 +29,4 @@ const first: v2models.State | undefined = page.data[0];
 
 讀取模型裡除了 `id` 之外的每一個欄位都是可選的，因為 `?fields=` 和集合的延遲載入都可能省略掉任何欄位。
 
-完整的匯出類、模型和輔助函式列表，請參見 [API 參考](pathname:///plane/docs/api)。
+完整的匯出類、模型和輔助函式列表，請參見 [API 參考](pathname://../../../../docs/api)。
