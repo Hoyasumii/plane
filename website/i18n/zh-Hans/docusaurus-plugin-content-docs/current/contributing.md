@@ -19,14 +19,17 @@ pnpm check:format     # oxfmt，120 列宽（`pnpm fix:format` 会重写）
 pnpm check:knip       # 未使用的文件、导出和依赖
 ```
 
-没有 CI：所有检查都通过 git 钩子在本地运行。`pre-commit` 运行 `check:lint` 和 `check:format`，
+所有检查都通过 git 钩子在本地运行。`pre-commit` 运行 `check:lint` 和 `check:format`，
 `commit-msg` 使用约定式配置运行 commitlint（`feat: …`、`fix(mcp): …`），`pre-push` 运行 `check:types`、
 `check:knip` 和 `test:unit`。
 
-当推送到 `origin` 的 `main` 改动了 `website/` 或 `src/` 时，`pre-push` 还会在后台启动
-`scripts/deploy-site.mjs`。它等待推送完成，在独立的 worktree 中检出所推送的提交并在其中运行
-`pnpm docs:deploy`，这样站点会跟随 `main`，而不会拖慢推送。日志位于 git 目录下的 `site-deploy/deploy.log`；
-设置 `PLANE_SKIP_SITE_DEPLOY=1` 可在某次推送时跳过部署。
+每次推送到 `main` 都会运行持续交付工作流（`.github/workflows/cd.yml`）。它运行相同的检查和构建，然后：
+
+- 当 `package.json` 中的版本尚未发布到 npm 时，通过 Trusted Publishing（附带 provenance）发布该版本，打上
+  `v<版本>` 标签并创建 GitHub release；
+- 当推送改动了 `website/` 或 `src/` 时，构建站点并部署到 `gh-pages` 分支（手动运行该工作流时总会部署）。
+
+要发布新版本，只需提高 `package.json` 中的 `version` 并合并到 `main`。
 
 ## 从源码构建
 

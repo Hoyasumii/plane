@@ -19,14 +19,19 @@ pnpm check:format     # oxfmt, 120 Spalten (`pnpm fix:format` schreibt um)
 pnpm check:knip       # ungenutzte Dateien, Exporte und Abhängigkeiten
 ```
 
-Es gibt keine CI: Die Prüfungen laufen lokal über Git-Hooks. `pre-commit` führt `check:lint` und `check:format`
+Die Prüfungen laufen lokal über Git-Hooks. `pre-commit` führt `check:lint` und `check:format`
 aus, `commit-msg` führt commitlint mit der konventionellen Konfiguration aus (`feat: …`, `fix(mcp): …`), und
 `pre-push` führt `check:types`, `check:knip` und `test:unit` aus.
 
-Nach einem Push von `main` nach `origin`, der `website/` oder `src/` berührt, startet `pre-push` ausserdem
-`scripts/deploy-site.mjs` im Hintergrund. Es wartet, bis der Push angekommen ist, checkt den gepushten Commit in
-einem eigenen Worktree aus und führt dort `pnpm docs:deploy` aus, sodass die Site `main` folgt, ohne den Push
-aufzuhalten. Das Log liegt unter `site-deploy/deploy.log` im Git-Verzeichnis; `PLANE_SKIP_SITE_DEPLOY=1` überspringt es für einen Push.
+Jeder Push auf `main` startet den Continuous-Delivery-Workflow (`.github/workflows/cd.yml`). Er führt dieselben
+Prüfungen und den Build aus und
+
+- veröffentlicht die Version aus `package.json` auf npm, wenn sie dort noch nicht existiert (über Trusted
+  Publishing, mit Provenance), taggt sie als `v<Version>` und legt ein GitHub-Release an;
+- baut die Site und deployt sie auf den Branch `gh-pages`, wenn der Push `website/` oder `src/` berührt (ein
+  manueller Lauf des Workflows deployt sie immer).
+
+Für ein Release genügt es, `version` in `package.json` zu erhöhen und nach `main` zu mergen.
 
 ## Aus dem Quellcode bauen
 

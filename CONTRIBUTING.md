@@ -3,11 +3,11 @@
 Thanks for helping. The full guide — building from source, the tests, how the v2 surface is checked, and the docs
 site — is at <https://hoyasumii.github.io/plane/docs/contributing>. The short version:
 
-- You need Node.js 20 or later and pnpm. Run `pnpm install` first: it also installs the git hooks. There is no CI,
-  so the hooks are the only checks a change goes through. `pre-commit` runs `check:lint` and
-  `check:format`, and `pre-push` runs `check:types`, `check:knip` and `test:unit`, then
-  publishes the docs site in the background after a push of `main` to `origin` that touches `website/` or `src/`
-  (`PLANE_SKIP_SITE_DEPLOY=1` skips that).
+- You need Node.js 20 or later and pnpm. Run `pnpm install` first: it also installs the git hooks. `pre-commit` runs
+  `check:lint` and `check:format`, and `pre-push` runs `check:types`, `check:knip` and `test:unit`.
+- Every push to `main` runs the Continuous Delivery workflow (`.github/workflows/cd.yml`): the same checks and the
+  build, then it publishes `package.json`'s version to npm when that version is not there yet, and deploys the docs
+  site when the push touches `website/` or `src/`. To release, bump `version` in `package.json` and merge to `main`.
 - Commit messages follow Conventional Commits (`feat: …`, `fix(mcp): …`), enforced by commitlint.
 - After touching `src/api/v2/`, run `pnpm codegen:mcp`. Never edit `src/api/v2/generated/constants.ts` or
   `src/mcp/generated/catalog.json` by hand.

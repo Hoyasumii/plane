@@ -19,14 +19,19 @@ pnpm check:format     # oxfmt, 120 colonnes (`pnpm fix:format` réécrit)
 pnpm check:knip       # fichiers, exports et dépendances inutilisés
 ```
 
-Il n'y a pas d'intégration continue : les vérifications tournent localement via des hooks git. `pre-commit`
+Les vérifications tournent localement via des hooks git. `pre-commit`
 exécute `check:lint` et `check:format`, `commit-msg` exécute commitlint avec la configuration conventionnelle
 (`feat: …`, `fix(mcp): …`), et `pre-push` exécute `check:types`, `check:knip` et `test:unit`.
 
-Après un push de `main` vers `origin` qui touche `website/` ou `src/`, `pre-push` lance aussi
-`scripts/deploy-site.mjs` en arrière-plan. Il attend que le push arrive, extrait le commit poussé dans son propre
-worktree et y exécute `pnpm docs:deploy` : le site suit `main` sans retarder le push. Son journal est
-`site-deploy/deploy.log`, dans le répertoire git ; `PLANE_SKIP_SITE_DEPLOY=1` le saute pour un push.
+Chaque push sur `main` lance le workflow Continuous Delivery (`.github/workflows/cd.yml`). Il exécute les mêmes
+vérifications et le build, puis :
+
+- publie sur npm la version de `package.json` si elle n'est pas encore sur le registre (via Trusted Publishing,
+  avec provenance), la tague `v<version>` et crée une release GitHub ;
+- construit le site et le déploie sur la branche `gh-pages` quand le push touche `website/` ou `src/` (un
+  lancement manuel du workflow le déploie toujours).
+
+Pour publier une version, augmentez `version` dans `package.json` et fusionnez dans `main`.
 
 ## Compiler depuis les sources
 
