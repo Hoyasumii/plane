@@ -1,6 +1,6 @@
 {
   "name": "@hoyasumii/plane",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TypeScript SDK for the Plane API (v1 and v2), with an MCP server and a CLI for AI agents",
   "author": "Alan Reis",
   "contributors": [
