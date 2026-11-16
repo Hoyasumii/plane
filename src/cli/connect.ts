@@ -1,9 +1,9 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
-import { PlaneClient } from "../client/plane-client";
 import { SERVER_VERSION, buildPlaneMcpServer } from "../mcp/build";
-import { DEFAULT_BASE_URL } from "../mcp/config";
+import { CfAccessMode, DEFAULT_BASE_URL } from "../mcp/config";
+import { createPlaneClient } from "../mcp/server";
 
 export interface ConnectOptions {
   /** A running `plane-mcp` endpoint, e.g. `http://127.0.0.1:3766/mcp`. Without it the server runs in-process. */
@@ -14,6 +14,8 @@ export interface ConnectOptions {
   apiKey?: string;
   /** Default workspace slug for the in-process server. */
   workspace?: string;
+  /** Cloudflare Access mode for the in-process server. */
+  cfAccess?: CfAccessMode;
 }
 
 export interface PlaneMcpConnection {
@@ -53,7 +55,7 @@ export async function connectPlaneMcp(options: ConnectOptions): Promise<PlaneMcp
   const apiKey = options.apiKey?.trim() ?? "";
   // PlaneClient refuses to exist without a credential; this placeholder never leaves the
   // process, because `missing` stops every tool call before it is made.
-  const plane = new PlaneClient({ baseUrl, apiKey: apiKey || "missing" });
+  const plane = createPlaneClient({ baseUrl, apiKey: apiKey || "missing", cfAccess: options.cfAccess });
   const server = buildPlaneMcpServer(plane, { workspace: options.workspace || undefined });
   const [clientSide, serverSide] = InMemoryTransport.createLinkedPair();
   await server.connect(serverSide);

@@ -1,7 +1,7 @@
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 import { ArgsDef, CommandDef, defineCommand, renderUsage, runCommand } from "citty";
 import { DOCS_URL, SERVER_VERSION } from "../mcp/build";
-import { configFilePath } from "../mcp/config";
+import { configFilePath, parseCfAccess } from "../mcp/config";
 import { ConnectOptions, PlaneMcpConnection, connectPlaneMcp } from "./connect";
 import { requireSavedConfig, runMcpCli } from "./mcp";
 import { McpDeps, defaultMcpDeps } from "./mcp/deps";
@@ -14,7 +14,7 @@ export interface CliIo {
 }
 
 /** Connection flags, accepted anywhere on the command line and removed before citty parses the rest. */
-const GLOBAL_FLAGS: Record<string, keyof ConnectOptions> = {
+const GLOBAL_FLAGS: Record<string, "url" | "baseUrl" | "apiKey"> = {
   "--url": "url",
   "--base-url": "baseUrl",
   "--api-key": "apiKey",
@@ -146,6 +146,7 @@ export async function runCli(argv: string[], io: CliIo, deps: Partial<McpDeps> =
       baseUrl: options.baseUrl ?? (io.env.PLANE_BASE_URL || saved.PLANE_BASE_URL),
       apiKey: options.apiKey ?? (io.env.PLANE_API_KEY || saved.PLANE_API_KEY),
       workspace: io.env.PLANE_WORKSPACE || saved.PLANE_WORKSPACE,
+      cfAccess: parseCfAccess(io.env.PLANE_CF_ACCESS || saved.PLANE_CF_ACCESS),
     });
     const { tools } = await connection.client.listTools();
     const main = buildMain(connection, tools, io);

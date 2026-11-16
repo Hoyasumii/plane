@@ -7,12 +7,21 @@ export class Configuration {
   public apiKey?: string;
   public accessToken?: string;
   public enableLogging: boolean;
+  /** Extra headers for every request, computed per request (e.g. a Cloudflare Access token). */
+  public headers?: () => Record<string, string>;
 
-  constructor(config: { baseUrl?: string; apiKey?: string; accessToken?: string; enableLogging?: boolean }) {
+  constructor(config: {
+    baseUrl?: string;
+    apiKey?: string;
+    accessToken?: string;
+    enableLogging?: boolean;
+    headers?: () => Record<string, string>;
+  }) {
     this.baseUrl = config.baseUrl || "https://api.plane.so";
     this.apiKey = config.apiKey;
     this.accessToken = config.accessToken;
     this.enableLogging = config.enableLogging || false;
+    this.headers = config.headers;
   }
 
   /**

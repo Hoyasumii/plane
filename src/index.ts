@@ -10,6 +10,8 @@ export { PlaneClient } from "./client/plane-client";
 
 // OAuth client
 export { OAuthClient } from "./client/oauth-client";
+export { cloudflaredAccessHeaders } from "./client/cloudflare-access";
+export type { CloudflaredRunner } from "./client/cloudflare-access";
 
 // Configuration
 export { Configuration } from "./Configuration";

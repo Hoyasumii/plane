@@ -61,6 +61,9 @@ export function configValueError(key: ConfigKey, value: string): string | undefi
       return "PLANE_BASE_URL must be a valid http(s) URL.";
     }
   }
+  if (key === "PLANE_CF_ACCESS" && value.trim() !== "cloudflared") {
+    return "PLANE_CF_ACCESS must be 'cloudflared' or blank.";
+  }
   if (key === "PORT") {
     let port: number | undefined;
     try {
@@ -84,6 +87,8 @@ export function valuesFromInput(input: ConfigValues, saved: ConfigValues): { val
     PLANE_BASE_URL: text("PLANE_BASE_URL") || undefined,
     PLANE_WORKSPACE: text("PLANE_WORKSPACE") || undefined,
     PORT: text("PORT") || undefined,
+    // Not in the form or the prompt: set by hand in the file, and kept across saves.
+    PLANE_CF_ACCESS: text("PLANE_CF_ACCESS") || saved.PLANE_CF_ACCESS,
   };
   if (!values.PLANE_API_KEY) return { values, error: "PLANE_API_KEY is required." };
   for (const key of CONFIG_KEYS) {

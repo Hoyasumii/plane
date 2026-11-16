@@ -53,7 +53,7 @@ root	AutomationStatus	AutomationStatus	2dee24e5da80571d
 root	AutomationWebhookSecret	AutomationWebhookSecret	fad7965f0cf62061
 root	BaseCreateWorkItemProperty	BaseCreateWorkItemProperty	3e7e8b2e330a67df
 root	BaseModel	BaseModel	7a13600fa51d0759
-root	BaseResource	BaseResource	a99a29823d0aae8e
+root	BaseResource	BaseResource	56b55805dd28f83a
 root	BulkCreateWorkspaceInvites	BulkCreateWorkspaceInvites	b1a680f16ffd3ece
 root	BulkRowFailure	BulkRowFailure	3a63c31df60f367c
 root	BulkRowSuccess	BulkRowSuccess	6840350f1463f1ca
@@ -61,6 +61,9 @@ root	BulkUpdateItem	BulkUpdateItem	f74590a8eeabea42
 root	BulkWriteResponse	BulkWriteResponse	a62766eda2d9e61f
 root	BulkWriteRow	BulkWriteRow	b749b40b311a9124
 root	CatalogGroupEnum	CatalogGroupEnum	aa33010d055285dd
+root	CloudflareAccessError	CloudflareAccessError	5c2f4b4f1ee59e8f
+root	cloudflaredAccessHeaders	cloudflaredAccessHeaders	aa5551dc6781f5e7
+root	CloudflaredRunner	CloudflaredRunner	69a47859cf672d0d
 root	Collection	Collection$1	1863c430f18162ca
 root	CollectionAccess	CollectionAccess	6f764be7a4ca020a
 root	CollectionAccessEnum	CollectionAccessEnum	1d044a20691cb0a0
@@ -85,7 +88,7 @@ root	CollectionPageSearchField	CollectionPageSearchField	6ae76235d2a3b1ac
 root	CollectionPageSearchResult	CollectionPageSearchResult	db96ac010e9afa9a
 root	CollectionPagesResource	Pages$2	db32805900a83eb9
 root	Collections	Collections$1	7f4d552d43ffae22
-root	Configuration	Configuration	3699a98cbead400c
+root	Configuration	Configuration	d3f58bd6a58e9809
 root	CreateAgentRunActivityRequest	CreateAgentRunActivityRequest	b6ab9ab8d2670c55
 root	CreateAgentRunRequest	CreateAgentRunRequest	4ee23b5478c4a50f
 root	CreateArtifact	CreateArtifact	a1a0c90fb34f4ef3
@@ -440,7 +443,7 @@ root	PermissionSchemeFieldsParams	PermissionSchemeFieldsParams	e0853b2c82507c82
 root	PermissionSchemeNamespace	PermissionSchemeNamespace	8c46326a7bc467f7
 root	PermissionSchemeOrderBy	PermissionSchemeOrderBy	3e26629a8e0ccce0
 root	PlaneApiError	PlaneApiError	7e2374a3de80221b
-root	PlaneClient	PlaneClient	5fc80f8d892ded5f
+root	PlaneClient	PlaneClient	89708002c75da4e7
 root	PlaneError	PlaneError	82e771135cd4b51d
 root	PlaneNetworkError	PlaneNetworkError	0bb41c61cfdfebd6
 root	PlaneOAuthAppInstallation	PlaneOAuthAppInstallation	d6ac941eb8e46193

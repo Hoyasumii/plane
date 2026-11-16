@@ -1,8 +1,8 @@
 import { Readable, Writable } from "node:stream";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { PlaneClient } from "../client/plane-client";
 import { buildPlaneMcpServer } from "./build";
-import { validateConnection } from "./server";
+import { CfAccessMode } from "./config";
+import { createPlaneClient, validateConnection } from "./server";
 
 export interface PlaneMcpStdioOptions {
   /** The Plane instance, e.g. `https://api.plane.so` or a self-hosted URL. */
@@ -11,6 +11,8 @@ export interface PlaneMcpStdioOptions {
   apiKey: string;
   /** A default workspace slug, used by every tool call that omits `slug`. */
   workspace?: string;
+  /** `cloudflared`: the instance is behind Cloudflare Access; send the token `cloudflared access token` gives. */
+  cfAccess?: CfAccessMode;
   /** Where requests arrive. Default: `process.stdin`. */
   stdin?: Readable;
   /** Where responses go. Default: `process.stdout` — so nothing else may write to it. */
@@ -40,7 +42,7 @@ export interface RunningPlaneMcpStdio {
  */
 export async function servePlaneMcpStdio(options: PlaneMcpStdioOptions): Promise<RunningPlaneMcpStdio> {
   validateConnection(options);
-  const client = new PlaneClient({ baseUrl: options.baseUrl, apiKey: options.apiKey });
+  const client = createPlaneClient(options);
   const server = buildPlaneMcpServer(client, { workspace: options.workspace || undefined });
   const stdin = options.stdin ?? process.stdin;
   const transport = new StdioServerTransport(stdin, options.stdout ?? process.stdout);

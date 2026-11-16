@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, isAxiosError } from "axios";
+import { accessLoginError, isAccessLoginPage } from "../../../client/cloudflare-access";
 import { Configuration } from "../../../Configuration";
+import { CloudflareAccessError } from "../../../errors/CloudflareAccessError";
 import { PlaneApiError } from "../../../errors/PlaneApiError";
 import { PlaneNetworkError } from "../../../errors/PlaneNetworkError";
 
@@ -34,12 +36,13 @@ export class V2Transport {
         headers: this.authHeaders(),
       });
 
+      if (isAccessLoginPage(response.data, response.request?.res?.responseUrl)) throw accessLoginError();
       if (response.status >= 200 && response.status < 300) {
         return (response.status === 204 ? undefined : response.data) as T;
       }
       throw PlaneApiError.fromPayload(response.status, response.data);
     } catch (error) {
-      if (error instanceof PlaneApiError) throw error;
+      if (error instanceof PlaneApiError || error instanceof CloudflareAccessError) throw error;
       if (isAxiosError(error)) {
         // `validateStatus: () => true` means axios only throws here with no response at
         // all (network/DNS/TLS/timeout) — a real HTTP response is decoded above instead,
@@ -54,7 +57,7 @@ export class V2Transport {
   }
 
   private authHeaders(): Record<string, string> {
-    const headers: Record<string, string> = {};
+    const headers: Record<string, string> = { ...this.config.headers?.() };
     if (this.config.apiKey) headers["X-Api-Key"] = this.config.apiKey;
     if (this.config.accessToken) headers["Authorization"] = `Bearer ${this.config.accessToken}`;
     return headers;

@@ -1,6 +1,7 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { accessLoginError, isAccessLoginPage } from "../client/cloudflare-access";
 import { Configuration } from "../Configuration";
-import { HttpError } from "../errors";
+import { CloudflareAccessError, HttpError } from "../errors";
 
 /**
  * Base resource class containing HTTP logic and authentication
@@ -60,7 +61,7 @@ export abstract class BaseResource {
         headers: this.getHeaders(),
         params,
       });
-      return response.data;
+      return this.unwrap(response);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -74,7 +75,7 @@ export abstract class BaseResource {
       const response = await axios.post<T>(this.buildUrl(endpoint), data, {
         headers: this.getHeaders(),
       });
-      return response.data;
+      return this.unwrap(response);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -88,7 +89,7 @@ export abstract class BaseResource {
       const response = await axios.put<T>(this.buildUrl(endpoint), data, {
         headers: this.getHeaders(),
       });
-      return response.data;
+      return this.unwrap(response);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -102,7 +103,7 @@ export abstract class BaseResource {
       const response = await axios.patch<T>(this.buildUrl(endpoint), data, {
         headers: this.getHeaders(),
       });
-      return response.data;
+      return this.unwrap(response);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -136,6 +137,7 @@ export abstract class BaseResource {
   protected getHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
+      ...this.config.headers?.(),
     };
 
     // Add API Key if available
@@ -149,6 +151,12 @@ export abstract class BaseResource {
     }
 
     return headers;
+  }
+
+  /** The response body, unless Cloudflare Access answered in Plane's place. */
+  protected unwrap<T>(response: AxiosResponse<T>): T {
+    if (isAccessLoginPage(response.data, response.request?.res?.responseUrl)) throw accessLoginError();
+    return response.data;
   }
 
   /**
@@ -171,7 +179,7 @@ export abstract class BaseResource {
       }
     }
 
-    if (error instanceof HttpError) {
+    if (error instanceof HttpError || error instanceof CloudflareAccessError) {
       throw error;
     }
 

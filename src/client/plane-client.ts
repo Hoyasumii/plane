@@ -82,12 +82,20 @@ export class PlaneClient {
   public workItemTypeGovernance: WorkItemTypeGovernance;
   public instance: Instance;
 
-  constructor(config: { baseUrl?: string; apiKey?: string; accessToken?: string; enableLogging?: boolean }) {
+  constructor(config: {
+    baseUrl?: string;
+    apiKey?: string;
+    accessToken?: string;
+    enableLogging?: boolean;
+    /** Extra headers for every request, computed per request (e.g. {@link cloudflaredAccessHeaders}). */
+    headers?: () => Record<string, string>;
+  }) {
     this.config = new Configuration({
       baseUrl: config.baseUrl,
       apiKey: config.apiKey,
       accessToken: config.accessToken,
       enableLogging: config.enableLogging,
+      headers: config.headers,
     });
 
     // Validate configuration

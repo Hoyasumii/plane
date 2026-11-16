@@ -2,7 +2,9 @@ import { timingSafeEqual } from "node:crypto";
 import { IncomingMessage, Server, ServerResponse, createServer } from "node:http";
 import { AddressInfo } from "node:net";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { cloudflaredAccessHeaders } from "../client/cloudflare-access";
 import { PlaneClient } from "../client/plane-client";
+import { CfAccessMode } from "./config";
 import { buildPlaneMcpServer } from "./build";
 import { createPlaneMcpRuntime } from "./runtime";
 
@@ -15,6 +17,8 @@ export interface PlaneMcpServerOptions {
   apiKey: string;
   /** A default workspace slug, used by every tool call that omits `slug`. */
   workspace?: string;
+  /** `cloudflared`: the instance is behind Cloudflare Access; send the token `cloudflared access token` gives. */
+  cfAccess?: CfAccessMode;
   /** When set, `POST /shutdown` with header `X-Plane-Shutdown: <token>` closes the server, or calls {@link onShutdown}. */
   shutdownToken?: string;
   /**
@@ -45,6 +49,15 @@ function validate(options: PlaneMcpServerOptions): void {
     throw new RangeError(`port must be an integer from 0 to 65535 (received ${String(port)}).`);
   }
   validateConnection(options);
+}
+
+/** The client every transport serves, with the Cloudflare Access token when `cfAccess` asks for it. */
+export function createPlaneClient(options: { baseUrl: string; apiKey: string; cfAccess?: CfAccessMode }): PlaneClient {
+  return new PlaneClient({
+    baseUrl: options.baseUrl,
+    apiKey: options.apiKey,
+    headers: options.cfAccess === "cloudflared" ? cloudflaredAccessHeaders(options.baseUrl) : undefined,
+  });
 }
 
 /** The Plane URL and key every transport needs: a parseable `baseUrl` and a non-blank `apiKey`. */
@@ -113,7 +126,7 @@ async function readJson(req: IncomingMessage): Promise<unknown> {
  */
 export async function startPlaneMcpServer(options: PlaneMcpServerOptions): Promise<RunningPlaneMcpServer> {
   validate(options);
-  const client = new PlaneClient({ baseUrl: options.baseUrl, apiKey: options.apiKey });
+  const client = createPlaneClient(options);
   // One per process: every POST shares the v1 cache and the API-version probe.
   const runtime = createPlaneMcpRuntime(client);
   const workspace = options.workspace || undefined;

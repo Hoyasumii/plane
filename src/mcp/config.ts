@@ -4,7 +4,7 @@ import * as path from "node:path";
 import { renameWithRetry } from "./fs-util";
 
 /** The keys the saved configuration holds, in the order they are written. */
-export const CONFIG_KEYS = ["PLANE_API_KEY", "PLANE_BASE_URL", "PLANE_WORKSPACE", "PORT"] as const;
+export const CONFIG_KEYS = ["PLANE_API_KEY", "PLANE_BASE_URL", "PLANE_WORKSPACE", "PORT", "PLANE_CF_ACCESS"] as const;
 export type ConfigKey = (typeof CONFIG_KEYS)[number];
 export type ConfigValues = Partial<Record<ConfigKey, string>>;
 
@@ -85,7 +85,7 @@ function quote(value: string): string {
   return /^[\w.:/@+-]*$/.test(value) ? value : `"${value.replace(/(["\\])/g, "\\$1").replace(/\n/g, "\\n")}"`;
 }
 
-/** Write the four keys, readable by the owner only, replacing the file in one rename. */
+/** Write the known keys, readable by the owner only, replacing the file in one rename. */
 export function writeEnvFile(file: string, values: ConfigValues): void {
   fs.mkdirSync(path.dirname(file), { recursive: true, mode: 0o700 });
   const body =
@@ -97,6 +97,17 @@ export function writeEnvFile(file: string, values: ConfigValues): void {
   fs.writeFileSync(temporary, body, { mode: 0o600 });
   renameWithRetry(temporary, file);
   fs.chmodSync(file, 0o600);
+}
+
+/** How to get past Cloudflare Access in front of the instance: `cloudflared` asks it for the signed-in user's token. */
+export type CfAccessMode = "cloudflared";
+
+/** `undefined` for a blank value; throws for anything but a known mode. */
+export function parseCfAccess(value: string | undefined): CfAccessMode | undefined {
+  const text = (value ?? "").trim();
+  if (text === "") return undefined;
+  if (text === "cloudflared") return text;
+  throw new TypeError(`PLANE_CF_ACCESS must be 'cloudflared' or blank (received '${text}').`);
 }
 
 export interface McpConfigFlags {
@@ -112,6 +123,8 @@ export interface McpConfig {
   baseUrl: string;
   workspace?: string;
   port: number;
+  /** Set when the instance sits behind Cloudflare Access (`PLANE_CF_ACCESS`). */
+  cfAccess?: CfAccessMode;
 }
 
 /** Parse and range-check a port; `0` means "pick a free one". */
@@ -151,5 +164,6 @@ export function resolveMcpConfig(sources: { flags?: McpConfigFlags; env?: Env; f
     baseUrl: checkBaseUrl(pick(flags.baseUrl, "PLANE_BASE_URL") ?? DEFAULT_BASE_URL),
     workspace: pick(flags.workspace, "PLANE_WORKSPACE"),
     port: parsePort(pick(flags.port, "PORT") ?? DEFAULT_PORT),
+    cfAccess: parseCfAccess(pick(undefined, "PLANE_CF_ACCESS")),
   };
 }
