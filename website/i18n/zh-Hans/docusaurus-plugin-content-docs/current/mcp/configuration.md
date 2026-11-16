@@ -44,6 +44,27 @@ PORT=3766
 
 三种写入它的方式请参见 [`plane mcp config`](../cli/mcp-commands.md#plane-mcp-config)。
 
+## 位于 Cloudflare Access 之后
+
+当 Plane 实例位于 [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/) 之后时，
+API 返回的是 Access 的登录页，API 密钥根本到达不了 Plane。在已保存的文件中加一行：
+
+```text
+PLANE_CF_ACCESS=cloudflared
+```
+
+有了它，每个请求还会携带 `cf-access-token`，其值由 `cloudflared access token -app=<PLANE_BASE_URL>`
+为已登录 Access 的用户取得。安装 [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+并登录一次（Access 会话过期时再登录一次）：
+
+```bash
+cloudflared access login https://plane.example.com
+```
+
+令牌会一直复用，直到快要过期为止。未登录、登录已过期或返回登录页时，都会抛出 `CloudflareAccessError`，
+并给出要运行的命令。`plane mcp config` 不会询问这项设置，但保存时会保留它。在代码中，
+向 `PlaneClient` 传入 `headers: cloudflaredAccessHeaders(baseUrl)`。
+
 ## 从代码中使用
 
 同样的解析逻辑也被导出了，方便想要复用已保存配置的工具使用：

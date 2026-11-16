@@ -45,6 +45,27 @@ archivo guardado.
 
 Consulta [`plane mcp config`](../cli/mcp-commands.md#plane-mcp-config) para ver las tres formas de escribirlo.
 
+## Detrás de Cloudflare Access
+
+Cuando la instancia de Plane está detrás de [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/),
+la API responde con la página de inicio de sesión de Access y la clave de API nunca llega a Plane. Agrega una línea al archivo guardado:
+
+```text
+PLANE_CF_ACCESS=cloudflared
+```
+
+Con ella, cada petición lleva también `cf-access-token`, obtenido con `cloudflared access token -app=<PLANE_BASE_URL>`
+para el usuario que inició sesión en Access. Instala [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+e inicia sesión una vez (y de nuevo cada vez que la sesión de Access expire):
+
+```bash
+cloudflared access login https://plane.example.com
+```
+
+El token se reutiliza hasta poco antes de expirar. Una sesión ausente, una expirada o la propia página de inicio de
+sesión fallan con un `CloudflareAccessError` que indica el comando a ejecutar. `plane mcp config` no pide este
+ajuste, pero lo conserva al guardar. Desde código, pasa `headers: cloudflaredAccessHeaders(baseUrl)` a `PlaneClient`.
+
 ## Desde código
 
 La misma resolución se exporta, para las herramientas que quieran reutilizar la configuración guardada:

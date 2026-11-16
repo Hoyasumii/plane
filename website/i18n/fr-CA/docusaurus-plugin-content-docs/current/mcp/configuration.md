@@ -45,6 +45,27 @@ fichier enregistré.
 
 Voir [`plane mcp config`](../cli/mcp-commands.md#plane-mcp-config) pour les trois façons de l'écrire.
 
+## Derrière Cloudflare Access
+
+Quand l'instance Plane se trouve derrière [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/),
+l'API répond avec la page de connexion d'Access et la clé d'API n'atteint jamais Plane. Ajoutez une ligne au fichier enregistré :
+
+```text
+PLANE_CF_ACCESS=cloudflared
+```
+
+Avec elle, chaque requête porte aussi `cf-access-token`, obtenu par `cloudflared access token -app=<PLANE_BASE_URL>`
+pour l'utilisateur connecté à Access. Installez [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+et connectez-vous une fois (puis à nouveau chaque fois que la session Access expire) :
+
+```bash
+cloudflared access login https://plane.example.com
+```
+
+Le jeton est réutilisé jusqu'à peu avant son expiration. Une connexion absente, expirée ou la page de connexion
+elle-même échouent avec une `CloudflareAccessError` qui indique la commande à lancer. `plane mcp config` ne demande
+pas ce paramètre, mais le conserve à l'enregistrement. Depuis le code, passez `headers: cloudflaredAccessHeaders(baseUrl)` à `PlaneClient`.
+
 ## Depuis le code
 
 La même résolution est exportée, pour les outils qui veulent réutiliser la configuration enregistrée :

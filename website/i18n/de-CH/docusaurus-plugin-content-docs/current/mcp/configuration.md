@@ -44,6 +44,28 @@ für diesen Lauf. `plane-mcp` und das In-Process-`plane <tool>` lesen ebenfalls 
 
 Siehe [`plane mcp config`](../cli/mcp-commands.md#plane-mcp-config) für die drei Arten, sie zu schreiben.
 
+## Hinter Cloudflare Access
+
+Steht die Plane-Instanz hinter [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/),
+antwortet die API mit der Anmeldeseite von Access, und der API-Schlüssel erreicht Plane nie. Ergänze eine Zeile in der gespeicherten Datei:
+
+```text
+PLANE_CF_ACCESS=cloudflared
+```
+
+Damit trägt jede Anfrage zusätzlich `cf-access-token`, geholt mit `cloudflared access token -app=<PLANE_BASE_URL>`
+für den bei Access angemeldeten Benutzer. Installiere [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+und melde dich einmal an (und erneut, wann immer die Access-Sitzung abläuft):
+
+```bash
+cloudflared access login https://plane.example.com
+```
+
+Das Token wird bis kurz vor seinem Ablauf wiederverwendet. Eine fehlende oder abgelaufene Anmeldung oder die
+Anmeldeseite selbst schlagen mit einem `CloudflareAccessError` fehl, der den auszuführenden Befehl nennt.
+`plane mcp config` fragt diese Einstellung nicht ab, behält sie beim Speichern aber bei. Aus Code übergibst du
+`headers: cloudflaredAccessHeaders(baseUrl)` an `PlaneClient`.
+
 ## Aus Code
 
 Dieselbe Auflösung wird exportiert, für Tools, die die gespeicherte Konfiguration wiederverwenden wollen:

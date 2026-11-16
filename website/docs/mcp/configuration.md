@@ -44,6 +44,27 @@ the in-process `plane <tool>` read the saved file too.
 
 See [`plane mcp config`](../cli/mcp-commands.md#plane-mcp-config) for the three ways to write it.
 
+## Behind Cloudflare Access
+
+When the Plane instance sits behind [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/),
+its API answers with Access' sign-in page and the API key never reaches Plane. Add one more line to the saved file:
+
+```text
+PLANE_CF_ACCESS=cloudflared
+```
+
+With it, every request also carries `cf-access-token`, taken from `cloudflared access token -app=<PLANE_BASE_URL>`
+for the user signed in to Access. Install [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+and sign in once (again whenever the Access session expires):
+
+```bash
+cloudflared access login https://plane.example.com
+```
+
+The token is reused until shortly before it expires. A missing login, an expired one or the sign-in page itself
+fails with a `CloudflareAccessError` that names the command to run. `plane mcp config` does not ask for this
+setting, but keeps it when it saves. From code, pass `headers: cloudflaredAccessHeaders(baseUrl)` to `PlaneClient`.
+
 ## From code
 
 The same resolution is exported, for tools that want to reuse the saved configuration:

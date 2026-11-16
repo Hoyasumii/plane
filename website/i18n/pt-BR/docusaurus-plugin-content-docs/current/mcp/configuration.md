@@ -44,6 +44,27 @@ tenha uma chave de API. Flags e variáveis de ambiente então sobrescrevem os va
 
 Veja [`plane mcp config`](../cli/mcp-commands.md#plane-mcp-config) para as três formas de escrevê-lo.
 
+## Atrás do Cloudflare Access
+
+Quando a instância do Plane fica atrás do [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/),
+a API responde com a página de login do Access e a chave de API nem chega ao Plane. Acrescente uma linha ao arquivo salvo:
+
+```text
+PLANE_CF_ACCESS=cloudflared
+```
+
+Com ela, toda requisição leva também `cf-access-token`, obtido com `cloudflared access token -app=<PLANE_BASE_URL>`
+para o usuário logado no Access. Instale o [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)
+e faça login uma vez (e de novo sempre que a sessão do Access expirar):
+
+```bash
+cloudflared access login https://plane.example.com
+```
+
+O token é reaproveitado até pouco antes de expirar. Login ausente, login expirado ou a própria página de login
+falham com um `CloudflareAccessError` que diz qual comando rodar. O `plane mcp config` não pergunta por essa
+configuração, mas a mantém ao salvar. No código, passe `headers: cloudflaredAccessHeaders(baseUrl)` ao `PlaneClient`.
+
 ## A partir do código
 
 A mesma resolução é exportada, para ferramentas que queiram reaproveitar a configuração salva:
